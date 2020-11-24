@@ -1,0 +1,58 @@
+\subsection{Stochastic Games}
+An (alternating, 2.5-player) \emph{stochastic game} (SG) is a tuple $\sg = \langle S, \iota, \Act, P \rangle$. A finite state $S = S_1 \cup S_2 \cup S_E$ is partitioned into a set $S_1$ of player-1 states, a set $S_2$ of player-2 states, and a set $S_E$ of environment states. $\iota \in S_1$ is the initial state, $\Act = \Act_1 \cup \Act_2$ is a finite set of actions, and $P\colon S \times \Act \rightarrow \Distr(S)$ is defined by a set of three transition functions: $P_1\colon S_1 \times \Act_1 \rightarrow S_2$, $P_2\colon S_2 \times \Act_2 \rightarrow S_E$, $P_E\colon S_E \rightarrow \Distr(S_1)$.
+If $\Act_2$ is a singleton set, then $\sg$ is an \emph{Markov decision process}.
+If both $\Act_1$ and $\Act_2$ are singleton sets, then $\sg$ is a \emph{Markov chain}. If $P_E(s)$ is a Dirac distribution for every $s \in S_E$, then, $\sg$ is called \emph{deterministic}.
+
+In this paper, it is helpful to consider $P_E$ as being defined using an auxiliary notion of environment actions $\Act_E$, a deterministic environment transition relation $P_{\hat{E}}\colon S_E \times A_E \rightarrow S_1$ and (memoryless, randomized) environment-scheduler $S_E \rightarrow \Distr(A_E)$.
+\sj{I want to put this text where we use this for the first time.}
+
+A finite path $\pi = s_0 \xrightarrow{a} s_1 \xrightarrow s_2$
+
+\paragraph{Policies.} 
+As standard, before we can define probabilities, all nondeterminism needs to be resolved. We do this with the notion of a policy. 
+
+\sj{add unrolling}
+
+
+\paragraph{Properties.}
+We consider finite horizon reachability properties.
+
+\paragraph{Entropy}
+
+
+Define entropy on a random variable.\sj{Do}
+
+Define entropy on a Markov chain\sj{Do}
+
+
+
+\subsection{Control Improvisation and random policies}
+
+\begin{mdframed}
+Given a SG $\sg$ with target-states $T$ and $G$ and a horizon $h$, does there exists a policy $\sched_1 \in \Sched_1$  such that for every policy $\sched_2 \in \Sched_2$ and with $\sched = \langle \sched_1, \sched_2 \rangle$ it holds that 
+\begin{compactenum}
+	\item $\Pr^\sg_{\sched}(\eventually{h} T) \geq 1$
+	\item $\Pr^\sg_{\sched}(\eventually{h} G) \geq \lambda$
+	\item $H(\sg[\sched]) \geq \kappa$
+\end{compactenum}
+\end{mdframed}
+Rather than fixing $\kappa$ a priori, we are often interested in limiting the \emph{regret}: The last point then becomes:
+$H(\sg[\sched]) \geq (1-\delta) \cdot H(\sg[\sched^{*}])$, where $\sched^{*}$ .... \sj{I am not sure how to define this concisely.} 
+
+
+Before we continue, we want to establish that Control improvisation problem is a conservative extension of deterministic case as investigated in~\cite{}.
+\begin{lemma}
+	
+\end{lemma}
+
+
+\begin{mdframed}
+
+\begin{compactenum}
+	\item $\Pr^\sg_{\langle \sched_1,\sched_2 \rangle}(\eventually{h} T) \geq 1$
+	\item $\Pr^\sg_{\langle \sched_1,\sched_2 \rangle}(\eventually{h} G) \geq \lambda$ 
+\end{compactenum}
+\end{mdframed}
+\sj{Define randomly selected policy}
+
+
