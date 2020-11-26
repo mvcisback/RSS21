@@ -5,13 +5,24 @@
 \usepackage{mdframed}
 \usepackage{xcolor}
 
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\mc}{\mathcal{D}}
 \newcommand{\sg}{\mathcal{G}}
 \newcommand{\eventually}[1]{\lozenge^{\leq #1}}
 \newcommand{\sched}{\sigma}
 \newcommand{\Sched}{\Sigma}
 \newcommand{\pol}{\sched}
 \newcommand{\Distr}{\ensuremath{\textsl{Distr}}}
+\newcommand{\act}{\alpha}
 \newcommand{\Act}{A}
+\newcommand{\last}[1]{{#1}_\downarrow}
+\newcommand{\Paths}[2][]{\Pi^{#2}_{#1}}
+\newcommand{\POnePaths}[2][]{\Pi^{\downarrow_{1}#2}_{#1}}
+\newcommand{\PTwoPaths}[2][]{\Pi^{\downarrow_{2}#2}_{#1}}
+\newcommand{\PiPaths}[2][]{\Pi^{\downarrow_{i}#2}_{#1}}
+\newcommand{\unrolled}[2]{\textsf{Tree}(#1,#2)}
+\newcommand{\induced}[2]{#1[#2]}
+
 
 \setlength\marginparwidth{110pt}
 \newcommand{\colorpar}[3]{\colorbox{#1}{\parbox{#2}{#3}}}
@@ -35,7 +46,26 @@
 \input{introduction}
 \section{Problem Statement}
 \input{problem}
-\section{Maximum Entropy Traces and Policies}
+\section{Maximum Entropy Traces and Policy Improvisation}
+In this section, we discuss the nature of the randomness as imposed by the CI problem, and relate this to improvising policies, i.e., to randomly sampling policies that satisfy the hard and soft constraint.
 
+\begin{mdframed}
+
+\begin{compactenum}
+	\item $\Pr^\sg_{\langle \sched_1,\sched_2 \rangle}(\eventually{h} T) \geq 1$
+	\item $\Pr^\sg_{\langle \sched_1,\sched_2 \rangle}(\eventually{h} G) \geq \lambda$ 
+\end{compactenum}
+\end{mdframed}
+\sj{Define randomly selected policy}
+
+
+
+
+\section{Solving the Control Improvisation Problem for MDPs}
+We present an algorithm for the control improvisation problem for MDPs. The key insight is to reuse ideas from policy inference from specifications~\cite{}. In the next section, we extend this idea to SGs.
+
+\section{Solving the Control Improvisation Problem for SGs}
+
+\section{Empirical Evaluation}
 
 \end{document}
