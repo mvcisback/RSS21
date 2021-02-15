@@ -8,13 +8,13 @@ If both $\Act_1$ and $\Act_2$ are singleton sets, then $\sg$ is a \emph{Markov c
 If $P(s,\act)$ is a Dirac distribution for every $s \in S$ and $\act \in \Act$, then $\sg$ is called \emph{deterministic}.
 
 
-\paragraph{Policies.} 
+%\paragraph{Policies.} 
 As standard, before we can define probabilities, all nondeterminism needs to be resolved. We do this with the notion of a policy. A \emph{policy} is a tuple $\sched = \langle \sched_1, \sched_2 \rangle$ with $\sched_i \colon \PiPaths[]{\sg} \rightarrow \Distr(\Act_i)$. We refer to $\sched_i$, $i \in \{ 1, 2 \}$ as a \emph{Player-i policy}. We liberally use $\sched \colon \Paths{\sg} \rightarrow \Distr(\Act)$.
 Applying a policy $\sched$ to an SG $\sg$ yields an \emph{induced Markov chain} $\induced{\sg}{\sched} = \langle S', \iota', P' \rangle$ with state space $S' = \Paths{\sg}$, initial state $\iota' = \iota$, and transition function $P'(\pi,\pi')$ defined by $P'(\pi)(\pi \cdot \act s') = \sched(\pi)(\act) \cdot P(\last{\pi},\act)(s')$ and $P'(\pi,\pi') = 0$ otherwise. For any upper bound on the length of the paths, the induced MC is finite. 
 
 In this paper, it is helpful to consider $P$ as being defined using an auxiliary notion of environment actions $\Act_E$, a deterministic environment transition relation $P_{\hat{i}}\colon S_i \times \Act_i \rightarrow A_E$ and a (memoryless, randomized) environment-scheduler $A_E \rightarrow \Distr(S)$.\sj{Move where we need this}
 
-\paragraph{Properties.}
+%\paragraph{Properties.}
 We consider finite horizon reachability properties.
 The probability $\Pr^\mc(\pi)$ of a finite path $\pi$ in a Markov chain $\mc$ is given by the product of the transition probabilities. The probability $\Pr^\mc(\eventually{h} T)$ denotes the probability to reach a state in $T$ with $h$ steps in the induced Markov chain, i.e., $\Pr^\mc(\eventually{h} T)$.
 For any SG $\sg$ and scheduler $\sched$, let $\Pr^\sg_\sched(\eventually{h} T)$ denote the probability to reach a state in $T$ with $h$ steps in the induced Markov chain, $\Pr^\sg_\sched(\eventually{h} T)= \Pr^{\induced{\sg}{\sched}}(\eventually{h} T)$.  
