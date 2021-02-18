@@ -96,6 +96,14 @@ $H(\sg[\sched]) \geq (1-\delta) \cdot H(\sg[\sched^{*}])$, where $\sched^{*}$ ..
 To ease the technical construction, without loss of generality, we make the following assumptions\footnote{We argue that these assumptions are indeed w.l.o.g.\ in Sec.~\ref{sec:assumptions}}: 
 We assume the DAG has a unique tar
 
+\begin{itemize}
+\item We construct the game graph
+\item We cut all policies that violate the hard constraint, this is easy on the computation tree
+\end{itemize}
+Result: A computation tree, a soft constraint and a randomness constraint.
+
+
+
 It is convenient to talk about a third player, $\mathsf{rnd}$, that owns all states with $|\Act|$\sj{needs available actions}
 
 As in \cite{DBLP:conf/cav/Vazquez-Chanlatte20}, we may represent this computation tree (typically) concisely using binary decision diagrams.
