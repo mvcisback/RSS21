@@ -46,6 +46,8 @@
 \newcommand{\act}{\alpha}
 \newcommand{\Act}{A}
 \newcommand{\scthreshold}{p}
+\newcommand{\target}{s_{\top}} 
+\newcommand{\sink}{s_{\bot}}
 \newcommand{\randomness}{h}
 \newcommand{\last}[1]{{#1}_\downarrow}
 \newcommand{\pOneSched}{\mathbf{ego}}
@@ -160,17 +162,31 @@ This section formalizes the problem statement. We show that our problem statemen
 In this section, we discuss the nature of the randomness as imposed by the CI problem, and relate this to improvising policies, i.e., to randomly sampling policies that satisfy the hard and soft constraint.
 
 
-
-
+Before we continue, we want to establish that Control improvisation problem is a conservative extension of deterministic case as investigated in~\cite{}.
 \begin{mdframed}
-
+\textbf{The Deterministic (Reactive) Control Improvisation (DCI) Problem~\cite{}}:
+Given a \emph{deterministic} SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ 
 \begin{compactenum}
-	\item $\Pr^\sg_{\langle \sched_1,\sched_2 \rangle}(\eventually{h} T) \geq 1$
-	\item $\Pr^\sg_{\langle \sched_1,\sched_2 \rangle}(\eventually{h} G) \geq \lambda$ 
+\item (\emph{hard constraint}) $\Pr^\sg_{\sched}(X_\psi) \geq 1$
+	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(X_\varphi) \geq \scthreshold$
+	\item (\emph{randomness constraint}) $\Pr(\path) \leq \delta \text{ for all } \path \in \Paths[h]{\sg[\sched]}$.
 \end{compactenum}
 \end{mdframed}
-\sj{Define randomly selected policy}
-\sj{Describe in terms of pMDPp}
+
+\begin{theorem}
+	For deterministic SGs, the ERCI and DCI problem coincide.
+\end{theorem}
+We defer a discussion and a precise statement to Lemma~\ref{}.
+
+%\begin{mdframed}
+%
+%\begin{compactenum}
+%	\item $\Pr^\sg_{\langle \sched_1,\sched_2 \rangle}(\eventually{h} T) \geq 1$
+%	\item $\Pr^\sg_{\langle \sched_1,\sched_2 \rangle}(\eventually{h} G) \geq \lambda$ 
+%\end{compactenum}
+%\end{mdframed}
+%\sj{Define randomly selected policy}
+%\sj{Describe in terms of pMDPp}
 
 
 
@@ -260,21 +276,7 @@ To formalise our argument
 \subsection{Non-observable adversaries}
 
 \section{Discussion}
-Before we continue, we want to establish that Control improvisation problem is a conservative extension of deterministic case as investigated in~\cite{}.
-\begin{mdframed}
-\textbf{The Deterministic (Reactive) Control Improvisation (DCI) Problem~\cite{}}:
-Given a \emph{deterministic} SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ 
-\begin{compactenum}
-\item (\emph{hard constraint}) $\Pr^\sg_{\sched}(X_\psi) \geq 1$
-	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(X_\varphi) \geq \scthreshold$
-	\item (\emph{randomness constraint}) $\Pr(\path) \leq \delta \text{ for all } \path \in \Paths[h]{\sg[\sched]}$.
-\end{compactenum}
-\end{mdframed}
 
-\begin{theorem}
-	For deterministic SGs, the ERCI and DCI problem coincide.
-\end{theorem}
-We defer a discussion and a precise statement to Lemma~\ref{}.
 
 \section{Implementation and Empirical Evaluation}
 
