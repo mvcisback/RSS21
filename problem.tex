@@ -1,6 +1,22 @@
 \subsection{Stochastic Games}
-An (2.5-player) \emph{stochastic game} (SG) is a tuple $\sg = \langle S, \iota, \Act, P \rangle$. The set of \emph{states} $S = S_1 \cup S_2$ is partitioned into a set $S_1$ of player-1 states and a set $S_2$ of player-2 states. $\iota \in S_1$ is the \emph{initial state}, $\Act = \Act_1 \cup \Act_2$ is a finite set of \emph{actions}, and $P\colon S \times \Act \rightarrow \Distr(S)$ is the \emph{transition function} defined by two transition functions: $P_1\colon S_1 \times \Act_1 \rightarrow \Distr(S)$, $P_2\colon S_2 \times \Act_2 \rightarrow \Distr(S)$.\sj{Do we assume each action exists in every state? It makes the defionitions nicer..} 
-A finite \emph{path} $\pi$ of length $n$ is a sequence $(\iota = s_0 ) \xrightarrow{\act_0} s_1 \xrightarrow{\act_1} s_2 \rightarrow \hdots \rightarrow s_n$ in $\left( S \times \Act \right)^{n} \times S$. We denote the length with $|\pi|$, and denote $s_n$, i.e., the last element of $\pi$ with $\last{\pi}$. The set of all finite paths is denoted $\Paths[n]{\sg}$, and $\Paths{\sg} = \bigcup_{n \in \NN} \Paths[n]{\sg}$. We omit $\sg$ whenever it is clear from the context. It is helpful to partition paths based on their last state: $\POnePaths[n]{\sg} = \{ \pi \in \Paths[n]{\sg} \mid \last{\pi} \in S_1 \}$ and $\PTwoPaths[n]{} = \Paths[n]{} \setminus \POnePaths[n]{}$.
+An (2.5-player) \emph{stochastic game} (SG) is a tuple $\sg = \langle S, \iota, \Act, P \rangle$. The set of \emph{states} $S = S_1 \cup S_2$ is partitioned into a set $S_1$ of player-1 states and a set $S_2$ of player-2 states. $\iota \in S_1$ is the \emph{initial state}, $\Act = \Act_1 \cup \Act_2$ is a finite set of \emph{actions}, and $P\colon S \times \Act \rightarrow \Distr(S)$ is the \emph{transition function} defined by two partial transition functions: $P_1\colon S_1 \times \Act_1 \rightarrow \Distr(S)$, $P_2\colon S_2 \times \Act_2 \rightarrow \Distr(S)$.\sj{Do we assume each action exists in every state? It makes the defionitions nicer..} 
+A finite \emph{path} $\path$ of length $n$ is a sequence $(\iota = s_0 ) \xrightarrow{\act_0} s_1 \xrightarrow{\act_1} s_2 \rightarrow \hdots \rightarrow s_n$ in $\left( S \times \Act \right)^{n} \times S$. We denote the length with $|\path|$, and denote $s_n$, i.e., the last element of $\path$ with $\last{\path}$. The set of all finite paths is denoted $\Paths[n]{\sg}$, and $\Paths{\sg} = \bigcup_{n \in \NN} \Paths[n]{\sg}$. We omit $\sg$ whenever it is clear from the context. It is helpful to partition paths based on their last state: $\POnePaths[n]{\sg} = \{ \path \in \Paths[n]{\sg} \mid \last{\path} \in S_1 \}$ and $\PTwoPaths[n]{} = \Paths[n]{} \setminus \POnePaths[n]{}$.
+
+\begin{figure}
+%\begin{tikzpicture}
+%	\node[sstate] (s0) {$s_0$};
+%	\node[astate] (s1) {$s_1$};
+%	\node[sstate] (s2) {$s_2$};
+%	\node[sstate]
+%\end{tikzpicture}	
+\caption{A minimal example}
+\end{figure}
+
+
+\begin{example}
+	
+\end{example}
+
 
 An SG is finite, if its state space is finite.
 If $\Act_2$ is a singleton set, then $\sg$ is an \emph{Markov decision process}.
@@ -10,57 +26,96 @@ If $P(s,\act)$ is a Dirac distribution for every $s \in S$ and $\act \in \Act$, 
 
 %\paragraph{Policies.} 
 As standard, before we can define probabilities, all nondeterminism needs to be resolved. We do this with the notion of a policy. A \emph{policy} is a tuple $\sched = \langle \sched_1, \sched_2 \rangle$ with $\sched_i \colon \PiPaths[]{\sg} \rightarrow \Distr(\Act_i)$. We refer to $\sched_i$, $i \in \{ 1, 2 \}$ as a \emph{Player-i policy}. We liberally use $\sched \colon \Paths{\sg} \rightarrow \Distr(\Act)$.
-Applying a policy $\sched$ to an SG $\sg$ yields an \emph{induced Markov chain} $\induced{\sg}{\sched} = \langle S', \iota', P' \rangle$ with state space $S' = \Paths{\sg}$, initial state $\iota' = \iota$, and transition function $P'(\pi,\pi')$ defined by $P'(\pi)(\pi \cdot \act s') = \sched(\pi)(\act) \cdot P(\last{\pi},\act)(s')$ and $P'(\pi,\pi') = 0$ otherwise. For any upper bound on the length of the paths, the induced MC is finite. 
+W.l.o.g., we identify Player~1 to be the controller for the ego, and Player-2 to select the (adverserial) actions of the environment.  
+We therefore use $\pOneSched$ and $\pTwoSched$ to denote $\sched_1$ and $\sched_2$, respectively. 
 
-In this paper, it is helpful to consider $P$ as being defined using an auxiliary notion of environment actions $\Act_E$, a deterministic environment transition relation $P_{\hat{i}}\colon S_i \times \Act_i \rightarrow A_E$ and a (memoryless, randomized) environment-scheduler $A_E \rightarrow \Distr(S)$.\sj{Move where we need this}
+Applying a policy $\sched$ to an SG $\sg$ yields an \emph{induced Markov chain} $\induced{\sg}{\sched} = \langle S', \iota', P' \rangle$ with state space $S' = \Paths{\sg}$, initial state $\iota' = \iota$, and transition function $P'(\path,\path')$ defined by $P'(\path)(\path \cdot \act s') = \sched(\path)(\act) \cdot P(\last{\path},\act)(s')$ and $P'(\path,\path') = 0$ otherwise. For any upper bound on the length of the paths, the induced MC is finite. 
+
+
+\begin{example}
+	
+\end{example}
+
 
 %\paragraph{Properties.}
-We consider finite horizon reachability properties.
-The probability $\Pr^\mc(\pi)$ of a finite path $\pi$ in a Markov chain $\mc$ is given by the product of the transition probabilities. The probability $\Pr^\mc(\eventually{h} T)$ denotes the probability to reach a state in $T$ with $h$ steps in the induced Markov chain, i.e., $\Pr^\mc(\eventually{h} T)$.
-For any SG $\sg$ and scheduler $\sched$, let $\Pr^\sg_\sched(\eventually{h} T)$ denote the probability to reach a state in $T$ with $h$ steps in the induced Markov chain, $\Pr^\sg_\sched(\eventually{h} T)= \Pr^{\induced{\sg}{\sched}}(\eventually{h} T)$.  
-\sj{extend this a bit. } 
+The probability $\Pr^\mc(\path)$ of a finite path $\path$ in a Markov chain $\mc$ is given by the product of the transition probabilities.
+The probability of a prefix-free set $X \subseteq \Paths{\mc}$  of paths is the sum over the individual path probabilities, $\Pr^\mc(X) = \sum_{\path \in X} \Pr^\mc(\path)$.
+We consider sets $X_\varphi$ of finite paths\footnote{Such paths may e.g. be defined using temporal properties such as linear temporal logic over finite traces (LTLf)~\cite{}.} reflecting some specification $\varphi$.   
+Finally, for any SG $\sg$ and scheduler $\sched$, let $\Pr^\sg_\sched(\eventually{h} T) \colonequals \Pr^{\induced{\sg}{\sched}}(\eventually{h} T)$.  
 
-For any fixed horizon $h$, we can equivalently unfold the SG into its game tree form $\unrolled{\sg}{h}$. $\unrolled{\sg}{h}$ is a SG with 
-\sj{add the tree formulation}
+\begin{example}
+	
+\end{example}
+
+While most synthesis problems either consider soft \emph{or} hard constraint, it is natural to also consider a setting with both types of constraints~\cite{}. Such a problem formulation would be:
+\begin{mdframed}{}
+\textbf{Stochastic Game Synthesis Problem}:
+Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ it holds that 
+\begin{compactenum}
+	\item (\emph{hard constraint}) $\Pr^\sg_{\sched}(X_\psi) \geq 1$
+	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(X_\varphi) \geq \scthreshold$
+\end{compactenum}
+ where $\sched = \langle \pOneSched, \pTwoSched \rangle$
+\end{mdframed}
+
+
 
 
 \subsection{Control Improvisation}
-In control improvisation, we aim to find a policy that satisfy a combination of hard- and soft constraints, and additional generate surprising behaviour. In this paper, we measure the surprise by the causal entropy over the traces in the induced Markov chain. Below, we formalize entropy and then state the formal problem statement. 
-\paragraph{Entropy}
-Entropy is a measure 
+In control improvisation, we aim to find a $\pOne$-policy that satisfy a combination of hard- and soft constraints, and additional generate surprising behaviour. We measure the surprise by the causal entropy over the traces in the induced Markov chain. Below, we formalize entropy and then state the formal problem statement. 
 
-Define entropy on a random variable.\sj{Do}
+We measure the causal entropy. Let $X_{1:i} = X_1, \hdots, X_i$ and $Y_{1:i} = Y_1,\hdots,Y_i$ denote two sequences of random variables. The probability of $ X_{1:i}$ causally conditioned on $Y_{1:i}$ is 
+\[ \causalprob{X_{1:i}}{Y_{1:i}} \colonequals \prod \Pr(X_j \mid X_{1:j-1}Y_{1:j}). \]
+The causal entropy of $X_{1:i}$ given $Y_{1:i}$ is then defined as 
+\[  H(X_{1:i}\mid\mid Y_{1:i}) \colonequals \expOver{X_{1:i},Y_{1:i}}{-\log(\causalprob{X_{1:i}}{Y_{1:i}})}.\] 
 
-Define entropy on a Markov chain\sj{Do}
+We want to define entropy over paths in an (induced) Markov chain $\mc$. Recall that a path alternates states and actions. The next state after observing a sequence of state-action pairs is a random variable, which we liberally use the set $\Paths{\sg[\sched]}$ to indicate these sequences.  We want to express the causal entropy of a sequence of $\pOne$-action choices given the paths. For that, let us define $\textsl{Act}(\path)$ as the \act_{j_1} \act_{j_2} \hdots \act_{j_n}, where \sj{Finish}
+\[ H_\sg(\sigma) \colonequals H( \textsl{Act}(\POnePaths{\sg[\sched]})   \mid\mid \Paths{\sg[\sched]} )  \]
 
 
+\begin{example}
+	
+\end{example}
+
+Together, this yields the necessary ingredients to formalize the problem statement. 
 \begin{mdframed}[backgroundcolor=blue!5]
-\textbf{The Control Improvisation (CI) Problem}:
-Given an SG $\sg$ with target-states $T$ and $G$ and a horizon $h$, does there exists a policy $\sched_1 \in \Sched_1$  such that for every policy $\sched_2 \in \Sched_2$ and with $\sched = \langle \sched_1, \sched_2 \rangle$ it holds that 
-\begin{compactenum}
-	\item (\emph{hard constraint}) $\Pr^\sg_{\sched}(\eventually{h} T) \geq 1$
-	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(\eventually{h} G) \geq \lambda$
-	\item (\emph{randomness constraint}) $H(\sg[\sched]) \geq \kappa$
+\textbf{The Entropic Control Improvisation (ERCI) Problem}:
+Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ \begin{compactenum}
+	\item (\emph{hard constraint}) $\Pr^\sg_{\sched}(X_\psi) \geq 1$
+	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(X_\varphi) \geq \scthreshold$
+\item (\emph{randomness constraint}) $H_\sg(\sigma) \geq \randomness$
 \end{compactenum}
+where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
-There is a straightforward extension to a \emph{set of hard constraints}.
 Rather than fixing $\kappa$ a priori, we are often interested in limiting the \emph{regret}: The last point then becomes:
 $H(\sg[\sched]) \geq (1-\delta) \cdot H(\sg[\sched^{*}])$, where $\sched^{*}$ .... \sj{I am not sure how to define this concisely.} 
-Before we continue, we want to establish that Control improvisation problem is a conservative extension of deterministic case as investigated in~\cite{}.
-\begin{mdframed}
-\textbf{The Deterministic (Reactive) Control Improvisation (DCI) Problem~\cite{}}:
-Given a deterministic SG $\sg$ with target-states $T$ and $G$ and a horizon $h$, does there exists a policy $\sched_1 \in \Sched_1$  such that for every policy $\sched_2 \in \Sched_2$ and with $\sched = \langle \sched_1, \sched_2 \rangle$ it holds that 
+
+\subsection{An optimization perspective}
+
+
+To ease the technical construction, without loss of generality, we make the following assumptions\footnote{We argue that these assumptions are indeed w.l.o.g.\ in Sec.~\ref{sec:assumptions}}: 
+We assume the DAG has a unique tar
+
+It is convenient to talk about a third player, \mathsf{rnd}, that owns all states with $|\Act
+
+As in \cite{DBLP:conf/cav/Vazquez-Chanlatte20}, we may represent this computation tree (typically) concisely using binary decision diagrams.
+
+ The probability $\Pr^\mc(\eventually{h} T)$ denotes the probability to reach a state in $T$ with $h$ steps in the induced Markov chain, i.e., $\Pr^\mc(\eventually{h} T)$.
+For any SG $\sg$ and scheduler $\sched$, let $\Pr^\sg_\sched(\eventually{h} T)= \Pr^{\induced{\sg}{\sched}}(\eventually{h} T)$.  
+
+\begin{mdframed}[backgroundcolor=white!5]
+\textbf{The ERCI Pareto Front Problem}:
+Given an acyclic SG $\sg$ with target states $\mathbf{1}$ and sink state $\mathbf{0}$, find the set $\solutions \subseteq \mathbb{R}^2$ of tuples $\langle \scthreshold, \randomness \rangle$, such that there exists a $\pOne$-policy  such that for every policy $\pTwo$-policy with $\sched = \langle \pOneSched, \pTwoSched \rangle$ it holds that 
 \begin{compactenum}
-	\item (\emph{hard constraint}) $\Pr^\sg_{\sched}(\eventually{h} T) \geq 1$
-	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(\eventually{h} G) \geq \lambda$
-	\item (\emph{randomness constraint}) $\Pr(\pi) \leq \delta \text{ for all } \pi \in \Paths[h]{\sg}$.
+	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(\eventually{h} G) \geq \scthreshold$
+	\item (\emph{randomness constraint}) $H_\sg(\sigma) \geq \randomness$
 \end{compactenum}
 \end{mdframed}
+As we see later in the paper $\solutions$ is a connected polytope, and we are only interested in finding its border, or more precisely, its Pareto front (which we define below).
 
-\begin{theorem}
-	For deterministic SGs, the CI and DCI problem coincide.\sj{We may want to defer the proof (sketch) to later}
-\end{theorem}
-
+\begin{example}
+	
+\end{example}
 
 
 

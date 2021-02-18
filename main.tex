@@ -7,11 +7,11 @@
 \usepackage[bookmarks=true]{hyperref}
 
 \pdfinfo{
-   /Author (Homer Simpson)
-   /Title  (Robots: Our new overlords)
+   /Author (author)
+   /Title  (title)
    /CreationDate (D:20101201120000)
    /Subject (Robots)
-   /Keywords (Robots;Overlords)
+   /Keywords (Robots)
 }
 
 \usepackage{microtype}
@@ -21,9 +21,13 @@
 \usepackage{xcolor}
 \usepackage{tikz}
 \usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{colonequals}
 \newtheorem{theorem}{Theorem}
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
 
 \usetikzlibrary{patterns,arrows,backgrounds,calc,shapes,shadows,decorations.pathmorphing,decorations.pathreplacing,automata,shapes.multipart,positioning,shapes.geometric,fit,circuits,trees,shapes.gates.logic.US,fit,decorations.markings}
 
@@ -33,6 +37,7 @@
 \newcommand{\NN}{\mathbb{N}}
 \newcommand{\mc}{\mathcal{D}}
 \newcommand{\sg}{\mathcal{G}}
+\renewcommand{\path}{\xi}
 \newcommand{\eventually}[1]{\lozenge^{\leq #1}}
 \newcommand{\sched}{\sigma}
 \newcommand{\Sched}{\Sigma}
@@ -40,13 +45,26 @@
 \newcommand{\Distr}{\ensuremath{\textsl{Distr}}}
 \newcommand{\act}{\alpha}
 \newcommand{\Act}{A}
+\newcommand{\scthreshold}{p}
+\newcommand{\randomness}{h}
 \newcommand{\last}[1]{{#1}_\downarrow}
-\newcommand{\Paths}[2][]{\Pi^{#2}_{#1}}
-\newcommand{\POnePaths}[2][]{\Pi^{\downarrow_{1}#2}_{#1}}
-\newcommand{\PTwoPaths}[2][]{\Pi^{\downarrow_{2}#2}_{#1}}
-\newcommand{\PiPaths}[2][]{\Pi^{\downarrow_{i}#2}_{#1}}
+\newcommand{\pOneSched}{\mathbf{ego}}
+\newcommand{\pTwoSched}{\mathbf{env}}
+\newcommand{\pOne}{\mathsf{ego}}
+\newcommand{\pTwo}{\mathsf{env}}
+\newcommand{\horizon}{\tau}
+\newcommand{\solutions}{\mathbb{S}}
+
+\newcommand{\pathslbl}{\Xi}
+\newcommand{\Paths}[2][]{\pathslbl^{#2}_{#1}}
+\newcommand{\POnePaths}[2][]{{\pathslbl^{#2}_{#1}}/_{\downarrow_{1}}}
+\newcommand{\PTwoPaths}[2][]{{\pathslbl^{#2}_{#1}}/_{\downarrow_{2}}}
+\newcommand{\PiPaths}[2][]{{\pathslbl^{#2}_{#1}}/_{\downarrow_{i}}}
 \newcommand{\unrolled}[2]{\textsf{Tree}(#1,#2)}
 \newcommand{\induced}[2]{#1[#2]}
+\newcommand{\causalprob}[2]{\Pr(#1\mid\mid#2)}
+\newcommand{\expOver}[2]{\mathbb{E}_{#1}[#2]}
+
 
 
 \setlength\marginparwidth{110pt}
@@ -112,7 +130,12 @@
 \maketitle
 
 \begin{abstract}
-The abstract goes here.
+Declarative constraints are a powerful tool to define high-level controllers. 
+However, most algorithms that synthesise controllers from these constraints construct deterministic policies -- which limits robustness and unpredictability.  
+Control improvisation aims to overcome these weaknesses. Key are three types of constraints: Hard constraints describe behavior that must occur, 
+soft constraints describe behavior that typically occurs, and a randomization constraint ensures variance in the behavior. 
+We provide the first control improvisation framework, based on causal entropy to describe randomization, that supports to adverserial and probabilistic environments. These features allow us to synthesise powerful robust policies that generatate unpredictable behavior. 
+
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
@@ -127,18 +150,13 @@ The abstract goes here.
 \section{Motivating Example}
 \input{example}
 \section{Problem Statement}
+This section formalizes the problem statement. We show that our problem statement is a conservative extension of the existing reactive control improvisation framework and we reformulate our problem statement in terms of finding a Pareto-curve. We start with some necessary definitions and notations.
+
+
 \input{problem}
 \section{Control improvisation versus Policy Sampling}
 In this section, we discuss the nature of the randomness as imposed by the CI problem, and relate this to improvising policies, i.e., to randomly sampling policies that satisfy the hard and soft constraint.
 
-\begin{figure}
-\begin{tikzpicture}
-	\node[sstate] (s0) {$s_0$};
-	\node[sstate] (s1) {$s_1$};
-	\node[sstate] (s2) {$s_2$};
-\end{tikzpicture}	
-\caption{A minimal example}
-\end{figure}
 
 
 
@@ -155,9 +173,16 @@ In this section, we discuss the nature of the randomness as imposed by the CI pr
 
 
 
-\section{Solving the Control Improvisation Problem for MDPs}
+\section{The Control Improvisation Problem for MDPs}
+\color{black!50}
+For any fixed horizon $h$, we can equivalently unfold the SG into  $\unrolled{\sg}{h}$. $\unrolled{\sg}{h}$ is a SG with 
+\sj{add the tree formulation}
+We consider $P$ as being defined using an auxiliary notion of environment actions $\Act_E$, a deterministic environment transition relation $P_{\hat{i}}\colon S_i \times \Act_i \rightarrow A_E$ and a (memoryless, randomized) environment-scheduler $A_E \rightarrow \Distr(S)$.
+
+\color{black}
+
 We present an algorithm for the control improvisation problem for MDPs. The key insight is to reuse ideas from policy inference from specifications~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
-In the next section, we extend this idea to SGs. We discuss all ideas on the computation tree, but as in \cite{DBLP:conf/cav/Vazquez-Chanlatte20}, we may represent this computation tree (typically) concisely as a BDD.
+In the next section, we extend this idea to SGs. 
 
 \paragraph{Preprocessing for hard constraints}
 \begin{itemize}
@@ -225,7 +250,7 @@ The algorithm
 
  
 
-\section{Solving the Control Improvisation Problem for SGs}
+\section{The Control Improvisation Problem for SGs}
 \paragraph{Maximising entropy against an adverserial player}
 
 \subsection{Playing against deterministic adverseries}
@@ -239,10 +264,32 @@ To formalise our argument
 
 \subsection{Non-observable adversaries}
 
+\section{Discussion}
+Before we continue, we want to establish that Control improvisation problem is a conservative extension of deterministic case as investigated in~\cite{}.
+\begin{mdframed}
+\textbf{The Deterministic (Reactive) Control Improvisation (DCI) Problem~\cite{}}:
+Given a \emph{deterministic} SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ 
+\begin{compactenum}
+\item (\emph{hard constraint}) $\Pr^\sg_{\sched}(X_\psi) \geq 1$
+	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(X_\varphi) \geq \scthreshold$
+	\item (\emph{randomness constraint}) $\Pr(\path) \leq \delta \text{ for all } \path \in \Paths[h]{\sg[\sched]}$.
+\end{compactenum}
+\end{mdframed}
+
+\begin{theorem}
+	For deterministic SGs, the ERCI and DCI problem coincide.
+\end{theorem}
+We defer a discussion and a precise statement to Lemma~\ref{}.
+
 \section{Implementation and Empirical Evaluation}
+
+\section{Related work list}
+\cite{DBLP:journals/corr/abs-2009-10883}
+\cite{}
+
 
 
 \bibliographystyle{plainnat}
-\bibliography{references}
+\bibliography{bibliography}
 
 \end{document}

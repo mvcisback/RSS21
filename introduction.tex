@@ -1,25 +1,25 @@
-The use of declarative constraints, often in the form of linear temporal logic constraints, has become popular in recent years. 
+The use of declarative constraints to define high-level plans, often in the form of linear temporal logic constraints, has become popular in recent years, e.g., \cite{DBLP:conf/iros/HorowitzWM14,DBLP:conf/rss/WongEK14,DBLP:conf/iros/HeLKV17,DBLP:conf/icra/FuATP16,DBLP:conf/icra/HeWKV19,DBLP:journals/arobots/MoarrefK20,DBLP:conf/icra/KantarosM0P20}. 
 Strong \emph{synthesis} algorithms support the automatic creation of a control policy that ensures that the declarative constraints are met, or deliver feedback why such a policy does not exist. 
-The use of such algorithms takes away the burden of a user implementing these controllers, and allows one to quickly and intuitively define a variety of behaviors.
+The use of such algorithms takes away the burden of a user implementing these controllers, and allows to quickly and intuitively define a variety of behaviors.
 We notice that typically, the declarative constraints allow for a variety of controllers that all equally satisfy the constraints, yet synthesis algorithms create a single, often deterministic policy. 
 Such policies have two weaknesses. First, in scenarios where predictability is an issue, the policy of a patrolling guard should be sufficiently random to prevent an adverserial observer to easily observe the used policy. 
-Second, the synthesis algorithms work on idealized models, and indeed  randomization is a well-known ingredient to make policies or algorithm in general more robust against worst-case deviations. 
+Second, the synthesis algorithms work on idealized models, and indeed  while randomization is a well-known ingredient to make policies or algorithm in general more robust against worst-case deviations, these policies do not exhibit randomization.  
+These observations lead us to advocate the adoption of control improvisation. 
+Control improvisation assumes three types of declarative constraints. \emph{Hard constraints} that, as in the classical setting, must be satisfied, \emph{soft constraints} that on most executions should hold,
+and \emph{randomization constraints} that ensure that a synthesised policy does not overly commit to a particular action or behavior. 
+
+The idea of control improvisation is not new, but so far can only assume an adverserial environment. This assumption is too pessimistic and leads (together with the soft/hard constraints) to overly restrictive policies. 
+To overcome this weakness in control improvisation, we develop a theory of control improvisation on stochastic environments, and then extend this to support a combination of adverserial and stochastic environments, which includes stochastic settings with unknown or imprecise probabilities.
+As we show later, this extension requires a different view on randomization constraints, as the policy is no longer the only source of randomization. 
 
 
-The idea of control improvisation is not new, but so far can only assume an adverserial environment. This assumption is too pessimistic, as not all agents 
+Technically, we formulate our problem on \emph{simple stochastic games}, an extension of Markov decision processes that divides states between controllable states and uncontrollable (or adverserially controlled) states. Hard constraints are finite horizon temporal properties that restrict the policy such that together with any adverserial policy, the property is satisfied with probability one. Soft constraints are finite horizon temporal properties with a user defined threshold. 
+We adopt the notion of causal entropy as natural means to ensure randomization. Causal entropy is a prominent notion in information theory that strongly correlates with robustness in the inverse reinforcement learning setting. 
 
-We formulate our problem on \emph{simple stochastic games}, an extension of MDPs that divides states between controllable states and uncontrollable states. 
-In particular, this means that we can 
+Finally, a soft constraints can naturally be considered as an optimization objective which one can trade-off for more randomization. Indeed, our method strongly relies on the computation of a Pareto-front that explores the trade-off between randomization and optimizing the soft constraint using the notion of rationality. This means that rather than asking the user to  fix rather arbitrary threshold values for both types of constraints, we visualize the trade-off between these two entities.  
 
+Together, this paper contributes entropy-guided control improvisation, an algorithmic way to trade performance and randomization. 
+It conservatively extends the reactive control improvisation to stochastic games, that combine both adverserial and probabilistic behavior in an environment for additional modeling flexibility. 
+The paper shows its applicability based on a motivating example discussed in Sec.~\ref{}, before formalizing the problem statement and then discussing the algorithm, first on the special case of MDPs and then for the general case of stochastic games. 
 
-
-\paragraph{Contribution}
-
-\begin{itemize}
-
-\item We conservatively genalize control improvisation from the deterministic to the stochastic setting (MDPs) by adopting ideas from specification inference.
-\item We further conservatively extend these ideas to support reactive control improvisation in stochastic games
-\item We contrast control improvisation for stochastic games with policy sampling, i.e., with uniformly sampling schedulers satisfying given temporal constraints.
-\item We provide a scalable prototypical implementation.
-\end{itemize}
 
