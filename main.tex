@@ -33,6 +33,15 @@
 
 \tikzset{sstate/.style={circle, draw=black, inner sep=1pt}}
 
+\makeatletter
+\let\MYcaption\@makecaption
+\makeatother
+
+\usepackage[font=footnotesize]{subcaption}
+
+\makeatletter
+\let\@makecaption\MYcaption
+\makeatother
 
 \newcommand{\NN}{\mathbb{N}}
 \newcommand{\mc}{\mathcal{D}}
@@ -158,49 +167,48 @@ This section formalizes the problem statement. We show that our problem statemen
 
 
 \input{problem}
-\section{Control improvisation versus Policy Sampling}
-In this section, we discuss the nature of the randomness as imposed by the CI problem, and relate this to improvising policies, i.e., to randomly sampling policies that satisfy the hard and soft constraint.
-
-
-Before we continue, we want to establish that Control improvisation problem is a conservative extension of deterministic case as investigated in~\cite{}.
-\begin{mdframed}
-\textbf{The Deterministic (Reactive) Control Improvisation (DCI) Problem~\cite{}}:
-Given a \emph{deterministic} SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ 
-\begin{compactenum}
-\item (\emph{hard constraint}) $\Pr^\sg_{\sched}(X_\psi) \geq 1$
-	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(X_\varphi) \geq \scthreshold$
-	\item (\emph{randomness constraint}) $\Pr(\path) \leq \delta \text{ for all } \path \in \Paths[h]{\sg[\sched]}$.
-\end{compactenum}
-\end{mdframed}
-
-\begin{theorem}
-	For deterministic SGs, the ERCI and DCI problem coincide.
-\end{theorem}
-We defer a discussion and a precise statement to Lemma~\ref{}.
-
-%\begin{mdframed}
-%
-%\begin{compactenum}
-%	\item $\Pr^\sg_{\langle \sched_1,\sched_2 \rangle}(\eventually{h} T) \geq 1$
-%	\item $\Pr^\sg_{\langle \sched_1,\sched_2 \rangle}(\eventually{h} G) \geq \lambda$ 
-%\end{compactenum}
-%\end{mdframed}
-%\sj{Define randomly selected policy}
-%\sj{Describe in terms of pMDPp}
 
 
 
 
 \section{The Control Improvisation Problem for MDPs}
 \color{black!50}
-For any fixed horizon $h$, we can equivalently unfold the SG into  $\unrolled{\sg}{h}$. $\unrolled{\sg}{h}$ is a SG with 
-\sj{add the tree formulation}
 We consider $P$ as being defined using an auxiliary notion of environment actions $\Act_E$, a deterministic environment transition relation $P_{\hat{i}}\colon S_i \times \Act_i \rightarrow A_E$ and a (memoryless, randomized) environment-scheduler $A_E \rightarrow \Distr(S)$.
 
+
+
+It is convenient to talk about a third player, $\mathsf{rnd}$, that owns all states with $|\Act|$\sj{needs available actions}
 \color{black}
 
 We present an algorithm for the control improvisation problem for MDPs. The key insight is to reuse ideas from policy inference from specifications~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
 In the next section, we extend this idea to SGs. 
+
+\begin{figure}
+\begin{subfigure}{0.3\columnwidth}
+\centering
+\begin{tikzpicture}	
+	\node[sstate] (si) {$s_0$};
+	\node[sstate,above=0.6cm of si] (s0) {$\sink$};
+	\node[sstate,below=0.6cm of si] (s1) {$\target$};
+	\draw[->] (si) -- (s0);
+	\draw[->] (si) -- (s1);
+	
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+\begin{subfigure}{0.3\columnwidth}
+\begin{tikzpicture}	
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+\begin{subfigure}{0.3\columnwidth}
+\begin{tikzpicture}	
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+
+
+\end{figure}
 
 
 
@@ -228,8 +236,8 @@ For that, it holds that the higher $\lambda$, the lower $\sup_{\sched} \{ H(\sg[
   	\draw[-,dashed] (0.0,0.5184) -- (0.4,0.5184);
   \draw[ domain=0:1, smooth, variable=\x, blue] plot ({\x}, {15*(1-\x)*(1-\x)*(1-\x)*\x*\x});
 \end{tikzpicture}	
-\label{fig:entropyvspsat}
 \caption{Entropy vs reachability probability for the soft constraint}
+\label{fig:entropyvspsat}
 \end{figure}
 Result: A computation tree, computing the max entropy over schedulers that achieve the goal with prob exactly $\lambda$.
 A variant in which we explore the trade-off between soft constraint and entropy is a simple extension that employs a binary search.
@@ -275,15 +283,58 @@ To formalise our argument
 
 \subsection{Non-observable adversaries}
 
+\section{Control improvisation versus Policy Sampling}
+In this section, we discuss the nature of the randomness as imposed by the CI problem, and relate this to improvising policies, i.e., to randomly sampling policies that satisfy the hard and soft constraint.
+
+
+Before we continue, we want to establish that Control improvisation problem is a conservative extension of deterministic case as investigated in~\cite{}.
+\begin{mdframed}
+\textbf{The Deterministic (Reactive) Control Improvisation (DCI) Problem~\cite{}}:
+Given a \emph{deterministic} SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ 
+\begin{compactenum}
+\item (\emph{hard constraint}) $\Pr^\sg_{\sched}(X_\psi) \geq 1$
+	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(X_\varphi) \geq \scthreshold$
+	\item (\emph{randomness constraint}) $\Pr(\path) \leq \delta \text{ for all } \path \in \Paths[h]{\sg[\sched]}$.
+\end{compactenum}
+\end{mdframed}
+
+\begin{theorem}
+	For deterministic SGs, the ERCI and DCI problem coincide.
+\end{theorem}
+We defer a discussion and a precise statement to Lemma~\ref{}.
+
+%\begin{mdframed}
+%
+%\begin{compactenum}
+%	\item $\Pr^\sg_{\langle \sched_1,\sched_2 \rangle}(\eventually{h} T) \geq 1$
+%	\item $\Pr^\sg_{\langle \sched_1,\sched_2 \rangle}(\eventually{h} G) \geq \lambda$ 
+%\end{compactenum}
+%\end{mdframed}
+%\sj{Define randomly selected policy}
+%\sj{Describe in terms of pMDPp}
+
 \section{Discussion}
 
 
 \section{Implementation and Empirical Evaluation}
 
-\section{Related work list}
+\section{Related work}
+\color{red}
 \cite{DBLP:journals/corr/abs-2009-10883}
-\cite{}
+\cite{DBLP:journals/jcss/BrazdilCFK17}
+\color{black}
 
+
+
+Path-finding has long been considered a multi-objective problem itself~\cite{DBLP:conf/icra/AmigoniG05,DBLP:journals/eswa/NazarahariKD19,DBLP:conf/icml/XuTMRSM20}.
+These works differ prominently in two aspects: they do not trade-off randomization and performance, and they do not trade-off declarative and formal constraints with the accompanying formal guarentees, but are more search-based. 
+Finding policies that optimize reward objectives is well-studied in the field of reinforcement learning, and has been extended to generate Pareto-fronts for multiple objectives~\cite{DBLP:conf/icml/NatarajanT05,DBLP:conf/adprl/ParisiPSBR14}.
+
+Synthesis in MDPs with multiple hard and soft constraints (often over indefinite horizons) is a well-studied problem~\cite{DBLP:conf/stacs/ChatterjeeMH06,DBLP:conf/tacas/EtessamiKVY07,DBLP:conf/atva/ForejtKP12,DBLP:journals/fmsd/RandourRS17}.  In this setting, one generates deterministic policies and their convex combinations. Put differently, randomization is \emph{not an objective}, but rather a consequence. Interestingly, in \cite{DBLP:conf/tacas/DelgrangeKQR20} one even argues for the \emph{absence} of randomization in various domains.  
+The original results sparked interest in different extension to MDPs and the type of soft constraints, such as continuous MDPs \cite{DBLP:journals/csysl/HaesaertNS21} and continuous-time MDPs~\cite{DBLP:conf/cav/QuatmannJK17},  cost-bounded reachability \cite{DBLP:journals/jar/HartmannsJKQ20}, or mean-payoff properties~\cite{DBLP:journals/corr/abs-1104-3489}. 
+The algorithms have also been extended towards stochastic games~\cite{DBLP:conf/mfcs/ChenFKSW13,DBLP:journals/sttt/KwiatkowskaPW18}.
+Finally, notions of lexicographic multi-objective synthesis~\cite{DBLP:conf/cav/ChatterjeeKWW20} -- in which one optimizes a secondary criterion among all policies that are optimal with respect to a first criterion bare some resemblance with the algorithm we consider. 
+These algorithms have been put in a robotics context in~\cite{DBLP:journals/ijrr/LacerdaFPH19}.
 
 
 \bibliographystyle{plainnat}

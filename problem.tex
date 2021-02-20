@@ -1,5 +1,5 @@
 \subsection{Stochastic Games}
-An (2.5-player) \emph{stochastic game} (SG) is a tuple $\sg = \langle S, \iota, \Act, P \rangle$. The set of \emph{states} $S = S_1 \cup S_2$ is partitioned into a set $S_1$ of player-1 states and a set $S_2$ of player-2 states. $\iota \in S_1$ is the \emph{initial state}, $\Act = \Act_1 \cup \Act_2$ is a finite set of \emph{actions}, and $P\colon S \times \Act \rightarrow \Distr(S)$ is the \emph{transition function} defined by two partial transition functions: $P_1\colon S_1 \times \Act_1 \rightarrow \Distr(S)$, $P_2\colon S_2 \times \Act_2 \rightarrow \Distr(S)$.\sj{Do we assume each action exists in every state? It makes the defionitions nicer..} 
+An (2.5-player) \emph{stochastic game} (SG) is a tuple $\sg = \langle S, \iota, \Act, P \rangle$. The set of \emph{states} $S = S_1 \cup S_2$ is partitioned into a set $S_1$ of player-1 states and a set $S_2$ of player-2 states. $\iota \in S$ is the \emph{initial state}, $\Act = \Act_1 \cup \Act_2$ is a finite set of \emph{actions}, and $P\colon S \times \Act \rightarrow \Distr(S)$ is the \emph{transition function} defined by two partial transition functions: $P_1\colon S_1 \times \Act_1 \rightarrow \Distr(S)$, $P_2\colon S_2 \times \Act_2 \rightarrow \Distr(S)$.\sj{Do we assume each action exists in every state? It makes the defionitions nicer..} 
 A finite \emph{path} $\path$ of length $n$ is a sequence $(\iota = s_0 ) \xrightarrow{\act_0} s_1 \xrightarrow{\act_1} s_2 \rightarrow \hdots \rightarrow s_n$ in $\left( S \times \Act \right)^{n} \times S$. We denote the length with $|\path|$, and denote $s_n$, i.e., the last element of $\path$ with $\last{\path}$. The set of all finite paths is denoted $\Paths[n]{\sg}$, and $\Paths{\sg} = \bigcup_{n \in \NN} \Paths[n]{\sg}$. We omit $\sg$ whenever it is clear from the context. It is helpful to partition paths based on their last state: $\POnePaths[n]{\sg} = \{ \path \in \Paths[n]{\sg} \mid \last{\path} \in S_1 \}$ and $\PTwoPaths[n]{} = \Paths[n]{} \setminus \POnePaths[n]{}$.
 
 \begin{figure}
@@ -117,9 +117,6 @@ Naturally, we are still interested in finding the corresponding policies for a a
 
 
 
-
-
-It is convenient to talk about a third player, $\mathsf{rnd}$, that owns all states with $|\Act|$\sj{needs available actions}
 
 
 
