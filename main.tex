@@ -25,9 +25,12 @@
 \usepackage{amsthm}
 \usepackage{colonequals}
 \newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 \newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+
 
 \usetikzlibrary{patterns,arrows,backgrounds,calc,shapes,shadows,decorations.pathmorphing,decorations.pathreplacing,automata,shapes.multipart,positioning,shapes.geometric,fit,circuits,trees,shapes.gates.logic.US,fit,decorations.markings}
 
@@ -54,10 +57,12 @@
 \newcommand{\Distr}{\ensuremath{\textsl{Distr}}}
 \newcommand{\act}{\alpha}
 \newcommand{\Act}{A}
-\newcommand{\scthreshold}{p}
+\newcommand{\scp}{p}
+\newcommand{\scthreshold}{\mathbf{p}}
 \newcommand{\target}{s_{\top}} 
 \newcommand{\sink}{s_{\bot}}
-\newcommand{\randomness}{h}
+\newcommand{\rndp}{h}
+\newcommand{\randomness}{\mathbf{h}}
 \newcommand{\last}[1]{{#1}_\downarrow}
 \newcommand{\pOneSched}{\mathbf{ego}}
 \newcommand{\POneScheds}{\Sigma_\pOne}
@@ -67,7 +72,12 @@
 \newcommand{\pTwo}{\mathsf{env}}
 \newcommand{\horizon}{\tau}
 \newcommand{\solutions}{\mathbb{S}}
+\newcommand{\solfuncp}{f_\mathbb{S}}
+\newcommand{\scopt}{\scp^{*}}
+\newcommand{\rndopt}{\rndp^{*}}
 
+\newcommand{\scmin}{\scp^{-}}
+\newcommand{\rndmin}{\rndp^{-}}
 \newcommand{\pathslbl}{\Xi}
 \newcommand{\Paths}[2][]{\pathslbl^{#2}_{#1}}
 \newcommand{\POnePaths}[2][]{{\pathslbl^{#2}_{#1}}/_{\downarrow_{1}}}
@@ -172,43 +182,18 @@ This section formalizes the problem statement. We show that our problem statemen
 
 
 \section{The Control Improvisation Problem for MDPs}
+\label{sec:mdps}
 \color{black!50}
 We consider $P$ as being defined using an auxiliary notion of environment actions $\Act_E$, a deterministic environment transition relation $P_{\hat{i}}\colon S_i \times \Act_i \rightarrow A_E$ and a (memoryless, randomized) environment-scheduler $A_E \rightarrow \Distr(S)$.
 
 
 
 It is convenient to talk about a third player, $\mathsf{rnd}$, that owns all states with $|\Act|$\sj{needs available actions}
-\color{black}
+
 
 We present an algorithm for the control improvisation problem for MDPs. The key insight is to reuse ideas from policy inference from specifications~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
 In the next section, we extend this idea to SGs. 
 
-\begin{figure}
-\begin{subfigure}{0.3\columnwidth}
-\centering
-\begin{tikzpicture}	
-	\node[sstate] (si) {$s_0$};
-	\node[sstate,above=0.6cm of si] (s0) {$\sink$};
-	\node[sstate,below=0.6cm of si] (s1) {$\target$};
-	\draw[->] (si) -- (s0);
-	\draw[->] (si) -- (s1);
-	
-\end{tikzpicture}
-\caption{}
-\end{subfigure}
-\begin{subfigure}{0.3\columnwidth}
-\begin{tikzpicture}	
-\end{tikzpicture}
-\caption{}
-\end{subfigure}
-\begin{subfigure}{0.3\columnwidth}
-\begin{tikzpicture}	
-\end{tikzpicture}
-\caption{}
-\end{subfigure}
-
-
-\end{figure}
 
 
 
@@ -230,15 +215,17 @@ The remaining case is that $\lambda \geq \Pr_{\sched^*}(\eventually{h} G)$, i.e.
 For that, it holds that the higher $\lambda$, the lower $\sup_{\sched} \{ H(\sg[\sched]) \mid \Pr_{\sched}(\eventually{h} G) = \lambda\}$~\sj{Can we cite something, do we need to prove this ourselves?}. 
 \begin{figure}
 \begin{tikzpicture}[scale=3]
-	 \draw[->] (-0.05, 0) -- (1, 0) node[right]{$\Pr_\sched(\eventually{h}G)$};
-  	\draw[->] (0, -0.05) -- (0, 0.8) node[above] {$H^*$};
-  	\draw[-,dashed] (0.4,0) -- (0.4,0.5184);
-  	\draw[-,dashed] (0.0,0.5184) -- (0.4,0.5184);
-  \draw[ domain=0:1, smooth, variable=\x, blue] plot ({\x}, {15*(1-\x)*(1-\x)*(1-\x)*\x*\x});
+	 \draw[->] (-0.05, 0) -- (1, 0) node[below]{$\Pr(X_{\lozenge\mathbf{\top}} \mid \sched)$};
+  	\draw[->] (0, -0.05) -- (0, 0.8) node[above] {$H(\sched)$};
+  	\draw[-,dashed] (0.5,0) -- (0.5,0.5184);
+  	\draw[-,dashed] (0.0,0.5184) -- (0.5,0.5184);
+  \draw[ domain=0:1, smooth, variable=\x, blue] plot ({\x}, {8*(1-\x)*(1-\x)*\x*\x});
 \end{tikzpicture}	
 \caption{Entropy vs reachability probability for the soft constraint}
 \label{fig:entropyvspsat}
 \end{figure}
+\sj{make convex}
+
 Result: A computation tree, computing the max entropy over schedulers that achieve the goal with prob exactly $\lambda$.
 A variant in which we explore the trade-off between soft constraint and entropy is a simple extension that employs a binary search.
 \subsection{Entropy maximization for a fixed reachability probability}
@@ -268,8 +255,9 @@ The algorithm
 
 
  
-
+\color{black}
 \section{The Control Improvisation Problem for SGs}
+\label{sec:sgs}
 \paragraph{Maximising entropy against an adverserial player}
 
 \subsection{Playing against deterministic adverseries}
@@ -282,27 +270,6 @@ To formalise our argument
 \subsection{Randomizing adversaries will not play better}
 
 \subsection{Non-observable adversaries}
-
-\section{Control improvisation versus Policy Sampling}
-In this section, we discuss the nature of the randomness as imposed by the CI problem, and relate this to improvising policies, i.e., to randomly sampling policies that satisfy the hard and soft constraint.
-
-
-Before we continue, we want to establish that Control improvisation problem is a conservative extension of deterministic case as investigated in~\cite{}.
-\begin{mdframed}
-\textbf{The Deterministic (Reactive) Control Improvisation (DCI) Problem~\cite{}}:
-Given a \emph{deterministic} SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ 
-\begin{compactenum}
-\item (\emph{hard constraint}) $\Pr^\sg_{\sched}(X_\psi) \geq 1$
-	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(X_\varphi) \geq \scthreshold$
-	\item (\emph{randomness constraint}) $\Pr(\path) \leq \delta \text{ for all } \path \in \Paths[h]{\sg[\sched]}$.
-\end{compactenum}
-\end{mdframed}
-
-\begin{theorem}
-	For deterministic SGs, the ERCI and DCI problem coincide.
-\end{theorem}
-We defer a discussion and a precise statement to Lemma~\ref{}.
-
 %\begin{mdframed}
 %
 %\begin{compactenum}
@@ -312,8 +279,6 @@ We defer a discussion and a precise statement to Lemma~\ref{}.
 %\end{mdframed}
 %\sj{Define randomly selected policy}
 %\sj{Describe in terms of pMDPp}
-
-\section{Discussion}
 
 
 \section{Implementation and Empirical Evaluation}

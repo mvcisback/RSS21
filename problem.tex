@@ -41,7 +41,8 @@ Applying a policy $\sched$ to an SG $\sg$ yields an \emph{induced Markov chain} 
 The probability $\Pr^\mc(\path)$ of a finite path $\path$ in a Markov chain $\mc$ is given by the product of the transition probabilities.
 The probability of a prefix-free set $X \subseteq \Paths{\mc}$  of paths is the sum over the individual path probabilities, $\Pr^\mc(X) = \sum_{\path \in X} \Pr^\mc(\path)$.
 We consider sets $X_\varphi$ of finite paths\footnote{Such paths may e.g. be defined using temporal properties such as linear temporal logic over finite traces (LTLf)~\cite{}.} reflecting some specification $\varphi$.   
-Finally, for any SG $\sg$ and scheduler $\sched$, let $\Pr^\sg_\sched(\eventually{h} T) \colonequals \Pr^{\induced{\sg}{\sched}}(\eventually{h} T)$.  
+Finally, for any SG $\sg$ and scheduler $\sched$, let $\Pr^\sg(X_\varphi \mid  \sched) \colonequals \Pr^{\induced{\sg}{\sched}}(X_\varphi)$.  
+We omit the superscript $\mc$/$\sg$ whenever it is clear from the context.
 
 \begin{example}
 	
@@ -52,8 +53,8 @@ While most synthesis problems either consider soft \emph{or} hard constraint, it
 \textbf{Stochastic Game Synthesis Problem}:
 Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ it holds that 
 \begin{compactenum}
-	\item (\emph{hard constraint}) $\Pr^\sg_{\sched}(X_\psi) \geq 1$
-	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(X_\varphi) \geq \scthreshold$
+	\item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$
+	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
 \end{compactenum}
  where $\sched = \langle \pOneSched, \pTwoSched \rangle$
 \end{mdframed}
@@ -80,40 +81,156 @@ We want to define entropy over paths in an (induced) Markov chain $\mc$. Recall 
 Together, this yields the necessary ingredients to formalize the problem statement. 
 \begin{mdframed}[backgroundcolor=blue!5]
 \textbf{The Entropic Control Improvisation (ERCI) Problem}:
-Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ \begin{compactenum}
-	\item (\emph{hard constraint}) $\Pr^\sg_{\sched}(X_\psi) \geq 1$
-	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(X_\varphi) \geq \scthreshold$
+Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $\scthreshold \in [0,1]$ and $\randomness \in [0,\infty)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ \begin{compactenum}
+	\item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$
+	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
 \item (\emph{randomness constraint}) $H_\sg(\sigma) \geq \randomness$
 \end{compactenum}
 where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
 Rather than fixing $\kappa$ a priori, we are often interested in limiting the \emph{regret}: The last point then becomes:
-$H(\sg[\sched]) \geq (1-\delta) \cdot H(\sg[\sched^{*}])$, where $\sched^{*}$ .... \sj{I am not sure how to define this concisely.} 
+$H(\sched) \geq (1-\delta) \cdot H(\sched^{*})$, where $\sched^{*}$ .... \sj{I am not sure how to define this concisely.} 
 
-\subsection{An optimization perspective}
-In this subsection, we discuss two modifications of the problem statement.
-First, we are interested in understanding the combinations of $\scthreshold$ and $\randomness$ that allow to find a policy at all. 
-Second, to ease the technical construction, without loss of generality, we make the following assumptions\footnote{We argue that these assumptions are indeed w.l.o.g.\ in Sec.~\ref{sec:assumptions}}: 
+\subsection{Resolving Hard Constraints}
+In this subsection, we preprocess the problem statement.
+To ease the technical construction, without loss of generality, we make the following assumptions\footnote{We argue that these assumptions are indeed w.l.o.g.\ in Sec.~\ref{sec:assumptions}}: 
 We assume the (graph structure underlying the) SG is acyclic, which we realise by means of unfolding the graph. 
 As in \cite{DBLP:conf/cav/Vazquez-Chanlatte20}, we may represent this computation tree (typically) concisely using binary decision diagrams.
 We calculate all states from which the $\pTwo$-player can enforce violating the hard constraint. We remove these states along with their in- and outgoing transitions. Any $\pOne$-policy now satisfies the hard constraint. 
 We may now define a unique target state $\target$ and a unique sink state $\sink$ such that these are the only states without any outgoing transitions.  The set $X_{\lozenge\mathbf{\top}}$ denotes all paths with $\last{\path} = s_\top$.
 
-Together, we obtain the following problem statement.
-\begin{mdframed}[backgroundcolor=white!5]
-\textbf{The ERCI Pareto Front Problem}:
-Given an acyclic SG $\sg$ including target states $s_\top$ and sink state $s_\bot$, find the set $\solutions \subseteq \mathbb{R}^2$ of tuples $\langle \scthreshold, \randomness \rangle$, such that there exists a $\pOne$-policy  such that for every policy $\pTwo$-policy with $\sched = \langle \pOneSched, \pTwoSched \rangle$ it holds that 
-\begin{compactenum}
-	\item (\emph{soft constraint)} $\Pr^\sg_{\sched}(X_{\lozenge\mathbf{\top}}) \geq \scthreshold$
-	\item (\emph{randomness constraint}) $H_\sg(\sigma) \geq \randomness$
+\begin{mdframed}
+\textbf{The Entropic Control Improvisation (ERCI) Problem}:
+Given an acyclic SG $\sg$, including target states $s_\top$ and sink state $s_\bot$, thresholds $\scthreshold \in (0,1)$ and $\randomness \in [0,\infty)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ \begin{compactenum}
+	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
+\item (\emph{randomness constraint}) $H_\sg(\sigma) \geq \randomness$
 \end{compactenum}
+where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
-As we see later in the paper $\solutions$ is a connected polytope, and we are only interested in finding its border, or more precisely, its Pareto front (which we define below).
-Naturally, we are still interested in finding the corresponding policies for a any point $\langle \scthreshold, \randomness \rangle$, and this is a side product of our algorithm. 
 
 \begin{example}
 	
 \end{example}
+
+
+\section{On ERCI and its Pareto Front}
+
+We are interested in understanding the combinations of $\scthreshold$ and $\randomness$ that allow to find a policy at all. 
+
+It is convenient to say that $\sched$ induces a point $x_\sched$: \[x_\sched \colonequals \langle \Pr(X_\varphi \mid \sched), H(\sched)  \rangle \in [0,1] \times [0,\infty).\] 
+We say that $\pOneSched$ \emph{guarantees} a point $x_\pOneSched \colonequals \langle \scp, \rndp \rangle$, if for every policy $\pTwoSched$, using $\sched = \langle \pOneSched, \pTwoSched \rangle$ and $x_\sched = \langle \scp', \rndp' \rangle$, we have $\scp' \geq \scp$ and $\rndp' \geq \rndp$.
+We then define the following elementary sets:
+\begin{definition}
+For any $\pOneSched$ and a fixed ERCI instance, we define the set of guaranteed points:
+  \[ \solutions_\pOneSched = \{ \langle \scp, \rndp \rangle \mid  \pOneSched \text{ guarantees } \langle \scp, \rndp \rangle \}. \]
+And the set of solutions:    	
+ $ \solutions = \bigcup_{\pOneSched \in \POneScheds} \solutions_\pOneSched$.
+\end{definition}
+
+\begin{example}
+	
+\end{example}
+
+Recall that a set is convex, if 
+\begin{proposition}
+	The set $\solutions$ is convex. 
+\end{proposition}
+\begin{proof}
+Let $\sched'$ and $\sched''$ be two schedulers with induced solution $\langle \scthreshold', \randomness' \rangle$ and $\langle \scthreshold'', \randomness'' \rangle$ 	
+\end{proof}
+
+\begin{definition}
+We define 
+$\rndopt \colonequals \max \{ \rndp \mid \exists \scp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $
+and 
+$\scopt \colonequals \max \{ \scp \mid \exists \rndp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $.
+Then, we define 
+$\scmin \colonequals \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$ and $\rndmin \colonequals \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$.
+\end{definition}
+
+
+
+
+We define a characteristic function $\solfuncp\colon [\rndmin,\rndopt] \rightarrow [\scmin,\scopt]$ such that $\solfuncp(\rndp) = \max \{ \scp \mid \langle \scp, \rndp \rangle \in \solutions \} \cup \{ 0 \}$.  
+\begin{proposition}
+	$\solfuncp$ is smooth monotonically decreasing. 
+\end{proposition}
+Monotone decreasing follows directly from convexity and using the adequate domains. 
+\color{red}{how do we know smooth and continuous?}
+
+In particular, the set is not a finite polytope, i.e., for every 
+
+
+ 
+\begin{figure}
+\centering
+\begin{subfigure}{0.2\columnwidth}
+\centering
+\begin{tikzpicture}	
+	\node[sstate] (si) {$s_0$};
+	\node[sstate,above=0.6cm of si] (s0) {$\target$};
+	\node[sstate,below=0.6cm of si] (s1) {$\sink$};
+	\draw[->] (si) -- node[right] {$a$} (s0);
+	\draw[->] (si) -- node[right] {$b$} (s1);
+	
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+\begin{subfigure}{0.38\columnwidth}
+\centering
+\begin{tikzpicture}[scale=2]
+ \draw[->] (-0.05, 0) -- (1, 0) node[below]{$\sched(s_0)(a)$};
+  	\draw[->] (0, -0.05) -- (0, 0.8) node[above] {$\Pr(X_{\lozenge\mathbf{\top}} \mid \sched)$};
+  	%\draw[-,dashed] (0.4,0) -- (0.4,0.5184);
+  	%\draw[-,dashed] (0.0,0.5184) -- (0.4,0.5184);
+  \draw[ domain=0:0.8, smooth, variable=\x, blue] plot ({\x}, {\x});
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+\begin{subfigure}{0.38\columnwidth}
+\centering
+\begin{tikzpicture}[scale=2]	
+ \draw[->] (-0.05, 0) -- (1, 0) node[below]{$\sched(s_0)(a)$};
+  	\draw[->] (0, -0.05) -- (0, 0.8) node[above] {$H(\sched)$};
+  	%\draw[-,dashed] (0.4,0) -- (0.4,0.5184);
+  	%\draw[-,dashed] (0.0,0.5184) -- (0.4,0.5184);
+ % \draw[ domain=0:1, smooth, variable=\x, blue] plot ({\x}, {15*(1-\x)*(1-\x)*(1-\x)*\x*\x});
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+
+\caption{Minimal ERCI problem.}
+\end{figure}
+
+
+Together, we obtain the following problem statement.
+\begin{mdframed}[backgroundcolor=white!5]
+\textbf{The ERCI Pareto Front Problem}:
+Using the notation from the ERCI problem, find the set $\solutions \subseteq \mathbb{R}^2$.
+\end{mdframed}
+We are going to iteratively construct the  Pareto optimal points in $\solutions$. This yields a semi-decision procedure.
+Clearly, finding $\solutions$ solves the ERCI problem, as we only need to decide whether $\langle \scthreshold, \randomness \rangle \in \solutions$.
+
+
+
+With these facts, we are now well-equiped to develop the algorithms in Sec.~\ref{sec:mdp} for MDPs and Sec.~\ref{sec:sgs} for SGs.
+
+Before we continue, we want to establish that Control improvisation problem is a conservative extension of deterministic case as investigated in~\cite{}.
+\begin{mdframed}
+\textbf{The Deterministic (Reactive) Control Improvisation (DCI) Problem~\cite{}}:
+Given a \emph{deterministic} SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ 
+\begin{compactenum}
+\item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$
+	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
+	\item (\emph{randomness constraint}) $\Pr(\path) \leq \delta \text{ for all } \path \in \Paths[h]{\sg[\sched]}$.
+\end{compactenum}
+\end{mdframed}
+
+\begin{theorem}
+	For deterministic SGs, the ERCI and DCI problem coincide.
+\end{theorem}
+We defer a discussion and a precise statement to Lemma~\ref{}.
+
 
 
 
