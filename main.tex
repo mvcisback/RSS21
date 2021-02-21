@@ -68,6 +68,7 @@
 \newcommand{\POneScheds}{\Sigma_\pOne}
 \newcommand{\PTwoScheds}{\Sigma_\pTwo}
 \newcommand{\pTwoSched}{\mathbf{env}}
+\newcommand{\rat}{\lambda}
 \newcommand{\pOne}{\mathsf{ego}}
 \newcommand{\pTwo}{\mathsf{env}}
 \newcommand{\horizon}{\tau}
@@ -75,6 +76,8 @@
 \newcommand{\solfuncp}{f_\mathbb{S}}
 \newcommand{\scopt}{\scp^{*}}
 \newcommand{\rndopt}{\rndp^{*}}
+\newcommand{\pareto}[1]{\mathcal{F}_{#1}}
+\newcommand{\smoothmax}[2]{\mathsf{smax}_{#1}^{#2}}
 
 \newcommand{\scmin}{\scp^{-}}
 \newcommand{\rndmin}{\rndp^{-}}
@@ -183,16 +186,26 @@ This section formalizes the problem statement. We show that our problem statemen
 
 \section{The Control Improvisation Problem for MDPs}
 \label{sec:mdps}
+
+
+We present an algorithm for the control improvisation problem for MDPs. The key insight is to rephrase the tradeoff between randomisation and performance as a degree in rationality $\rat$ of the policy. Intuitively, a rationality of $\rat = 1$ means that we focus completely on the performance criterion, and rationality $\rat = 0$ We can then reuse ideas from policy inference from specifications~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
+In the next section, we extend this idea to SGs. 
+
+
+
+We define the following smooth variant of the Bellman equations. In particular, we use $\smoothmax{}{}$ as the log-sum-exp 
+\begin{align}
+	V_\rat(s) \colonequals  \smoothmax{\act \in \Act}{\rat} \{  Q(s,\act) \} \\ 
+	Q_\rat(s)
+\end{align}
+
+
 \color{black!50}
 We consider $P$ as being defined using an auxiliary notion of environment actions $\Act_E$, a deterministic environment transition relation $P_{\hat{i}}\colon S_i \times \Act_i \rightarrow A_E$ and a (memoryless, randomized) environment-scheduler $A_E \rightarrow \Distr(S)$.
 
 
 
 It is convenient to talk about a third player, $\mathsf{rnd}$, that owns all states with $|\Act|$\sj{needs available actions}
-
-
-We present an algorithm for the control improvisation problem for MDPs. The key insight is to reuse ideas from policy inference from specifications~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
-In the next section, we extend this idea to SGs. 
 
 
 
