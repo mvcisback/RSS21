@@ -73,11 +73,13 @@
 \newcommand{\pTwo}{\mathsf{env}}
 \newcommand{\horizon}{\tau}
 \newcommand{\solutions}{\mathbb{S}}
+\newcommand{\EnAct}{\Act}
 \newcommand{\solfuncp}{f_\mathbb{S}}
 \newcommand{\scopt}{\scp^{*}}
 \newcommand{\rndopt}{\rndp^{*}}
 \newcommand{\pareto}[1]{\mathcal{F}_{#1}}
-\newcommand{\smoothmax}[2]{\mathsf{smax}_{#1}^{#2}}
+\newcommand{\smoothmax}[1]{\mathsf{smax}(#1)}
+\newcommand{\indicator}[1]{[#1]}
 
 \newcommand{\scmin}{\scp^{-}}
 \newcommand{\rndmin}{\rndp^{-}}
@@ -183,92 +185,8 @@ This section formalizes the problem statement. We show that our problem statemen
 
 
 
-
-\section{The Control Improvisation Problem for MDPs}
-\label{sec:mdps}
-
-
-We present an algorithm for the control improvisation problem for MDPs. The key insight is to rephrase the tradeoff between randomisation and performance as a degree in rationality $\rat$ of the policy. Intuitively, a rationality of $\rat = 1$ means that we focus completely on the performance criterion, and rationality $\rat = 0$ We can then reuse ideas from policy inference from specifications~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
-In the next section, we extend this idea to SGs. 
-
-
-
-We define the following smooth variant of the Bellman equations. In particular, we use $\smoothmax{}{}$ as the log-sum-exp 
-\begin{align}
-	V_\rat(s) \colonequals  \smoothmax{\act \in \Act}{\rat} \{  Q(s,\act) \} \\ 
-	Q_\rat(s)
-\end{align}
-
-
-\color{black!50}
-We consider $P$ as being defined using an auxiliary notion of environment actions $\Act_E$, a deterministic environment transition relation $P_{\hat{i}}\colon S_i \times \Act_i \rightarrow A_E$ and a (memoryless, randomized) environment-scheduler $A_E \rightarrow \Distr(S)$.
-
-
-
-It is convenient to talk about a third player, $\mathsf{rnd}$, that owns all states with $|\Act|$\sj{needs available actions}
-
-
-
-
-\subsection{Soft constraint vs randomness}
-\paragraph{Max randomness without soft constraint}
-The uniform random policy maximises randomness.
-\begin{remark}
-Notice that here, it is important that our induced Markov chain contains the state choices as well.	
-\end{remark}
-
-
-\paragraph{Monotonicity}
-\sj{add lemma}
-We can (conceptually) sort all policies by their induced reachability to reach states $G$, i.e., by the (quantitative) satisfaction of the soft constraint. For each policy, we can plot the associated maximal entropy, $H^*(\lambda) = \sup_{\sched} \{ H(\sg[\sched]) \mid \Pr_{\sched}(\eventually{h} G) = \lambda\}$, see Fig.~\ref{fig:entropyvspsat}.
-The policy that maximises the entropy is (typically) somewhere in the middle--and the function is monotonically decreasing on both sides. 
-In this paper, we are only interested in the right side of the graph:
-We first construct the max-entropy policy $\sched^*$. If the induced probability $\Pr_{\sched^*}(\eventually{h} G) \geq \lambda$ and the associated entropy $H(\sg[\sched^*]) \geq \kappa$, then we found a solution to the CI problem. If $\Pr_{\sched^*}(\eventually{h} G) \geq \lambda$ but $H(\sg[\sched^*]) \geq \kappa$, then the CI problem is unsatisfiable (recall that $\sched^*$ maximizes entropy).
-The remaining case is that $\lambda \geq \Pr_{\sched^*}(\eventually{h} G)$, i.e., the right side of the graph.
-For that, it holds that the higher $\lambda$, the lower $\sup_{\sched} \{ H(\sg[\sched]) \mid \Pr_{\sched}(\eventually{h} G) = \lambda\}$~\sj{Can we cite something, do we need to prove this ourselves?}. 
-\begin{figure}
-\begin{tikzpicture}[scale=3]
-	 \draw[->] (-0.05, 0) -- (1, 0) node[below]{$\Pr(X_{\lozenge\mathbf{\top}} \mid \sched)$};
-  	\draw[->] (0, -0.05) -- (0, 0.8) node[above] {$H(\sched)$};
-  	\draw[-,dashed] (0.5,0) -- (0.5,0.5184);
-  	\draw[-,dashed] (0.0,0.5184) -- (0.5,0.5184);
-  \draw[ domain=0:1, smooth, variable=\x, blue] plot ({\x}, {8*(1-\x)*(1-\x)*\x*\x});
-\end{tikzpicture}	
-\caption{Entropy vs reachability probability for the soft constraint}
-\label{fig:entropyvspsat}
-\end{figure}
-\sj{make convex}
-
-Result: A computation tree, computing the max entropy over schedulers that achieve the goal with prob exactly $\lambda$.
-A variant in which we explore the trade-off between soft constraint and entropy is a simple extension that employs a binary search.
-\subsection{Entropy maximization for a fixed reachability probability}
-
-An optimal policy follows the Bellman equation
-\[ V(s,h)  = \max_{\act \in \Act} \sum_{s'} P(s,\act,s') \cdot V(s',h-1),\]
-where $V$ denotes the value, which here corresponds to the $h$-step reachability probability from state $s$ onwards.
-In particular, in every step, we take the actions that maximize the probability to reach the target (within the horizon). 
-If we now want to reduce the probability to reach the goal (and thereby allow to increase the entropy) we can select in every step (with some probability) one or more of the suboptimal actions. We call this possibility \emph{wiggle room}. 
-\paragraph{How to wiggle?}
-We should pick suboptimal actions in such a way that we maximize the overall entropy. Let us therefore generalize the Bellman equation:
-
-We observe that for $\theta \rightarrow \infty$, this equation matches the (traditional) Bellman equation. 
-Furthermore, for $\theta \rightarrow 0$, this equation yields a policy that maximises entropy.
-Thus, intuitively, we can span the whole (right part of) the graph as depicted in Fig.~\ref{fig:entropyvspsat}.
-
-\sj{Here we need to add some more formal argument}
-
-\paragraph{An Algorithm for control improvisation}
-
-We use binary search (more precisely: root finding of a monotonic function) to select a 
-
-The algorithm 
-
-\sj{Do we know the complexity of the decision problem? To encode it in a set of constraints we need extended polynomial equations (with exponents, that is), right?}
-
-
-
+\input{mdp}
  
-\color{black}
 \section{The Control Improvisation Problem for SGs}
 \label{sec:sgs}
 \paragraph{Maximising entropy against an adverserial player}
@@ -296,29 +214,7 @@ To formalise our argument
 
 \section{Implementation and Empirical Evaluation}
 
-\section{Related work}
-\color{red}
-\cite{DBLP:journals/corr/abs-2009-10883}
-\cite{DBLP:journals/jcss/BrazdilCFK17}
-
-Add related work from control improv.
-Add related work with entropy.
-Maybe briefly discuss synthesis algorithms mentioned at start of intro?
-\color{black}
-
-
-
-Path-finding has long been considered a multi-objective problem itself~\cite{DBLP:conf/icra/AmigoniG05,DBLP:journals/eswa/NazarahariKD19,DBLP:conf/icml/XuTMRSM20}.
-These works differ prominently in two aspects: they do not trade-off randomization and performance, and they do not trade-off declarative and formal constraints with the accompanying formal guarentees, but are more search-based. 
-Finding policies that optimize reward objectives is well-studied in the field of reinforcement learning, and has been extended to generate Pareto-fronts for multiple objectives~\cite{DBLP:conf/icml/NatarajanT05,DBLP:conf/adprl/ParisiPSBR14}.
-
-Synthesis in MDPs with multiple hard and soft constraints (often over indefinite horizons) is a well-studied problem~\cite{DBLP:conf/stacs/ChatterjeeMH06,DBLP:conf/tacas/EtessamiKVY07,DBLP:conf/atva/ForejtKP12,DBLP:journals/fmsd/RandourRS17}.  In this setting, one generates deterministic policies and their convex combinations. Put differently, randomization is \emph{not an objective}, but rather a consequence. Interestingly, in \cite{DBLP:conf/tacas/DelgrangeKQR20} one even argues for the \emph{absence} of randomization in various domains.  
-The original results sparked interest in different extension to MDPs and the type of soft constraints, such as continuous MDPs \cite{DBLP:journals/csysl/HaesaertNS21} and continuous-time MDPs~\cite{DBLP:conf/cav/QuatmannJK17},  cost-bounded reachability \cite{DBLP:journals/jar/HartmannsJKQ20}, or mean-payoff properties~\cite{DBLP:journals/corr/abs-1104-3489}. 
-The algorithms have also been extended towards stochastic games~\cite{DBLP:conf/mfcs/ChenFKSW13,DBLP:journals/sttt/KwiatkowskaPW18}.
-Finally, notions of lexicographic multi-objective synthesis~\cite{DBLP:conf/cav/ChatterjeeKWW20} -- in which one optimizes a secondary criterion among all policies that are optimal with respect to a first criterion bare some resemblance with the algorithm we consider. 
-These algorithms have been put in a robotics context in~\cite{DBLP:journals/ijrr/LacerdaFPH19}.
-
-
+\input{related}
 \bibliographystyle{plainnat}
 \bibliography{bibliography}
 

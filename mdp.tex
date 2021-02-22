@@ -1,0 +1,40 @@
+
+\section{The Control Improvisation Problem for MDPs}
+\label{sec:mdps}
+
+
+We present an algorithm for the control improvisation problem for MDPs. The key insight is to rephrase the tradeoff between randomisation and performance as a degree in rationality $\rat$ of the policy. Intuitively, a rationality of $\rat = 1$ means that we focus completely on the performance criterion, and rationality $\rat = 0$ We can then reuse ideas from policy inference from specifications~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
+In the next section, we extend this idea to SGs. 
+
+\subsection{Rationality}
+
+We define the following smooth variant of the Bellman equations. In particular, we use $\smoothmax{}$ as the log-sum-exp, i.e., $\smoothmax{X}  \colonequals \log \left( \sum_{x\in X} e^x \right)$
+\begin{align}
+	& V_\rat(s) \colonequals  \begin{cases} \smoothmax{\{  Q_\rat(s,\act) \}} & \text{if }s \not\in \{ \target, \sink \}, \\ \lambda  \cdot \indicator{s = \target} & \text{otherwise.}  \end{cases}\\ 
+	& Q_\rat(s, \act) \colonequals \sum_{s'} P(s,\act,s') \cdot V_\rat(s')
+\end{align}
+For each rationality $\lambda$, we define a policy:
+The policy $\sched_\lambda$ is then given by $\sched(s)(\act) = \log( Q_\rat(s,\act) - V_\rat(s))$ for each $s \in S \setminus \{ \sink, \target \}$ and $\act \in \EnAct(s)$.\sj{Need to put in enact}
+To ease notation, we denote $x_\rat \colonequals x_{\sched_\rat}, \scp_\rat \colonequals \scp_{\sched_\rat}, \rndp_\rat \colonequals \rndp_{\sched_\rat}$.
+
+\begin{proposition}
+$\scp_\rat$ is monotonically increasing in $\rat$ and $\rndp_\rat$ is monotonically decreasing in $\rat$.	
+\end{proposition}
+As a consequence, we can use $\rat$ to explore the Pareto-front. 
+
+
+{\color{red}Need to talk about completness}
+\color{black!50}
+We consider $P$ as being defined using an auxiliary notion of environment actions $\Act_E$, a deterministic environment transition relation $P_{\hat{i}}\colon S_i \times \Act_i \rightarrow A_E$ and a (memoryless, randomized) environment-scheduler $A_E \rightarrow \Distr(S)$.
+
+
+
+It is convenient to talk about a third player, $\mathsf{rnd}$, that owns all states with $|\Act|$\sj{needs available actions}
+
+
+
+\color{black}
+
+\subsection{Pareto-exploration}
+
+
