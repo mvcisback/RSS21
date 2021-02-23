@@ -22,6 +22,7 @@
 \usepackage{tikz}
 \usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage{nicefrac}
 \usepackage{amsthm}
 \usepackage{colonequals}
 \newtheorem{theorem}{Theorem}
@@ -34,7 +35,11 @@
 
 \usetikzlibrary{patterns,arrows,backgrounds,calc,shapes,shadows,decorations.pathmorphing,decorations.pathreplacing,automata,shapes.multipart,positioning,shapes.geometric,fit,circuits,trees,shapes.gates.logic.US,fit,decorations.markings}
 
-\tikzset{sstate/.style={circle, draw=black, inner sep=1pt}}
+\tikzset{sstate/.style={circle, draw=black, inner sep=1pt,minimum height=6mm}}
+\tikzset{astate/.style={diamond, draw=black, inner sep=1pt}}
+\tikzset{tstate/.style={rectangle, draw=black, inner sep=1pt, minimum height=5mm}}
+\tikzset{actnode/.style={fill=black, inner sep=1pt}}
+\tikzset{elab/.style={auto,font={\fontsize{9pt}{12}\selectfont}}}
 
 \makeatletter
 \let\MYcaption\@makecaption
@@ -56,6 +61,7 @@
 \newcommand{\pol}{\sched}
 \newcommand{\Distr}{\ensuremath{\textsl{Distr}}}
 \newcommand{\act}{\alpha}
+\newcommand{\altact}{\beta}
 \newcommand{\Act}{A}
 \newcommand{\scp}{p}
 \newcommand{\scthreshold}{\mathbf{p}}
@@ -63,7 +69,7 @@
 \newcommand{\sink}{s_{\bot}}
 \newcommand{\rndp}{h}
 \newcommand{\randomness}{\mathbf{h}}
-\newcommand{\last}[1]{{#1}_\downarrow}
+\newcommand{\last}[1]{\mathsf{last}({#1})}
 \newcommand{\pOneSched}{\mathbf{ego}}
 \newcommand{\POneScheds}{\Sigma_\pOne}
 \newcommand{\PTwoScheds}{\Sigma_\pTwo}
@@ -80,6 +86,8 @@
 \newcommand{\pareto}[1]{\mathcal{F}_{#1}}
 \newcommand{\smoothmax}[1]{\mathsf{smax}(#1)}
 \newcommand{\indicator}[1]{[#1]}
+\newcommand{\Succ}{\mathsf{Succ}}
+\newcommand{\supp}{\mathsf{supp}}
 
 \newcommand{\scmin}{\scp^{-}}
 \newcommand{\rndmin}{\rndp^{-}}
@@ -162,7 +170,7 @@ Declarative constraints are a powerful tool to define high-level controllers.
 However, most algorithms that synthesise controllers from these constraints construct deterministic policies -- which limits robustness and unpredictability.  
 Control improvisation aims to overcome these weaknesses. Key are three types of constraints: Hard constraints describe behavior that must occur, 
 soft constraints describe behavior that typically occurs, and a randomization constraint ensures variance in the behavior. 
-We provide the first control improvisation framework, based on causal entropy to describe randomization, that supports to adverserial and probabilistic environments. These features allow us to synthesise powerful robust policies that generatate unpredictable behavior. 
+We provide the first control improvisation framework, based on causal entropy to describe randomization, that supports to adverserial and probabilistic environments. These features allow us to synthesise powerful robust policies that generate unpredictable behavior. 
 
 \end{abstract}
 
@@ -176,9 +184,11 @@ We provide the first control improvisation framework, based on causal entropy to
 \section{Introduction}
 \input{introduction}
 \section{Motivating Example}
+\label{sec:motivating}
 \input{example}
 \section{Problem Statement}
-This section formalizes the problem statement. We show that our problem statement is a conservative extension of the existing reactive control improvisation framework and we reformulate our problem statement in terms of finding a Pareto-curve. We start with some necessary definitions and notations.
+\label{sec:problem}
+This section formalizes the problem statement.  We start with some necessary definitions and notations.
 
 
 \input{problem}
@@ -213,6 +223,7 @@ To formalise our argument
 
 
 \section{Implementation and Empirical Evaluation}
+\label{sec:empirical}
 
 \input{related}
 \bibliographystyle{plainnat}

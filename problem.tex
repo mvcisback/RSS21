@@ -1,48 +1,84 @@
 \subsection{Stochastic Games}
-An (2.5-player) \emph{stochastic game} (SG) is a tuple $\sg = \langle S, \iota, \Act, P \rangle$. The set of \emph{states} $S = S_1 \cup S_2$ is partitioned into a set $S_1$ of player-1 states and a set $S_2$ of player-2 states. $\iota \in S$ is the \emph{initial state}, $\Act = \Act_1 \cup \Act_2$ is a finite set of \emph{actions}, and $P\colon S \times \Act \rightarrow \Distr(S)$ is the \emph{transition function} defined by two partial transition functions: $P_1\colon S_1 \times \Act_1 \rightarrow \Distr(S)$, $P_2\colon S_2 \times \Act_2 \rightarrow \Distr(S)$.\sj{Do we assume each action exists in every state? It makes the defionitions nicer..} 
-A finite \emph{path} $\path$ of length $n$ is a sequence $(\iota = s_0 ) \xrightarrow{\act_0} s_1 \xrightarrow{\act_1} s_2 \rightarrow \hdots \rightarrow s_n$ in $\left( S \times \Act \right)^{n} \times S$. We denote the length with $|\path|$, and denote $s_n$, i.e., the last element of $\path$ with $\last{\path}$. The set of all finite paths is denoted $\Paths[n]{\sg}$, and $\Paths{\sg} = \bigcup_{n \in \NN} \Paths[n]{\sg}$. We omit $\sg$ whenever it is clear from the context. It is helpful to partition paths based on their last state: $\POnePaths[n]{\sg} = \{ \path \in \Paths[n]{\sg} \mid \last{\path} \in S_1 \}$ and $\PTwoPaths[n]{} = \Paths[n]{} \setminus \POnePaths[n]{}$.
+We consider a graph-based game formalism between two players. W.l.o.g., we identify Player~1 to be the controller for the ego, and Player-2 to select the (adverserial) actions of the environment. 
+An (2.5-player) \emph{stochastic game} (SG) is a tuple $\sg = \langle S, \iota, \Act, P \rangle$. 
+The set of \emph{states} $S = S_\pOne \cup S_\pTwo$ is partitioned into a set $S_\pOne$ of $\pOne$-states and a set $S_\pTwo$ of $\pTwo$-states. $\iota \in S$ is the \emph{initial state}, $\Act = \Act_\pOne \cup \Act_\pTwo$ is a finite set of \emph{actions}, and $P\colon S \times \Act \rightarrow \Distr(S)$ is the \emph{transition function} defined by two partial transition functions: $P_\pOne\colon S_\pOne \times \Act_\pOne \rightarrow \Distr(S)$, $P_\pTwo\colon S_\pTwo \times \Act_\pTwo \rightarrow \Distr(S)$. We identify the available actions\footnote{We explicitly allow to model unavailable actions, e.g., we can model that a door can only opened when close enough to the door.} as $\EnAct(s) = \{ \act  \mid P(s,\act) \neq \bot \}$. States without available actions, i.e., states with $\EnAct(s) = \emptyset$ are called \emph{terminal states}. The \emph{successor states} of a state $s$ and an (enabled) action $\act$ is the set of states that are reached from $s$ within one step with a positive transition probability, i.e., $\Succ(s,\act) = \{ s' \mid P(s,\act)(s')>0 \}$, and $\succ(s) = \bigcup_{\act \in \EnAct(s)} \Succ(s,\act)$.
+
 
 \begin{figure}
-%\begin{tikzpicture}
-%	\node[sstate] (s0) {$s_0$};
-%	\node[astate] (s1) {$s_1$};
-%	\node[sstate] (s2) {$s_2$};
-%	\node[sstate]
-%\end{tikzpicture}	
-\caption{A minimal example}
+\centering
+\begin{tikzpicture}
+	\node[sstate] (s0) {$s_0$};
+	\node[astate,right=of s0] (s1) {$s_1$};
+	\node[sstate,below=of s1] (s2) {$s_2$};
+	
+	\node[tstate,right=1.4cm of s1] (target) {$\target$};
+	\node[tstate,right=1.4cm of s2] (sink) {$\sink$};
+	
+	\node[actnode,right=4mm of s1] (a1) {};
+	\node[actnode,right=4mm of s2] (a2a) {};
+	
+	
+	\draw[->] (s0) -- node[actnode] {} 
+	                  node[near start,auto,elab] {$a$} (s1);
+	\draw[->] (s0) -- node[actnode] {}
+					  node[near start,elab,below] {$b$} (s2);
+	\draw[->] (s1) -- node[actnode] {}
+					  node[near start,elab] {$b$}  (s2);
+	\draw[->] (s1) -- node[elab] {$a$} (a1);
+	\draw[->] (a1) -- node[elab] {$\nicefrac{1}{3}$} (target);
+	\draw[->] (a1) -- node[elab,near start] {$\nicefrac{2}{3}$} (sink);
+	\draw[->] (a2a) -- node[elab] {$\nicefrac{1}{3}$} (target);
+	\draw[->] (a2a) -- node[elab,near start] {$\nicefrac{2}{3}$} (sink);
+	\draw[->] (s2) -- node[elab] {$a$} (a2a);
+	\draw[->] (s2) edge[bend right=30] node[actnode] {}
+										node[near start,below] {$b$} (sink);
+	
+	
+\end{tikzpicture}	
+\caption{A running example. }
+\label{fig:toysg}
 \end{figure}
-
-
 \begin{example}
+	We introduce a technical toy-example to illustrate the formalisms. See Fig.~\ref{fig:toysg} with 5 states. Terminal states are drawn with a rectangle, $\pOne$-states with a circle and $\pTwo$-states with a diamond. For every state $s$ and action $\act$, we draw transitions in the form of edges that connect all successors $s'$, and label them with the associated probaiblities $P(s,\act)(s')$. For conciseness, we omit labelling probability $1$ transitions.\end{example}
 	
-\end{example}
-
-
+SGs capture a variety of models.
 An SG is finite, if its state space is finite.
-If $\Act_2$ is a singleton set, then $\sg$ is an \emph{Markov decision process}.
-If both $\Act_1$ and $\Act_2$ are singleton sets, then $\sg$ is a \emph{Markov chain}. For a Markov chain $\mc = \langle S, \iota, P \rangle$, we omit $\Act$ and simplify the signature of $P$ to $P\colon S\rightarrow \Distr(S)$.
-If $P(s,\act)$ is a Dirac distribution for every $s \in S$ and $\act \in \Act$, then $\sg$ is called \emph{deterministic}.
+If $\Act_2$ is a singleton set, then $\sg$ is an \emph{Markov decision process} (MDP).
+If both $\Act_1$ and $\Act_2$ are singleton sets, then $\sg$ is a \emph{Markov chain}. If $P(s,\act)$ is a Dirac distribution for every $s \in S$ and $\act \in \Act$, then $\sg$ is called \emph{deterministic} or a \emph{2-player game}.
 
 
+A finite \emph{path} $\path$ of length $n$ is a sequence $s_0 \xrightarrow{\act_0} s_1 \xrightarrow{\act_1} s_2 \rightarrow \hdots \rightarrow s_n$ in $\left( S \times \Act \right)^{n} \times S$ where $P(s_i,\act_i)(s_{i+1}) > 0$ for each $i$. 
+We denote the length with $|\path|$, and denote $s_n$, i.e., the last element of $\path$ with $\last{\path}$. A $\path' = s'_0 \xrightarrow{\act'_0} \hdots$ is a prefix of $\path$, if for all $i \leq |\path'|$, $s_i = s'_i$ and for all $i < |\path'|$, $\act_i = \act'_i$.  
+The set of all finite paths is denoted $\Paths[n]{\sg}$, and $\Paths{\sg} = \bigcup_{n \in \NN} \Paths[n]{\sg}$. We omit $\sg$ whenever it is clear from the context. It is helpful to partition paths based on their last state: $\POnePaths[n]{\sg} = \{ \path \in \Paths[n]{\sg} \mid \last{\path} \in S_1 \}$ and $\PTwoPaths[n]{} = \Paths[n]{} \setminus \POnePaths[n]{}$.
+
+\begin{example}
+	In Fig.~\ref{fig:toysg}, there are two paths that end in $s_2$, $s_0as_1bs_2$ of length $2$ and $s_0bs_2$ of length $1$. 
+\end{example}
 %\paragraph{Policies.} 
-As standard, before we can define probabilities, all nondeterminism needs to be resolved. We do this with the notion of a policy. A \emph{policy} is a tuple $\sched = \langle \sched_1, \sched_2 \rangle$ with $\sched_i \colon \PiPaths[]{\sg} \rightarrow \Distr(\Act_i)$. We refer to $\sched_i$, $i \in \{ 1, 2 \}$ as a \emph{Player-i policy}. We liberally use $\sched \colon \Paths{\sg} \rightarrow \Distr(\Act)$.
-W.l.o.g., we identify Player~1 to be the controller for the ego, and Player-2 to select the (adverserial) actions of the environment.  
-We therefore use $\pOneSched$ and $\pTwoSched$ to denote $\sched_1$ and $\sched_2$, respectively. 
-
-Applying a policy $\sched$ to an SG $\sg$ yields an \emph{induced Markov chain} $\induced{\sg}{\sched} = \langle S', \iota', P' \rangle$ with state space $S' = \Paths{\sg}$, initial state $\iota' = \iota$, and transition function $P'(\path,\path')$ defined by $P'(\path)(\path \cdot \act s') = \sched(\path)(\act) \cdot P(\last{\path},\act)(s')$ and $P'(\path,\path') = 0$ otherwise. For any upper bound on the length of the paths, the induced MC is finite. 
+Whenever some state $s$ is reached, the corresponding player has to select an action from $\EnAct(s)$. As standard, we capture this with the notion of a policy\footnote{Also known as \emph{strategy} or \emph{scheduler}.}. 
+A \emph{policy} is a tuple of policies for both players $\sched = \langle \sched_\pOne, \sched_\pTwo \rangle$ 
+with $\sched_i \colon \PiPaths[]{\sg} \rightarrow \Distr(\Act_i)$ such that $\supp(\sched_i(\path)) \subseteq \EnAct(\last{\path})$ for each $\path$, i.e., for every history, the policy sets a distribution over the enabled successor actions. 
+%We refer to $\sched_i$, $i \in \{ 1, 2 \}$ as a \emph{Player-i policy}. 
+We denote the $\pOne$-policy $\pOneSched$ and the $\pTwo$-policy $\pTwoSched$ with $\sched_\pOne$ and $\sched_\pTwo$, respectively.
+To ease notation, we liberally use the notation $\sched \colon \Paths{\sg} \rightarrow \Distr(\Act)$ where this function is given dependent on which player owns the last state.
+ 
+%
+%Applying a policy $\sched$ to an SG $\sg$ yields an \emph{induced Markov chain} $\induced{\sg}{\sched} = \langle S', \iota', P' \rangle$ with state space $S' = \Paths{\sg}$, initial state $\iota' = \iota$, and transition function $P'(\path,\path')$ defined by $P'(\path)(\path \cdot \act s') = \sched(\path)(\act) \cdot P(\last{\path},\act)(s')$ and $P'(\path,\path') = 0$ otherwise. For any upper bound on the length of the paths, the induced MC is finite. 
 
 
 \begin{example}
-	
-\end{example}
+	An example for a $\pOne$-policy $\pOneSched$ is given by \begin{align*} 
+	 \Big\{ & &  s_0 & \mapsto \{ a \mapsto 1 \},  s_0as_1bs_2  \mapsto \{ b \mapsto 1 \} & \\
+ & & s_0bs_2 & \mapsto \{  a \mapsto \nicefrac{1}{2}, b \mapsto \nicefrac{1}{2} \} & \Big\}
+ \end{align*}\end{example}
 
 
 %\paragraph{Properties.}
-The probability $\Pr^\mc(\path)$ of a finite path $\path$ in a Markov chain $\mc$ is given by the product of the transition probabilities.
-The probability of a prefix-free set $X \subseteq \Paths{\mc}$  of paths is the sum over the individual path probabilities, $\Pr^\mc(X) = \sum_{\path \in X} \Pr^\mc(\path)$.
+The probability $\Pr^\sg(\path \mid \sched)$ of a finite path $\path$ in an SG $\sg$ conditioned on a policy $\sched$ is given by the product of the transition probabilities along a path. 
+More precisely, we define the probability $\Pr^\sg(\path \mid \sched)$ recursively as $\Pr^\sg(s \mid \sched) \colonequals 1$ and $\Pr^\sg(\path \cdot \act s'\mid \sched) \colonequals \Pr^\sg(\path \mid \sched) \cdot \sched(\path)(\act) \cdot P(\last{\path},\act)(s')$.
+The probability of a prefix-free set $X \subseteq \Paths{\mc}$  of paths is the sum over the individual path probabilities, $\Pr^\sg(X \mid \sched) = \sum_{\path \in X} \Pr^\sg(\path \mid \sched )$.
 We consider sets $X_\varphi$ of finite paths\footnote{Such paths may e.g. be defined using temporal properties such as linear temporal logic over finite traces (LTLf)~\cite{}.} reflecting some specification $\varphi$.   
-Finally, for any SG $\sg$ and scheduler $\sched$, let $\Pr^\sg(X_\varphi \mid  \sched) \colonequals \Pr^{\induced{\sg}{\sched}}(X_\varphi)$.  
-We omit the superscript $\mc$/$\sg$ whenever it is clear from the context.
+In all definitions, we omit the superscript $\sg$ whenever it is clear from the context.
 
 \begin{example}
 	
@@ -51,7 +87,7 @@ We omit the superscript $\mc$/$\sg$ whenever it is clear from the context.
 While most synthesis problems either consider soft \emph{or} hard constraint, it is natural to also consider a setting with both types of constraints~\cite{}. Such a problem formulation would be:
 \begin{mdframed}{}
 \textbf{Stochastic Game Synthesis Problem}:
-Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ it holds that 
+Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $\scthreshold \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ it holds that 
 \begin{compactenum}
 	\item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$
 	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
@@ -60,18 +96,17 @@ Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p
 \end{mdframed}
 
 
-
-
 \subsection{Control Improvisation}
-In control improvisation, we aim to find a $\pOne$-policy that satisfy a combination of hard- and soft constraints, and additional generate surprising behaviour. We measure the surprise by the causal entropy over the traces in the induced Markov chain. Below, we formalize entropy and then state the formal problem statement. 
+In control improvisation, we aim to find a $\pOne$-policy that satisfy a combination of hard- and soft constraints, and additional generate surprising behavior. 
+We measure the surprise by the causal entropy over the paths. Below, we formalize causal entropy and then state the formal problem statement. 
 
 We measure the causal entropy. Let $X_{1:i} = X_1, \hdots, X_i$ and $Y_{1:i} = Y_1,\hdots,Y_i$ denote two sequences of random variables. The probability of $ X_{1:i}$ causally conditioned on $Y_{1:i}$ is 
 \[ \causalprob{X_{1:i}}{Y_{1:i}} \colonequals \prod \Pr(X_j \mid X_{1:j-1}Y_{1:j}). \]
 The causal entropy of $X_{1:i}$ given $Y_{1:i}$ is then defined as 
 \[  H(X_{1:i}\mid\mid Y_{1:i}) \colonequals \expOver{X_{1:i},Y_{1:i}}{-\log(\causalprob{X_{1:i}}{Y_{1:i}})}.\] 
 
-We want to define entropy over paths in an (induced) Markov chain $\mc$. Recall that a path alternates states and actions. The next state after observing a sequence of state-action pairs is a random variable, which we liberally use the set $\Paths{\sg[\sched]}$ to indicate these sequences.  We want to express the causal entropy of a sequence of $\pOne$-action choices given the paths. For that, let us define $\textsl{Act}(\path)$ as the $\act_{j_1} \act_{j_2} \hdots \act_{j_n}$, where \sj{Finish}
-\[ H_\sg(\sigma) \colonequals H( \textsl{Act}(\POnePaths{\sg[\sched]})   \mid\mid \Paths{\sg[\sched]} )  \]
+ Recall that a path alternates states and actions. The next state after observing a sequence of state-action pairs is a random variable, which we liberally use the set $\Paths[\tau]{\sg \mid \sched}$ to indicate these sequences (and the distribution over them).  We want to express the causal entropy of a sequence of $\pOne$-action choices given the paths. For that, let us define $\Act_\pOne(\path)$ as the $\act_{j_1} \act_{j_2} \hdots \act_{j_n}$, where $j_i$ are the indices such that $s_{j_i} \in S_\pOne$, i.e.,$\Act_\pOne(\path)$ denotes the sequence of action choices of $\ego$. We can lift the operation to sets: $\Act_\pOne(X) = \{ \Act_\pOne(\path) \mid \path \in X \}$, which we also use to denote the associated random variables.
+\[ H^\sg_\tau(\sigma) \colonequals H( \textsl{Act}(\POnePaths[\tau]{\sg[\sched]})   \mid\mid \Paths[\tau]{\sg[\sched]} )  \]
 
 
 \begin{example}
@@ -84,17 +119,18 @@ Together, this yields the necessary ingredients to formalize the problem stateme
 Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $\scthreshold \in [0,1]$ and $\randomness \in [0,\infty)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ \begin{compactenum}
 	\item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$
 	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
-\item (\emph{randomness constraint}) $H_\sg(\sigma) \geq \randomness$
+\item (\emph{randomness constraint}) $H_\tau(\sigma) \geq \randomness$
 \end{compactenum}
 where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
 Rather than fixing $\kappa$ a priori, we are often interested in limiting the \emph{regret}: The last point then becomes:
 $H(\sched) \geq (1-\delta) \cdot H(\sched^{*})$, where $\sched^{*}$ .... \sj{I am not sure how to define this concisely.} 
 
-\subsection{Resolving Hard Constraints}
+\subsection{Preprocessing}
 In this subsection, we preprocess the problem statement.
 To ease the technical construction, without loss of generality, we make the following assumptions\footnote{We argue that these assumptions are indeed w.l.o.g.\ in Sec.~\ref{sec:assumptions}}: 
 We assume the (graph structure underlying the) SG is acyclic, which we realise by means of unfolding the graph. 
+Once we have the acyclic SG, we can also set the horizon $\horizon$ to be sufficiently long such that $\horizon$ is at least the length of the , and thus we drop any reference to $\horizon$ from here onwards.
 As in \cite{DBLP:conf/cav/Vazquez-Chanlatte20}, we may represent this computation tree (typically) concisely using binary decision diagrams.
 We calculate all states from which the $\pTwo$-player can enforce violating the hard constraint. We remove these states along with their in- and outgoing transitions. Any $\pOne$-policy now satisfies the hard constraint. 
 We may now define a unique target state $\target$ and a unique sink state $\sink$ such that these are the only states without any outgoing transitions.  The set $X_{\lozenge\mathbf{\top}}$ denotes all paths with $\last{\path} = s_\top$.
@@ -103,7 +139,7 @@ We may now define a unique target state $\target$ and a unique sink state $\sink
 \textbf{The Entropic Control Improvisation (ERCI) Problem}:
 Given an acyclic SG $\sg$, including target states $s_\top$ and sink state $s_\bot$, thresholds $\scthreshold \in (0,1)$ and $\randomness \in [0,\infty)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ \begin{compactenum}
 	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
-\item (\emph{randomness constraint}) $H_\sg(\sigma) \geq \randomness$
+\item (\emph{randomness constraint}) $H(\sigma) \geq \randomness$
 \end{compactenum}
 where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
@@ -114,8 +150,11 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 
 
 \section{On ERCI and its Pareto Front}
+We show that our problem statement is a conservative extension of the existing reactive control improvisation framework and we reformulate our problem statement in terms of finding a Pareto-curve.
 
-We are interested in understanding the combinations of $\scthreshold$ and $\randomness$ that allow to solve the (preprocessed) ERCI problem. 
+\subsection{ERCI as a multiobjective problem}
+
+In particular, we are interested in understanding the combinations of $\scthreshold$ and $\randomness$ that allow to solve the (preprocessed) ERCI problem. 
 
 It is convenient to say that $\sched$ induces a point $x_\sched$: \[x_\sched \colonequals \langle \Pr(X_\varphi \mid \sched), H(\sched)  \rangle \in [0,1] \times [0,\infty).\] 
 For $x_\sched = \langle \scp,\rndp \rangle$, we furthermore define $\scp_\sched \colonequals \scp$ and $\rndp_\sched \colonequals \rndp$.
@@ -214,18 +253,18 @@ Using the notation from the ERCI problem, find the set $\solutions \subseteq \ma
 We are going to iteratively construct the  Pareto optimal points in $\solutions$. This yields a semi-decision procedure.
 Clearly, finding $\solutions$ solves the ERCI problem, as we only need to decide whether $\langle \scthreshold, \randomness \rangle \in \solutions$.
 
-
+\subsection{ERCI versus reactive control improvisation}
 
 With these facts, we are now well-equiped to develop the algorithms in Sec.~\ref{sec:mdp} for MDPs and Sec.~\ref{sec:sgs} for SGs.
 
-Before we continue, we want to establish that Control improvisation problem is a conservative extension of deterministic case as investigated in~\cite{}.
+Before we continue, we want to establish that Control improvisation problem is a conservative extension of deterministic case as investigated in~\cite{}, and motivate our choice for causal entropy.
 \begin{mdframed}
-\textbf{The Deterministic (Reactive) Control Improvisation (DCI) Problem~\cite{}}:
+\textbf{The Deterministic (Reactive) Control Improvisation (DCI) Problem}:
 Given a \emph{deterministic} SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ 
 \begin{compactenum}
 \item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$
 	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
-	\item (\emph{randomness constraint}) $\Pr(\path) \leq \delta \text{ for all } \path \in \Paths[h]{\sg[\sched]}$.
+	\item (\emph{randomness constraint}) $\Pr(\path) \leq \delta \text{ for all } \path \in \Paths{\sg[\sched]}$.
 \end{compactenum}
 \end{mdframed}
 
@@ -234,8 +273,10 @@ Given a \emph{deterministic} SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$
 \end{theorem}
 We defer a discussion and a precise statement to Lemma~\ref{}.
 
+We illustrate the need for a different randomization criterion in the presence 
 
 
+\subsection{Causal Entropy versus Entropy}
 
 
 
