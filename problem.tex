@@ -105,8 +105,11 @@ We measure the causal entropy. Let $X_{1:i} = X_1, \hdots, X_i$ and $Y_{1:i} = Y
 The causal entropy of $X_{1:i}$ given $Y_{1:i}$ is then defined as 
 \[  H(X_{1:i}\mid\mid Y_{1:i}) \colonequals \expOver{X_{1:i},Y_{1:i}}{-\log(\causalprob{X_{1:i}}{Y_{1:i}})}.\] 
 
- Recall that a path alternates states and actions. The next state after observing a sequence of state-action pairs is a random variable, which we liberally use the set $\Paths[\tau]{\sg \mid \sched}$ to indicate these sequences (and the distribution over them).  We want to express the causal entropy of a sequence of $\pOne$-action choices given the paths. For that, let us define $\Act_\pOne(\path)$ as the $\act_{j_1} \act_{j_2} \hdots \act_{j_n}$, where $j_i$ are the indices such that $s_{j_i} \in S_\pOne$, i.e.,$\Act_\pOne(\path)$ denotes the sequence of action choices of $\ego$. We can lift the operation to sets: $\Act_\pOne(X) = \{ \Act_\pOne(\path) \mid \path \in X \}$, which we also use to denote the associated random variables.
-\[ H^\sg_\tau(\sigma) \colonequals H( \textsl{Act}(\POnePaths[\tau]{\sg[\sched]})   \mid\mid \Paths[\tau]{\sg[\sched]} )  \]
+ Recall that a path alternates states and actions. 
+ The next state after observing a sequence of state-action pairs is a random variable, which we liberally use the set $\Paths[\tau]{\sg \mid \sched}$ to indicate these sequences (and the distribution over them).  We want to express the causal entropy of a sequence of $\pOne$-action choices given the paths. 
+ For that, let us define $\Act_\pOne(\path)$ as the sequence $\act_{j_1} \act_{j_2} \hdots \act_{j_n}$ from $\path = s_0\act_0\hdots s_n$ where $j_i$ are the indices such that $s_{j_i} \in S_\pOne$, i.e., 
+ $\Act_\pOne(\path)$ denotes the sequence of action choices of $\pOne$. We can lift the operation to sets: $\Act_\pOne(X) = \{ \Act_\pOne(\path) \mid \path \in X \}$, which we also use to denote the associated random variables.
+\[ H^\sg_\tau(\sigma) \colonequals H( \textsl{Act}(\POnePaths[\tau]{\sg \mid \sched})   \mid\mid \Paths[\tau]{\sg \mid \sched} ).  \]
 
 
 \begin{example}
@@ -116,7 +119,7 @@ The causal entropy of $X_{1:i}$ given $Y_{1:i}$ is then defined as
 Together, this yields the necessary ingredients to formalize the problem statement. 
 \begin{mdframed}[backgroundcolor=blue!5]
 \textbf{The Entropic Control Improvisation (ERCI) Problem}:
-Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $\scthreshold \in [0,1]$ and $\randomness \in [0,\infty)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ \begin{compactenum}
+Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, thresholds $\scthreshold \in [0,1]$ and $\randomness \in [0,\infty)$, and a horizon $\horizon$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ \begin{compactenum}
 	\item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$
 	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
 \item (\emph{randomness constraint}) $H_\tau(\sigma) \geq \randomness$
