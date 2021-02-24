@@ -1,7 +1,26 @@
 \subsection{Stochastic Games}
-We consider a graph-based game formalism between two players. W.l.o.g., we identify Player~1 to be the controller for the ego, and Player-2 to select the (adverserial) actions of the environment. 
-An (2.5-player) \emph{stochastic game} (SG) is a tuple $\sg = \langle S, \iota, \Act, P \rangle$. 
-The set of \emph{states} $S = S_\pOne \cup S_\pTwo$ is partitioned into a set $S_\pOne$ of $\pOne$-states and a set $S_\pTwo$ of $\pTwo$-states. $\iota \in S$ is the \emph{initial state}, $\Act = \Act_\pOne \cup \Act_\pTwo$ is a finite set of \emph{actions}, and $P\colon S \times \Act \rightarrow \Distr(S)$ is the \emph{transition function} defined by two partial transition functions: $P_\pOne\colon S_\pOne \times \Act_\pOne \rightarrow \Distr(S)$, $P_\pTwo\colon S_\pTwo \times \Act_\pTwo \rightarrow \Distr(S)$. We identify the available actions\footnote{We explicitly allow to model unavailable actions, e.g., we can model that a door can only opened when close enough to the door.} as $\EnAct(s) = \{ \act  \mid P(s,\act) \neq \bot \}$. States without available actions, i.e., states with $\EnAct(s) = \emptyset$ are called \emph{terminal states}. The \emph{successor states} of a state $s$ and an (enabled) action $\act$ is the set of states that are reached from $s$ within one step with a positive transition probability, i.e., $\Succ(s,\act) = \{ s' \mid P(s,\act)(s')>0 \}$, and $\succ(s) = \bigcup_{\act \in \EnAct(s)} \Succ(s,\act)$.
+We consider a graph-based game formalism between two players. A
+(2.5-player) \emph{stochastic game} (SG) is a tuple $\sg = \langle S,
+\iota, \Act, P \rangle$.  The set of \emph{states} $S = S_\pOne \cup
+S_\pTwo$ is partitioned into a set $S_\pOne$ of (controlled)
+$\pOne$-states and a set $S_\pTwo$ of (uncontrolled)
+$\pTwo$-states. $\iota \in S$ is the \emph{initial state}, $\Act$ is a
+finite set of \emph{actions}, and $P\colon S \times \Act \rightarrow
+\Distr(S)$ is the \emph{transition function}. For simplicity of exposition,
+we shall assume w.l.o.g. that controlled and uncontrolled states alternate. $P$
+is defined by two partial
+transition functions: $P_\pOne\colon S_\pOne \times \Act \rightarrow
+\Distr(S_\pTwo)$, $P_\pTwo\colon S_\pTwo \times \Act \rightarrow
+\Distr(S_\pOne)$. We identify the available actions\footnote{We explicitly
+allow to model unavailable actions, e.g., we can model that a door can
+only opened when close enough to the door.} as $\EnAct(s) \eqdef \{ \act
+\mid P(s,\act) \neq \bot \}$. States without available actions, i.e.,
+states with $\EnAct(s) = \emptyset$ are called \emph{terminal
+states}. The \emph{successor states} of a state $s$ and an (enabled)
+action $\act$ is the set of states that are reached from $s$ within
+one step with a positive transition probability, i.e., $\Succ(s,\act)
+\eqdef \{ s' \mid P(s,\act)(s')>0 \}$, and $\Succ(s) \eqdef\bigcup_{\act \in
+\EnAct(s)} \Succ(s,\act)$.
 
 
 \begin{figure}
@@ -39,12 +58,22 @@ The set of \emph{states} $S = S_\pOne \cup S_\pTwo$ is partitioned into a set $S
 \label{fig:toysg}
 \end{figure}
 \begin{example}
-	We introduce a technical toy-example to illustrate the formalisms. See Fig.~\ref{fig:toysg} with 5 states. Terminal states are drawn with a rectangle, $\pOne$-states with a circle and $\pTwo$-states with a diamond. For every state $s$ and action $\act$, we draw transitions in the form of edges that connect all successors $s'$, and label them with the associated probaiblities $P(s,\act)(s')$. For conciseness, we omit labelling probability $1$ transitions.\end{example}
+  We introduce a 5 state toy-example~(Fig.~\ref{fig:toysg}) to
+  illustrate the formalisms. Terminal states are drawn with a rectangle,
+  $\pOne$-states with a circle and $\pTwo$-states with a diamond. For
+  every state $s$ and action $\act$, we draw transitions in the form
+  of edges that connect all successors $s'$, and label them with the
+  associated probaiblities $P(s,\act)(s')$. For conciseness, we omit
+  labelling probability $1$ transitions.
+\end{example}
 	
-SGs capture a variety of models.
-An SG is finite, if its state space is finite.
-If $\Act_2$ is a singleton set, then $\sg$ is an \emph{Markov decision process} (MDP).
-If both $\Act_1$ and $\Act_2$ are singleton sets, then $\sg$ is a \emph{Markov chain}. If $P(s,\act)$ is a Dirac distribution for every $s \in S$ and $\act \in \Act$, then $\sg$ is called \emph{deterministic} or a \emph{2-player game}.
+SGs capture a variety of models.  An SG is finite, if its state space
+is finite.  If $\Act_2$ is a singleton set, then $\sg$ is an
+\emph{Markov decision process} (MDP).  If both $\Act_1$ and $\Act_2$
+are singleton sets, then $\sg$ is a \emph{Markov chain}. If
+$P(s,\act)$ is a Dirac distribution for every $s \in S$ and $\act \in
+\Act$, then $\sg$ is called \emph{deterministic} or a \emph{2-player
+game}.
 
 
 A finite \emph{path} $\path$ of length $n$ is a sequence $s_0 \xrightarrow{\act_0} s_1 \xrightarrow{\act_1} s_2 \rightarrow \hdots \rightarrow s_n$ in $\left( S \times \Act \right)^{n} \times S$ where $P(s_i,\act_i)(s_{i+1}) > 0$ for each $i$. 
@@ -283,4 +312,7 @@ We defer a discussion and a precise statement to Lemma~\ref{}.
 
 
 
-
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
