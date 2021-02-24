@@ -30,6 +30,7 @@ robust against worst-case
 deviations~\cite{mceThesis, maxEntAnswer},
 these synthesized policies need not exhibit randomization.
 
+% Propose CI and highlight new features.
 These observations lead us to advocate for the adoption of control
 improvisation in which one assumes three types of declarative
 constraints. \emph{Hard constraints} that, as in the classical
@@ -52,35 +53,47 @@ longer the only source of randomization.
 Technically, we formulate our problem on \emph{simple stochastic
 games}, an extension of Markov decision processes that divides states
 between controllable states and uncontrollable (or adverserially
-controlled) states. Hard constraints are finite horizon temporal
-properties that restrict the policy such that together with any
-adverserial policy, the property is satisfied with probability
-one. Soft constraints are finite horizon temporal properties with a
-user defined threshold on the probability that the property holds on
-the path the complete system exposes.  We adopt the notion of causal
-entropy as natural means to ensure randomization. Causal entropy is a
-prominent notion in information theory that strongly correlates with
-robustness in the inverse reinforcement learning setting. We show that
-it conservatively extends the reactive control improvisation to
-stochastic games. More precisely, while we focus on stochastic games,
-entropy can be used in the non-stochastic setting and yields results
-analogous to the reactive control improvisation.
+controlled) states. \emph{Soft constraints} are finite horizon
+temporal properties with a threshold on the worst-case probability of
+that the property holding by the end of the episode. \emph{Hard
+constraints} are soft constraints satisfied with probability 1. In
+contrast to other work on Control Improvisation, we adopt the notion
+of causal entropy as natural means to formalize \emph{randomness
+constraints}.  Causal entropy is a prominent notion in directed
+information theory that strongly correlates with robustness in the
+(inverse) reinforcement learning setting~\cite{mceThesis,
+maxEntAnswer}. We refer to this variant of control improvisation as
+Entropic Reactive Control Improvisation (ERCI) and show that ERCI
+conservatively extends reactive control improvisation to stochastic
+games. More precisely, while we focus on stochastic games, entropy can
+be used in the non-stochastic setting and yields results analogous to
+the reactive control improvisation.
 
-We argue that a soft constraints can naturally be considered as an
-optimization objective which one can trade-off for more randomization.
-Indeed, our method strongly relies on the computation of a
-Pareto-front that explores the trade-off between randomization and
-optimizing the soft constraint using the notion of rationality. This
-means that rather than asking the user to fix rather arbitrary
-threshold values for both types of constraints, we may visualize the
-trade-off between these two entities.
-
-Together, this paper contributes entropy-guided control improvisation, an algorithmic way to trade performance and randomization in stochastic games. 
-The support for stochastic games that combine both adversarial and probabilistic behavior in an environment allows for crucial modeling flexibility and enables the applicability to new domains. 
-Entropy-guided control improvisation is based on using causal entropy as basis for the randomization constraints.
-To support this extension, the paper shows that one must adapt a completely different notion of randomization constraints. This paper contributes the necessary machinery as well as a prototypical implementation.
-Finally, the paper shows its applicability based on a motivating example discussed in Sec.~\ref{sec:motivating}, before formalizing the problem statement in Sec.~\ref{sec:problem} and then discussing the algorithm, first on the special case of MDPs in Sec.~\ref{sec:mdps} and then for the general case of stochastic games in Sec.~\ref{sec:sgs}. 
-We show an empirical evaluation in Sec~\ref{sec:empirical} and discuss related work at the end of the paper, in Sec.~\ref{sec:related}.
+%We argue that soft constraints can naturally be considered as an
+%optimization objective which one can trade-off for more randomization.
+%Indeed, our method strongly relies on the computation of a
+%Pareto-front that explores the trade-off between randomization and
+%optimizing the soft constraint using the notion of rationality. This
+%means that rather than asking the user to fix rather arbitrary
+%threshold values for both types of constraints, we may visualize the
+%trade-off between these two entities.
+%
+In summary, this paper contributes ERCI, an algorithmic way to trade
+performance and randomization in stochastic games. The support for
+stochastic games that combine both adversarial and probabilistic
+behavior in an environment allows for modeling flexibility,
+admitting applicability to new domains. To support this extension,
+the paper shows that one benefits from a completely different notion
+of randomization constraints based on causal entropy.  This paper
+contributes the necessary machinery as well as a prototypical
+implementation. Finally, the paper shows its applicability based on a
+motivating example discussed in Sec.~\ref{sec:motivating}, before
+formalizing the problem statement in Sec.~\ref{sec:problem} and then
+discussing the algorithm, first on the special case of MDPs in
+Sec.~\ref{sec:mdps} and then for the general case of stochastic games
+in Sec.~\ref{sec:sgs}.  We show an empirical evaluation in
+Sec~\ref{sec:empirical} and discuss related work at the end of the
+paper, in Sec.~\ref{sec:related}.
 
 %%% Local Variables:
 %%% mode: latex
