@@ -106,10 +106,10 @@ The causal entropy of $X_{1:i}$ given $Y_{1:i}$ is then defined as
 \[  H(X_{1:i}\mid\mid Y_{1:i}) \colonequals \expOver{X_{1:i},Y_{1:i}}{-\log(\causalprob{X_{1:i}}{Y_{1:i}})}.\] 
 
  Recall that a path alternates states and actions. 
- The next state after observing a sequence of state-action pairs is a random variable, which we liberally use the set $\Paths[\tau]{\sg \mid \sched}$ to indicate these sequences (and the distribution over them).  We want to express the causal entropy of a sequence of $\pOne$-action choices given the paths. 
+ The next state after observing a sequence of state-action pairs is a random variable, which we liberally use the set $\Paths[\tau]{\sg \mid \sched}$ to indicate these sequences (and the distribution over them) .  We want to express the causal entropy of a sequence of $\pOne$-action choices given the paths. 
  For that, let us define $\Act_\pOne(\path)$ as the sequence $\act_{j_1} \act_{j_2} \hdots \act_{j_n}$ from $\path = s_0\act_0\hdots s_n$ where $j_i$ are the indices such that $s_{j_i} \in S_\pOne$, i.e., 
  $\Act_\pOne(\path)$ denotes the sequence of action choices of $\pOne$. We can lift the operation to sets: $\Act_\pOne(X) = \{ \Act_\pOne(\path) \mid \path \in X \}$, which we also use to denote the associated random variables.
-\[ H^\sg_\tau(\sigma) \colonequals H( \textsl{Act}(\POnePaths[\tau]{\sg \mid \sched})   \mid\mid \Paths[\tau]{\sg \mid \sched} ).  \]
+\[ H^\sg_\tau(\sigma) \colonequals H( \Act_\pOne(\Paths[\tau]{\sg \mid \sched})   \mid\mid \Paths[\tau]{\sg \mid \sched} ).  \]
 
 
 \begin{example}
@@ -258,26 +258,26 @@ Clearly, finding $\solutions$ solves the ERCI problem, as we only need to decide
 
 \subsection{ERCI versus reactive control improvisation}
 
-With these facts, we are now well-equiped to develop the algorithms in Sec.~\ref{sec:mdp} for MDPs and Sec.~\ref{sec:sgs} for SGs.
+With these facts, we are now well-equiped to develop the algorithms in Sec.~\ref{sec:mdps} for MDPs and Sec.~\ref{sec:sgs} for SGs.
 
-Before we continue, we want to establish that Control improvisation problem is a conservative extension of deterministic case as investigated in~\cite{}, and motivate our choice for causal entropy.
+Before we continue, we compare ERCI with the reactive, i.e. 2-player control improvisation framework from~\cite{}:
 \begin{mdframed}
 \textbf{The Deterministic (Reactive) Control Improvisation (DCI) Problem}:
 Given a \emph{deterministic} SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ 
 \begin{compactenum}
 \item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$
 	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
-	\item (\emph{randomness constraint}) $\Pr(\path) \leq \delta \text{ for all } \path \in \Paths{\sg[\sched]}$.
+	\item (\emph{randomness}) $\Pr(\path) \leq \delta \text{ for all } \path \in \Paths{\sg[\sched]}$.
 \end{compactenum}
 \end{mdframed}
+We observe that the `only' difference is that that we allow for probabilistic outcomes of actions and that we use entropy rather than an upper bound on the probability of a path. 
+First, we highlight that in the reactive setting, all randomization is due to the random behavior of $\pOne$. Roughly speaking, every path is than just good (i.e., ending in a target state) or bad (i.e., ending in a sink state). The randomization criterion then may just ensure that we do not select the same path with too much probability, which intuitively means that the $\pOne$-player must ensure in every step that it selects actions where there are enough different suffixes to the path (which then means that one can uniformly randomize over these paths and meet the threshold).
+In the SG case, not all paths are equal. This also directly makes the randomness constraint proposed in DIC
 
 \begin{theorem}
 	For deterministic SGs, the ERCI and DCI problem coincide.
 \end{theorem}
 We defer a discussion and a precise statement to Lemma~\ref{}.
-
-We illustrate the need for a different randomization criterion in the presence 
-
 
 \subsection{Causal Entropy versus Entropy}
 
