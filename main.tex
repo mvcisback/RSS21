@@ -185,37 +185,6 @@ We provide the first control improvisation framework, based on causal entropy to
 \input{introduction}
 \section{Motivating Example}
 \label{sec:motivating}
-We consider high-level planning for drones. We consider a setting with a controllable drone $D$ and in presence of a secondary drone $E$. 
-We partition the airspace into different zones. Four zones are marked as special points of interest (POIs).
-One of the zones in a corner is a recharge station, where $D$ initially starts. $E$ starts in the opposite corner. We assume perfect observability.  
-For safety, our plan must (\emph{hard constraint}) ensure that the two drones are never in the same zone. We are only interested in plans that visit the four POIs within a given time horizon (\emph{hard constraint}).
-We should (\emph{soft constraint}) ensure that we do not run out of battery with high probability. 
-Our aim is to create a plan such that the paths of $D$ within its environment are maximally unpredictable, i.e., we want to maximally randomize over the paths that satisfy the constraints. Due to the nature of the soft constraint, some of the paths that we include may violate this constraint. 
-
-We discuss three different aspects of this setting.
-Let us first start in absence of $E$. 
-The main task here is to ensure power-aware scheduling, i.e., depending on the state of charge of the battery, we want to adapt our plan. Crucial in this is an adequate model of the battery. 
-Both the battery quality itself and the power consumption are, however, uncertain. 
-In particular, simply assuming that the battery is discharged with the average power consumption is unrealistic~\cite{DBLP:conf/cyphy/HermannsKN15}, and assuming that the battery is discharged with the maximal power consumption is too pessimistic. 
-We use a model in which we discretize the battery charge, and in every time step the battery charge decrements by one step with some probability $p$. 
-Overall, this yields a binomial distribution over the maximal steps until the battery is depleted.
-
-Orthogonally, let us consider drone $E$. In the best case, drone $E$ is a delivery drone delivering packages along a fixed route. We can encode this route into the model. Compare Fig.~\ref{} without a drone $E$ and Fig.~\ref{} with drone $E$ flying the path marked in red. 
-
-Orthogonally, as the drone $E$ is not controlled by us, we may want to make no assumptions on the behavior of $E$ and show that our plan for $D$ is robust for every possible behavior of $E$. 
-
-We stress that this is different from assuming random behavior of $E$: We are interested in a policy that is good for any behavior of $E$, whereas assuming (uniform) random behavior for $E$ is good in expectation.
-Such behavior may be overly pessimistic. 
-In our example, we may have observed that $E$ delivers packets to the POIs, and thus some behavior is more likely. We may learn a model for this using inverse reinforecement learning. 
-Clearly, we can plan much more liberally when we k
-
-We can also mix this stochastic behavior with nondeterminism. For example, 
-
-A natural criticism for stochastic models is the dependence on fixed probabilities. However, notice that we can combine adversarial choices and stochastic behavior such that we may model ranges of possible transition probabilities. More precisely, we support interval-valued transition probabilities. Consider the delivery-drone $E$. Rather than inferring a point-estimate from data, we may have inferred that the probability of turning around is in the interval $[p - \varepsilon, p + \varepsilon]$ for adequate values of $p$ and $\varepsilon$.  Furthermore the actual probability may even depend on aspects of the current state. 
-
-Finally, the strength of the (entropy-guided) control improvisation framework is that we can combine all these aspects into a single computational model, which is very flexible. One aspect we want to highlight here is the implicit construction of a Pareto-curve that 
-
-
 
 
 
