@@ -381,10 +381,12 @@ We observe that then, the only difference between ERCI and DRCI is that we use e
 On the other hand, for deterministic SGs, all randomization is due to the random behavior of $\pOne$. Roughly speaking, every path is then just good (i.e., ending in a target state) or bad (i.e., ending in a sink state). The randomization criterion then may just ensure that we do not select the same path with too much probability, which intuitively means that the $\pOne$-player must ensure in every step that there are a sufficient number of paths from the next state (no matter what $\pTwo$-player does). 
 As long as there exist a sufficient number of paths, randomizing (uniformly) over those paths leads to a solution.
 
-	For deterministic SGs, the feasible ERCI and DRCI instances coincide.
-
+	For deterministic SGs, the set of feasbile ERCI and DRCI instances coincide.
 \begin{theorem}
+For any deterministic SG with some path sets $X_\varphi$, $X_\psi$ and threshold $\scthreshold$, 
+there exists an $\pOne$-policy solving the DRCI problem with threshold $\ppthreshold$ iff there exists a $\pOne$-policy solving the ERCI problem with threshold $\randomness = f(\ppthreshold)$ for an adequate (computable) $f$.
 \end{theorem}
+We note that the policies solving the two problems do in general not coincide. 
 
 \subsection{Causal Entropy versus Entropy}
 
