@@ -218,14 +218,19 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
 \begin{remark}[Regret Based Variant]
   In practice, rather that fixing $\scthreshold$ and $\randomness$ a
-  priori, one seeks achieve some percentage of the
-  achievable soft constraint or causal entropy measure.
-
-  In such cases,
+  priori, one seeks achieve some percentage of the achievable soft
+  constraint or causal entropy measure.  In such cases, we
+  re-parameterized the ERCI instance with:
+  \begin{equation}
+    \begin{split}
+      \scthreshold(\epsilon) &\eqdef \epsilon \cdot \bigg (\max_{\pOneSched} \min_{\pTwoSched} \Pr(\varphi \mid \langle \pTwoSched, \pOneSched \rangle\bigg)\\
+      \randomness(\delta) &\eqdef  \delta \cdot \bigg(\max_{\pOneSched}
+      \min_{\pTwoSched} H_\tau\big (\langle \pTwoSched, \pOneSched
+      \rangle \big )\bigg)
+    \end{split},
+  \end{equation}
+  where $\epsilon, \delta \in [0, 1]$.
 \end{remark}
-
-$H(\sched) \geq (1-\delta) \cdot H(\sched^{*})$, where $\sched^{*}$ .... \sj{I am not sure how to define this concisely.} 
-
 
 \begin{figure}
 \centering
