@@ -1,23 +1,31 @@
 
 \section{On ERCI and its Pareto Front}\label{sec:convex}
-We show that our problem statement is a conservative extension of the existing reactive control improvisation framework and we reformulate our problem statement in terms of finding a Pareto-curve.
-
-\subsection{ERCI as a multiobjective problem}
-
+We consider the ERCI problem in more detail. 
+In particular, we interpret the problem as a trade-off to a multi-objective problem in which we want to find a policy that maximizes both the probability of the set $X_\varphi$ and the causal entropy $H$. 
+Furthermore, we clarify the difference with existing work on control improvisation. 
+\subsection{ERCI as a multi-objective problem}
+We are interested in understanding how a lower bound on the soft constraint affects the optimal causal entropy induced by a policy (from here onwards: \emph{the randomization}), and vice versa, how a lower bound on the causal entropy affects the maximal probability of the paths in $X_\varphi$ (from here onwards: \emph{the performance}). We thus frame our problem in terms of randomization versus performance.
 In particular, we are interested in understanding the combinations of $\scthreshold$ and $\randomness$ that allow to solve the (preprocessed) ERCI problem. 
 
-It is convenient to say that $\sched$ induces a point $x_\sched$: \[x_\sched \colonequals \langle \Pr(X_\varphi \mid \sched), H(\sched)  \rangle \in [0,1] \times [0,\infty).\] 
-For $x_\sched = \langle \scp,\rndp \rangle$, we furthermore define $\scp_\sched \colonequals \scp$ and $\rndp_\sched \colonequals \rndp$.
+It is convenient to consider this geometrically. Thus, we say that scheduler $\sched$ induces a point $x_\sched$: \[x_\sched \eqdef \langle \Pr(X_\varphi \mid \sched), H(\sched)  \rangle \in [0,1] \times [0,\infty).\] 
+To ease notation, for $x_\sched = \langle \scp,\rndp \rangle$ we use $\scp_\sched \eqdef \scp$ and $\rndp_\sched \eqdef \rndp$.
 
-We say that $\pOneSched$ \emph{guarantees} a point $x_\pOneSched \colonequals \langle \scp, \rndp \rangle$, if for every policy $\pTwoSched$, using $\sched = \langle \pOneSched, \pTwoSched \rangle$ and we have $\scp_\sched \geq \scp$ and $\rndp_\sched \geq \rndp$.
+However, we are not interested in points induced by any scheduler. Instead, we are interested in the worst-case values in the sense that we ask which points are necessarily dominated by 
+For a $\pOne$-policy $\pOneSched$, we say that $\pOneSched$ \emph{guarantees} a point $x_\pOne \eqdef \langle \scp, \rndp \rangle$, if for every policy $\pTwoSched$, using $\sched = \langle \pOneSched, \pTwoSched \rangle$, we have $\scp_\sched \geq \scp$ and $\rndp_\sched \geq \rndp$. Thus, a point is guaranteed if no matter what policy  $\pTwo$ uses, $x_\sched$ will induce a point no worse w.r.t.\ to either randomization or performance.
+
 We then define the following elementary sets:
-\begin{definition}[Solutions]
 For any $\pOneSched$ and a fixed ERCI instance, we define the set of guaranteed points:
-  \[ \solutions_\pOneSched = \{ \langle \scp, \rndp \rangle \mid  \pOneSched \text{ guarantees } \langle \scp, \rndp \rangle \}. \]
-And the set of solutions:    	
- $ \solutions = \bigcup_{\pOneSched \in \POneScheds} \solutions_\pOneSched$.
-\end{definition}
-The Pareto-front $\pareto{\solutions}$ of $\solutions$ is given as \[ \{ \langle \scp, \rndp \rangle \in \solutions \mid \forall \scp' \geq \scp, \rndp' \geq \rndp, \ \langle \scp', \rndp' \rangle \not\in \solutions \text{ or } \scp = \scp' \land  \rndp = \rndp'  \}. \]
+  \[ \solutions_\pOne = \{ \langle \scp, \rndp \rangle \mid  \pOneSched \text{ guarantees } \langle \scp, \rndp \rangle \}. \]
+Any point that can be guaranteed by some $\pOneSched$ is called \emph{achievable}, i.e., the achievable points are:   	
+ $ \solutions = \bigcup_{\pOneSched} \solutions_\pOne$.
+
+
+We can characterize the solutions using the Pareto-front. Therfore, we say that a point $x = \langle \scp,\rndp \rangle$ is dominated by $x' = \langle \scp', \rndp' \rangle$, in symbols $x \prec x'$, if $x'$ is strictly larger in at least one dimension and not smaller in the other, that is, 
+\begin{equation}
+  \langle \scp', \rndp' \rangle 	 \prec \langle \scp', \rndp' \rangle \eqdef \Big( \scp \leq \scp' \land \rndp \leq \rndp' \land \big(\scp \neq \scp' \lor \rndp \leq \rndp'\big)	\Big)
+\end{equation}
+
+The Pareto-front $\pareto{\solutions}$ of $\solutions$ is given as \[ \{ x \in \solutions \mid \forall x' \in \solutions, x \not\prec x'  \}. \]
 
 \begin{example}
 	
@@ -52,16 +60,6 @@ Monotone decreasing follows directly from convexity and using the adequate domai
 {\color{red}how do we know smoothness? Isn't that a consequence of the rationality-construction that we only have available later?}
 In particular, the set is not a finite polytope, there exist infinitely many vertices.
 
-
- 
-
-Together, we obtain the following problem statement.
-\begin{mdframed}[backgroundcolor=white!5]
-\textbf{The ERCI Pareto Front Problem}:
-Using the notation from the ERCI problem, find the set $\solutions \subseteq \mathbb{R}^2$.
-\end{mdframed}
-We are going to iteratively construct the  Pareto optimal points in $\solutions$. This yields a semi-decision procedure.
-Clearly, finding $\solutions$ solves the ERCI problem, as we only need to decide whether $\langle \scthreshold, \randomness \rangle \in \solutions$.
 
 With these facts, we are now well-equiped to develop the algorithms in Sec.~\ref{sec:mdps} for MDPs and Sec.~\ref{sec:sgs} for SGs.
 We use the remainder of this section to motivate the choice for our problem formulation.
