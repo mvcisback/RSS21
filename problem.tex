@@ -145,7 +145,7 @@ undesirable paths. For simplicity, we focus on finite path properties,
 referred to as specifications or constraints, that are decidable
 within some fixed $\tau \in \Nat$ time steps, e.g., ``Recharge before
 t=20.'' Technically, we represent these path properties as prefix free
-sets of finite paths, $\varphi$, reflecting some formal
+sets of finite paths, $\soft$, reflecting some formal
 property\footnotemark.
 %In all definitions, we omit the superscript $\sg$ whenever it is clear from the context.
 
@@ -209,10 +209,10 @@ where $\tau' = \lceil \nicefrac{\tau}{2}\rceil$ is the number of $\pOne$-actions
 Together, this yields the necessary ingredients to formalize the problem statement. 
 \begin{mdframed}[backgroundcolor=blue!5]
 \textbf{The Entropic Control Improvisation (ERCI) Problem}:
-Given a SG $\sg$, $\tau$-bounded path properties $\psi$ and $\varphi$, and thresholds $\scthreshold \in [0,1]$ and $\randomness \in [0,\infty)$, find a $\pOne$-policy $\pOneSched$  such that for every $\pTwo$-policy $\pTwoSched$,
+Given a SG $\sg$, $\tau$-bounded path properties $\hard$ and $\soft$, and thresholds $\scthreshold \in [0,1]$ and $\randomness \in [0,\infty)$, find a $\pOne$-policy $\pOneSched$  such that for every $\pTwo$-policy $\pTwoSched$,
 \begin{compactenum}
-	\item (\emph{hard constraint}) $\Pr(\psi \mid \sched) \geq 1$
-	\item (\emph{soft constraint)} $\Pr(\varphi \mid \sched) \geq \scthreshold$
+	\item (\emph{hard constraint}) $\Pr(\hard \mid \sched) \geq 1$
+	\item (\emph{soft constraint)} $\Pr(\soft \mid \sched) \geq \scthreshold$
 \item (\emph{randomness constraint}) $H_\tau(\sigma) \geq \randomness$
 \end{compactenum}
 where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
@@ -224,7 +224,7 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
   re-parameterized the ERCI instance with:
   \begin{equation}
     \begin{split}
-      \scthreshold(\epsilon) &\eqdef \epsilon \cdot \bigg (\max_{\pOneSched} \min_{\pTwoSched} \Pr(\varphi \mid \langle \pTwoSched, \pOneSched \rangle)\bigg)\\
+      \scthreshold(\epsilon) &\eqdef \epsilon \cdot \bigg (\max_{\pOneSched} \min_{\pTwoSched} \Pr(\soft \mid \langle \pTwoSched, \pOneSched \rangle)\bigg)\\
       \randomness(\delta) &\eqdef  \delta \cdot \bigg(\max_{\pOneSched}
       \min_{\pTwoSched} H_\tau\big (\langle \pTwoSched, \pOneSched
       \rangle \big )\bigg)
@@ -287,22 +287,21 @@ decision diagram, resulting in a (typically) concise graph that grows
 proportional to the horizon and minimal\footnotemark state space augmentation
 required~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
 
-\footnotetext{Formally, the state space is quotiented by distinguishablity under $\varphi$ and $\psi$.}
+\footnotetext{Formally, the state space is quotiented by distinguishablity under $\soft$ and $\hard$.}
 
-Next, in order to ensure the hard constraint, $\psi$, we
+Next, in order to ensure the hard constraint, $\hard$, we
 calculate all states from which the $\pTwo$-player can enforce
 violating the hard constraint. Such states are identifiable using a single
 lexicographic pass over $\sg$ from the leaves to the root.  We remove
 such states along with their in- and outgoing transitions. Any
 $\pOne$-policy now satisfies the hard constraint. 
 The remaining sink states are all merged into two states $\target$ and
-$\sink$, based on membership in $\varphi$, i.e.,
+$\sink$, based on membership in $\soft$, i.e.,
 \begin{equation}
   \begin{split}
-    \last{\path} = \target ~\implies~ \path \in \varphi\\
-    \last{\path} = \sink ~\implies~ \path \notin \varphi
+    \last{\path} = \target ~\implies~ \path \in \soft\\
+    \last{\path} = \sink ~\implies~ \path \notin \soft
   \end{split}.
-  
 \end{equation}
 
 This yields the following (core) ERCI problem.
