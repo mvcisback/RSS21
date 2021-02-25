@@ -51,19 +51,18 @@ Recall that a set is convex, if it is closed under convex-combinations.\footnote
 %Let $\sched'$ and $\sched''$ be two schedulers with induced solution $\langle \scthreshold', \randomness' \rangle$ and $\langle \scthreshold'', \randomness'' \rangle$ 	
 %\end{proof}
 
-\begin{definition}
+While $\solutions$ is defined as a subset of $[0,1] \times [0,\infty)$, we can restrict ourselves to the domain in which we can actually trade performance for randomness. 
 We define 
-$\rndopt \colonequals \max \{ \rndp \mid \exists \scp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $
-and 
-$\scopt \colonequals \max \{ \scp \mid \exists \rndp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $.
+$\rndopt \eqdef \max \{ \rndp \mid \exists \scp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $, i.e., the largest randomness that can be guaranteed by any $\pOne$-policy. 
+Likewise, we define 
+$\scopt \eqdef \max \{ \scp \mid \exists \rndp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $, i.e., the largest performance that can be guaranteed by any $\pOne$-policy. 
 Then, we define 
-$\scmin \colonequals \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$ and $\rndmin \colonequals \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$.
-\end{definition}
+$\scmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$, the best performance that $\pOne$ can guarantee while guaranteeing optimal randomness. 
+Likewise, we define  the analogous $\rndmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$.
+We thus obtain two points on the Pareto-curve: $\langle \scmin, \rndopt \rangle$ and $\langle \scopt, \rndmin \rangle$, and intuitively, we can trade between these two points following the Pareto curve.
 
 
-
-
-
+Finally, it is helpful to think about the Pareto-curve as a function of either $\rndp$. 
 We define a characteristic function $\solfuncp\colon [\rndmin,\rndopt] \rightarrow [\scmin,\scopt]$ such that $\solfuncp(\rndp) = \max \{ \scp \mid \langle \scp, \rndp \rangle \in \solutions \} \cup \{ 0 \}$.  
 \begin{proposition}
 	$\solfuncp$ is smooth monotonically decreasing. 
