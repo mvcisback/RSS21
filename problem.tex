@@ -4,23 +4,24 @@ We consider a graph-based game formalism between two players. A
 \iota, \Act, P \rangle$.  The set of \emph{states} $S = S_\pOne \cup
 S_\pTwo$ is partitioned into a set $S_\pOne$ of (controlled)
 $\pOne$-states and a set $S_\pTwo$ of (uncontrolled)
-$\pTwo$-states. $\iota \in S$ is the \emph{initial state}, $\Act$ is a
+$\pTwo$-states. $\iota \in S_\pTwo$ is the \emph{initial state}, $\Act$ is a
 finite set of \emph{actions}, and $P\colon S \times \Act \rightarrow
-\Distr(S)$ is the \emph{transition function}. For simplicity of exposition,
-we shall assume w.l.o.g. that controlled and uncontrolled states alternate. $P$
-is defined by two partial
-transition functions: $P_\pOne\colon S_\pOne \times \Act \rightarrow
-\Distr(S_\pTwo)$, $P_\pTwo\colon S_\pTwo \times \Act \rightarrow
-\Distr(S_\pOne)$. We identify the available actions\footnote{We explicitly
-allow to model unavailable actions, e.g., we can model that a door can
-only opened when close enough to the door.} as $\EnAct(s) \eqdef \{ \act
-\mid P(s,\act) \neq \bot \}$. States without available actions, i.e.,
-states with $\EnAct(s) = \emptyset$ are called \emph{terminal
-states}. The \emph{successor states} of a state $s$ and an (enabled)
-action $\act$ is the set of states that are reached from $s$ within
-one step with a positive transition probability, i.e., $\Succ(s,\act)
-\eqdef \{ s' \mid P(s,\act)(s')>0 \}$, and $\Succ(s) \eqdef\bigcup_{\act \in
-\EnAct(s)} \Succ(s,\act)$.
+\Distr(S)$ is the \emph{transition function}. For simplicity of
+exposition, we shall assume w.l.o.g. that controlled and uncontrolled
+states alternate. Thus, $P$ is defined by two partial transition functions:
+$P_\pOne\colon S_\pOne \times \Act \rightarrow \Distr(S_\pTwo)$,
+$P_\pTwo\colon S_\pTwo \times \Act \rightarrow \Distr(S_\pOne)$. We
+identify the available actions\footnote{We explicitly allow to model
+unavailable actions, e.g., we can model that a door can only opened
+when close enough to the door.} as $\EnAct(s) \eqdef \{ \act \mid
+P(s,\act) \neq \bot \}$. States without available actions, i.e.,
+states with $\EnAct(s) = \emptyset$ are called \emph{terminal states}.
+A SG is finite, if its state space is finite.  The \emph{successor
+states} of a state $s$ and an (enabled) action $\act$ is the set of
+states that are reached from $s$ within one step with a positive
+transition probability, i.e., $\Succ(s,\act) \eqdef \{ s' \mid
+P(s,\act)(s')>0 \}$, and $\Succ(s) \eqdef\bigcup_{\act \in \EnAct(s)}
+\Succ(s,\act)$.
 
 
 \begin{figure}
@@ -67,45 +68,73 @@ one step with a positive transition probability, i.e., $\Succ(s,\act)
   labelling probability $1$ transitions.
 \end{example}
 	
-SGs capture a variety of models.  An SG is finite, if its state space
-is finite.  If $\Act_2$ is a singleton set, then $\sg$ is an
-\emph{Markov decision process} (MDP).  If both $\Act_1$ and $\Act_2$
-are singleton sets, then $\sg$ is a \emph{Markov chain}. If
-$P(s,\act)$ is a Dirac distribution for every $s \in S$ and $\act \in
-\Act$, then $\sg$ is called \emph{deterministic} or a \emph{2-player
-game}.
+SGs capture a variety of models.  For example, if $\Act_\pOne$ is a
+singleton set, then $\sg$ is a \emph{Markov decision process} (MDP).
+If both $\Act_\pOne$ and $\Act_\pTwo$ are singleton sets, then $\sg$ is a
+\emph{Markov chain}. If $P(s,\act)$ is a Dirac distribution for every
+$s \in S$ and $\act \in \Act$, then $\sg$ is called
+\emph{deterministic} or a \emph{2-player game}.
 
-
-A finite \emph{path} $\path$ of length $n$ is a sequence $s_0 \xrightarrow{\act_0} s_1 \xrightarrow{\act_1} s_2 \rightarrow \hdots \rightarrow s_n$ in $\left( S \times \Act \right)^{n} \times S$ where $P(s_i,\act_i)(s_{i+1}) > 0$ for each $i$. 
-We denote the length with $|\path|$, and denote $s_n$, i.e., the last element of $\path$ with $\last{\path}$. A $\path' = s'_0 \xrightarrow{\act'_0} \hdots$ is a prefix of $\path$, if for all $i \leq |\path'|$, $s_i = s'_i$ and for all $i < |\path'|$, $\act_i = \act'_i$.  
-The set of all finite paths is denoted $\Paths[n]{\sg}$, and $\Paths{\sg} = \bigcup_{n \in \NN} \Paths[n]{\sg}$. We omit $\sg$ whenever it is clear from the context. It is helpful to partition paths based on their last state: $\POnePaths[n]{\sg} = \{ \path \in \Paths[n]{\sg} \mid \last{\path} \in S_1 \}$ and $\PTwoPaths[n]{} = \Paths[n]{} \setminus \POnePaths[n]{}$.
+\mypara{Paths and Properties}
+A finite \emph{path}, $\path$, of length $n$ is a sequence $s^0
+\xrightarrow{\act_0} s_1 \xrightarrow{\act_1} s_2 \rightarrow \hdots
+\rightarrow s_n$ in $\left( S \times \Act \right)^{n} \times S$ where
+$P(s_i,\act_i)(s_{i+1}) > 0$ for each $i$.  We denote the length with
+$|\path|$, and denote $s_n$, i.e., the last element of $\path$ with
+$\last{\path}$. Further, note that $\pTwo$ states are even
+indexed and $\pOne$ states are odd indexed by our ordering
+assumption.
+A path, $\path' = s'_0 \xrightarrow{\act'_0} \hdots$, is a
+\emph{prefix} of $\path$, if for all $i \leq |\path'|$, $s_i = s'_i$
+and for all $i < |\path'|$, $\act_i = \act'_i$.  The set of all finite
+paths of length $n$ is denoted $\Paths[n]{\sg}$, and $\Paths{\sg} =
+\bigcup_{n \in \NN} \Paths[n]{\sg}$. We omit $\sg$ whenever it is
+irrelevant or clear from the context.
+It is helpful to partition paths
+based on their last state: $\POnePaths[]{} = \{ \path \in
+ \Paths[]{} \mid \last{\path} \in S_\pOne \}$ and $\PTwoPaths[]{} =
+\Paths[]{} \setminus \POnePaths[]{}$.
 
 \begin{example}
-	In Fig.~\ref{fig:toysg}, there are two paths that end in $s_2$, $s_0as_1bs_2$ of length $2$ and $s_0bs_2$ of length $1$. 
+  In Fig.~\ref{fig:toysg}, there are two paths that end in $s_2$, $s_0 \xrightarrow{a} s_1 \xrightarrow{b} s_2$ of length $2$ and $s_0 \xrightarrow{b} s_2$ of length $1$. Both paths are in $\PTwoPaths[]{}$.
 \end{example}
 %\paragraph{Policies.} 
-Whenever some state $s$ is reached, the corresponding player has to select an action from $\EnAct(s)$. As standard, we capture this with the notion of a policy\footnote{Also known as \emph{strategy} or \emph{scheduler}.}. 
-A \emph{policy} is a tuple of policies for both players $\sched = \langle \sched_\pOne, \sched_\pTwo \rangle$ 
-with $\sched_i \colon \PiPaths[]{\sg} \rightarrow \Distr(\Act_i)$ such that $\supp(\sched_i(\path)) \subseteq \EnAct(\last{\path})$ for each $\path$, i.e., for every history, the policy sets a distribution over the enabled successor actions. 
+Whenever some state $s$ is reached, the corresponding player draws an action from $\EnAct(s)$. As standard, we capture this with the notion of a scheduler\footnote{Also known as \emph{strategy} or \emph{policy}.}.
+A \emph{scheduler} is a tuple of \emph{player policies} $\sched = \langle \sched_\pOne, \sched_\pTwo \rangle$
+with $\sched_{\player} \colon \PlayerPaths[]{} \rightarrow \Distr(\Act)$ such that $\supp(\sched_i(\path)) \subseteq \EnAct(\last{\path})$ for each $\path$, i.e., for every history, the policy sets a distribution over the enabled successor actions.
+We will denote by $\sched_{\player}(\act~|~\path)$ the distribution of actions given the path, $\path$, induced by policy $\sched_{\player}$.
 %We refer to $\sched_i$, $i \in \{ 1, 2 \}$ as a \emph{Player-i policy}. 
-We denote the $\pOne$-policy $\pOneSched$ and the $\pTwo$-policy $\pTwoSched$ with $\sched_\pOne$ and $\sched_\pTwo$, respectively.
-To ease notation, we liberally use the notation $\sched \colon \Paths{\sg} \rightarrow \Distr(\Act)$ where this function is given dependent on which player owns the last state.
+%We denote the $\pOne$-policy $\pOneSched$ and the $\pTwo$-policy $\pTwoSched$ with $\sched_\pOne$ and $\sched_\pTwo$, respectively.
+To ease notation, we liberally use the notation $\sched \colon \Paths{} \rightarrow \Distr(\Act)$ where this function is given dependent on which player owns the last state.
  
 %
 %Applying a policy $\sched$ to an SG $\sg$ yields an \emph{induced Markov chain} $\induced{\sg}{\sched} = \langle S', \iota', P' \rangle$ with state space $S' = \Paths{\sg}$, initial state $\iota' = \iota$, and transition function $P'(\path,\path')$ defined by $P'(\path)(\path \cdot \act s') = \sched(\path)(\act) \cdot P(\last{\path},\act)(s')$ and $P'(\path,\path') = 0$ otherwise. For any upper bound on the length of the paths, the induced MC is finite. 
 
 
 \begin{example}
-	An example for a $\pOne$-policy $\pOneSched$ is given by \begin{align*} 
-	 \Big\{ & &  s_0 & \mapsto \{ a \mapsto 1 \},  s_0as_1bs_2  \mapsto \{ b \mapsto 1 \} & \\
- & & s_0bs_2 & \mapsto \{  a \mapsto \nicefrac{1}{2}, b \mapsto \nicefrac{1}{2} \} & \Big\}
- \end{align*}\end{example}
+  An example for a $\pOne$-policy $\pOneSched$ is given
+  by,
+  \begin{equation}
+    \pOneSched(\alpha~|~\xi) =
+    \begin{cases}
+      1 & \text{if } \alpha = a, \xi = s_0\\
+      \nicefrac{1}{2}{ & \text{if } \alpha \in \{a, b\},\xi = s_0\xrightarrow{b}s_2\\
+      1 & \text{if } \alpha = b, \xi = s_0\xrightarrow{a}s_1\xrightarrow{b}s_2\\
+    \end{cases}.
+  \end{equation}
+\end{example}
 
 
 %\paragraph{Properties.}
-The probability $\Pr^\sg(\path \mid \sched)$ of a finite path $\path$ in an SG $\sg$ conditioned on a policy $\sched$ is given by the product of the transition probabilities along a path. 
-More precisely, we define the probability $\Pr^\sg(\path \mid \sched)$ recursively as $\Pr^\sg(s \mid \sched) \colonequals 1$ and $\Pr^\sg(\path \cdot \act s'\mid \sched) \colonequals \Pr^\sg(\path \mid \sched) \cdot \sched(\path)(\act) \cdot P(\last{\path},\act)(s')$.
-The probability of a prefix-free set $X \subseteq \Paths{\mc}$  of paths is the sum over the individual path probabilities, $\Pr^\sg(X \mid \sched) = \sum_{\path \in X} \Pr^\sg(\path \mid \sched )$.
+The probability $\Pr(\path \mid \sched)$ of a finite path $\path$ in an SG $\sg$ conditioned on a policy $\sched$ is given by the product of the transition probabilities along a path. 
+More precisely, we define the probability $\Pr(\path \mid \sched)$ recursively as:
+\begin{equation}
+  \begin{split}
+    &\Pr(s \mid \sched) \eqdef 1\\
+    &\Pr(\path \act  s'\mid \sched) \eqdef \Pr(\path\mid\sched)\cdot \sched(\act\mid\path) \cdot P(\last{\path},\act)(s')
+  \end{split}
+\end{equation}
+The probability of a prefix-free set $X \subseteq \Paths{}$  of paths is the sum over the individual path probabilities, $\Pr(X \mid \sched) = \sum_{\path \in X} \Pr^\sg(\path \mid \sched )$.
 We consider sets $X_\varphi$ of finite paths\footnote{Such paths may e.g. be defined using temporal properties such as linear temporal logic over finite traces (LTLf)~\cite{}.} reflecting some specification $\varphi$.   
 In all definitions, we omit the superscript $\sg$ whenever it is clear from the context.
 
@@ -181,8 +210,7 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{example}
 
 
-\section{On ERCI and its Pareto Front}
-\label{sec:convex}
+\section{On ERCI and its Pareto Front}\label{sec:convex}
 We show that our problem statement is a conservative extension of the existing reactive control improvisation framework and we reformulate our problem statement in terms of finding a Pareto-curve.
 
 \subsection{ERCI as a multiobjective problem}

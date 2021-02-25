@@ -70,13 +70,14 @@
 \newcommand{\rndp}{h}
 \newcommand{\randomness}{\mathbf{h}}
 \newcommand{\last}[1]{\mathsf{last}({#1})}
-\newcommand{\pOneSched}{\mathbf{ego}}
+\newcommand{\pOneSched}{{\sigma_\pOne}}
 \newcommand{\POneScheds}{\Sigma_\pOne}
 \newcommand{\PTwoScheds}{\Sigma_\pTwo}
-\newcommand{\pTwoSched}{\mathbf{env}}
+\newcommand{\pTwoSched}{{\sigma_\pTwo}}
 \newcommand{\rat}{\lambda}
 \newcommand{\pOne}{\mathsf{ego}}
 \newcommand{\pTwo}{\mathsf{env}}
+\newcommand{\player}{\mathsf{i}}
 \newcommand{\horizon}{\tau}
 \newcommand{\solutions}{\mathbb{S}}
 \newcommand{\EnAct}{\Act}
@@ -87,21 +88,23 @@
 \newcommand{\smoothmax}[1]{\mathsf{smax}(#1)}
 \newcommand{\indicator}[1]{[#1]}
 \newcommand{\Succ}{\mathsf{Succ}}
-\newcommand{\supp}{\mathsf{supp}}
+\newcommand{\supp}{\mathsf{support}}
 
 \newcommand{\scmin}{\scp^{-}}
 \newcommand{\rndmin}{\rndp^{-}}
-\newcommand{\pathslbl}{\Xi}
+% \newcommand{\pathslbl}{\Xi}
+\newcommand{\pathslbl}{\mathsf{Paths}}
 \newcommand{\Paths}[2][]{\pathslbl^{#2}_{#1}}
-\newcommand{\POnePaths}[2][]{{\pathslbl^{#2}_{#1}}/_{\downarrow_{1}}}
-\newcommand{\PTwoPaths}[2][]{{\pathslbl^{#2}_{#1}}/_{\downarrow_{2}}}
-\newcommand{\PiPaths}[2][]{{\pathslbl^{#2}_{#1}}/_{\downarrow_{i}}}
+\newcommand{\POnePaths}[2][]{{[\pathslbl^{#2}_{#1}]_\pOne}}
+\newcommand{\PTwoPaths}[2][]{{[\pathslbl^{#2}_{#1}]_\pTwo}}
+\newcommand{\PlayerPaths}[2][]{{[\pathslbl^{#2}_{#1}]}_{\player}}
 \newcommand{\unrolled}[2]{\textsf{Tree}(#1,#2)}
 \newcommand{\induced}[2]{#1[#2]}
 \newcommand{\causalprob}[2]{\Pr(#1\mid\mid#2)}
 \newcommand{\expOver}[2]{\mathbb{E}_{#1}[#2]}
 
 \newcommand{\eqdef}{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny def}}}{=}}}
+\newcommand{\mypara}[1]{\noindent{\bf #1.}}
 
 
 \setlength\marginparwidth{110pt}
