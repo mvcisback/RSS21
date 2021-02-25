@@ -188,11 +188,11 @@ To that end, recall that a path alternates states and actions.  The
 next state after observing a sequence of state-action pairs is a
 random variable. Formally, given a game graph, $\sg$ and a schedule,
 $\sched$, let us denote by $\mathcal{A}^{\pOne}_{1:i}$ and
-$\mathcal{S}_{1:\tau}$ the corresponding random variable sequences for
-$\pOne$-player actions and states respectively.  The causal entropy of
-controllable actions in $\tau$ length paths under $\sched$ is then,
+$\mathcal{S}_{1:i}$ random variable sequences for
+$\pOne$-player actions and states respectively. The causal entropy of
+controllable actions in $\tau$-length paths under $\sched$ is then,
 \begin{equation}
-   H_\tau(\sigma) \colonequals H( \mathcal{A}^{\pOne}_{1:\tau'} \mid\mid \mathcal{S}_{1:\tau} ),
+   H_\tau(\sigma) \eqdef H( \mathcal{A}^{\pOne}_{1:\tau'} \mid\mid \mathcal{S}_{1:\tau} ),
 \end{equation}
 where $\tau' = \lceil \nicefrac{\tau}{2}\rceil$ is the number of $\pOne$-actions given $\tau$.
 
@@ -216,9 +216,21 @@ Given a SG $\sg$, $\tau$-bounded path properties $\psi$ and $\varphi$, threshold
 \end{compactenum}
 where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
-Rather than fixing $\kappa$ a priori, we are often interested in limiting the \emph{regret}: The last point then becomes:
-$H(\sched) \geq (1-\delta) \cdot H(\sched^{*})$, where $\sched^{*}$ .... \sj{I am not sure how to define this concisely.} 
-
+\begin{remark}[Regret Based Variant]
+  In practice, rather that fixing $\scthreshold$ and $\randomness$ a
+  priori, one seeks achieve some percentage of the achievable soft
+  constraint or causal entropy measure.  In such cases, we
+  re-parameterized the ERCI instance with:
+  \begin{equation}
+    \begin{split}
+      \scthreshold(\epsilon) &\eqdef \epsilon \cdot \bigg (\max_{\pOneSched} \min_{\pTwoSched} \Pr(\varphi \mid \langle \pTwoSched, \pOneSched \rangle)\bigg)\\
+      \randomness(\delta) &\eqdef  \delta \cdot \bigg(\max_{\pOneSched}
+      \min_{\pTwoSched} H_\tau\big (\langle \pTwoSched, \pOneSched
+      \rangle \big )\bigg)
+    \end{split},
+  \end{equation}
+  where $\epsilon, \delta \in [0, 1]$.
+\end{remark}
 
 \begin{figure}
 \centering
@@ -262,11 +274,11 @@ $H(\sched) \geq (1-\delta) \cdot H(\sched^{*})$, where $\sched^{*}$ .... \sj{I a
 
 
 \subsection{Preprocessing}
-In this subsection, we preprocess the problem statement.
-To ease the technical construction, without loss of generality, we make the following assumptions\footnote{We argue that these assumptions are indeed w.l.o.g.\ in Sec.~\ref{sec:assumptions}}: 
-We assume the (graph structure underlying the) SG is acyclic, which we realise by means of unfolding the graph. 
-Once we have the acyclic SG, we can also set the horizon $\horizon$ to be sufficiently long such that $\horizon$ is at least the length of the , and thus we drop any reference to $\horizon$ from here onwards.
-As in \cite{DBLP:conf/cav/Vazquez-Chanlatte20}, we may represent this computation tree (typically) concisely using binary decision diagrams.
+To ease the technical exposition, without loss of generality, we make the following assumptions\footnote{We argue that these assumptions are indeed w.l.o.g.\ in Sec.~\ref{sec:assumptions}}: 
+We assume the graph structure underlying the SG is finite acyclic and acyclic.
+When considering $\tau$-bounded path properties, 
+this assumption is naturally realized by a $\tau$-step unrolling the SG's graph, i.e., augment the state space with the path leading to a given state..
+As in \cite{DBLP:conf/cav/Vazquez-Chanlatte20}, one may then represent this unrolled graph as a binary decision diagram, which typically results in a concise representation.
 We calculate all states from which the $\pTwo$-player can enforce violating the hard constraint. We remove these states along with their in- and outgoing transitions. Any $\pOne$-policy now satisfies the hard constraint. 
 We may now define a unique target state $\target$ and a unique sink state $\sink$ such that these are the only states without any outgoing transitions.  The set $X_{\lozenge\mathbf{\top}}$ denotes all paths with $\last{\path} = s_\top$.
 
