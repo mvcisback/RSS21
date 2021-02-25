@@ -163,36 +163,36 @@ measure the expected surprise by the causal
 entropy~\cite{DirectedInfoTheoery} over the paths. Below, we formalize
 causal entropy and then state the formal problem statement.
 
-Let $\mathcal{X}_{1:i} \eqdef \mathcal{X}_1, \hdots, \mathcal{X}_i$ and $\mathcal{Y}_{1:i} \eqdef
-\mathcal{Y}_1,\hdots,\mathcal{Y}_i$ denote two sequences of random variables. The
-probability of $ \mathcal{X}_{1:i}$ causally conditioned on $\mathcal{Y}_{1:i}$ is:
+Let $\rv{X}_{1:i} \eqdef \rv{X}_1, \hdots, \rv{X}_i$ and $\rv{Y}_{1:i} \eqdef
+\rv{Y}_1,\hdots,\rv{Y}_i$ denote two sequences of random variables. The
+probability of $ \rv{X}_{1:i}$ causally conditioned on $\rv{Y}_{1:i}$ is:
 \begin{equation}
-  \causalprob{\mathcal{X}_{1:i}}{\mathcal{Y}_{1:i}} \eqdef \prod \Pr(\mathcal{X}_j \mid \mathcal{X}_{1:j-1}\mathcal{Y}_{1:j}).
+  \causalprob{\rv{X}_{1:i}}{\rv{Y}_{1:i}} \eqdef \prod \Pr(\rv{X}_j \mid \rv{X}_{1:j-1}\rv{Y}_{1:j}).
 \end{equation}
-The causal entropy of $\mathcal{X}_{1:i}$ given $\mathcal{Y}_{1:i}$ is then defined as,
+The causal entropy of $\rv{X}_{1:i}$ given $\rv{Y}_{1:i}$ is then defined as,
 \begin{equation}
-  H(\mathcal{X}_{1:i}\mid\mid \mathcal{Y}_{1:i}) \eqdef \expOver{\mathcal{X}_{1:i},\mathcal{Y}_{1:i}}{-\log(\causalprob{\mathcal{X}_{1:i}}{\mathcal{Y}_{1:i}})}
+  H(\rv{X}_{1:i}\mid\mid \rv{Y}_{1:i}) \eqdef \expOver{\rv{X}_{1:i},\rv{Y}_{1:i}}{-\log(\causalprob{\rv{X}_{1:i}}{\rv{Y}_{1:i}})}
 \end{equation}
-Using the chain rule, one can relate causal entropy to (non-causal) entropy, $H(\mathcal{X} | \mathcal{Y}) \eqdef \expOver{\mathcal{X}}{-\log(\Pr(\mathcal{X}~|~\mathcal{Y}))}$ via:
+Using the chain rule, one can relate causal entropy to (non-causal) entropy, $H(\rv{X} | \rv{Y}) \eqdef \expOver{\rv{X}}{-\log(\Pr(\rv{X}~|~\rv{Y}))}$ via:
 \begin{equation}
-  H(\mathcal{X}_{1:i}\mid\mid \mathcal{Y}_{1:i}) = \sum_{t=1^i} H(\mathcal{X}_i \mid \mathcal{Y}_{1:i}, X_{1:i-1})
+  H(\rv{X}_{1:i}\mid\mid \rv{Y}_{1:i}) = \sum_{t=1^i} H(\rv{X}_i \mid \rv{Y}_{1:i}, X_{1:i-1})
 \end{equation}
 Implying that causal entropy is always lower bounded by non-causal
 entropy (and thus non-negative). Intuitively, the distinction is that causal entropy does not
-condition on variables that have not been revealed. It has been observer
+condition on variables that have not been revealed. It has been observed
 that this makes causal entropy particularly well suited for measuring
-uncertainty in \emph{sequential} decision making problems, where
+predictability in \emph{sequential} decision making problems, where
 an agent cannot condition on the future~\cite{mceThesis}.
 
 To that end, recall that a path alternates states and actions.  The
 next state after observing a sequence of state-action pairs is a
 random variable. Formally, given a game graph, $\sg$ and a schedule,
-$\sched$, let us denote by $\mathcal{A}^{\pOne}_{1:i}$ and
-$\mathcal{S}_{1:i}$ random variable sequences for
+$\sched$, let us denote by $\rv{A}^{\pOne}_{1:i}$ and
+$\rv{S}_{1:i}$ random variable sequences for
 $\pOne$-player actions and states respectively. The causal entropy of
 controllable actions in $\tau$-length paths under $\sched$ is then,
 \begin{equation}
-   H_\tau(\sigma) \eqdef H( \mathcal{A}^{\pOne}_{1:\tau'} \mid\mid \mathcal{S}_{1:\tau} ),
+   H_\tau(\sigma) \eqdef H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} ),
 \end{equation}
 where $\tau' = \lceil \nicefrac{\tau}{2}\rceil$ is the number of $\pOne$-actions given $\tau$.
 
