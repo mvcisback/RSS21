@@ -76,7 +76,7 @@ If both $\Act_\pOne$ and $\Act_\pTwo$ are singleton sets, then $\sg$ is a
 $s \in S$ and $\act \in \Act$, then $\sg$ is called
 \emph{deterministic} or a \emph{2-player game}.
 
-\mypara{Paths and Properties}
+\subsection{Paths and Path Properties}
 A finite \emph{path}, $\path$, of length $n$ is a sequence $s^0
 \xrightarrow{\act_0} s_1 \xrightarrow{\act_1} s_2 \rightarrow \hdots
 \rightarrow s_n$ in $\left( S \times \Act \right)^{n} \times S$ where
@@ -134,7 +134,7 @@ More precisely, we define the probability $\Pr(\path \mid \sched)$ recursively a
 \begin{equation}
   \begin{split}
     \Pr(s \mid \sched) &\eqdef 1\\
-    \Pr(\path~|~\sigma) \eqdef \Pr(\path\mid\sched)\cdot \sched(&\act\mid\path) \cdot P(\last{\path'},\act)(s')\\
+    \Pr(\path~|~\sigma) \eqdef \Pr(\path'\mid\sched)\cdot \sched(&\act\mid\path') \cdot P(\last{\path'},\act)(s')\\
   \end{split}
 \end{equation}
 where $\path =  \path' \xrightarrow{\act} s'$.
@@ -155,16 +155,16 @@ property\footnotemark.
 	
 \end{example}
 
-While most synthesis problems either consider soft \emph{or} hard constraint, it is natural to also consider a setting with both types of constraints~\cite{}. Such a problem formulation would be:
-\begin{mdframed}{}
-\textbf{Stochastic Game Synthesis Problem}:
-Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $\scthreshold \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ it holds that 
-\begin{compactenum}
-	\item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$
-	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
-\end{compactenum}
- where $\sched = \langle \pOneSched, \pTwoSched \rangle$
-\end{mdframed}
+%While most synthesis problems either consider soft \emph{or} hard constraints, it is natural to also consider a setting with both types of constraints~\cite{}. Such a problem formulation would be:
+% \begin{mdframed}{}
+% \textbf{Stochastic Game Synthesis Problem}:
+% Given an SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $\scthreshold \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ it holds that 
+% \begin{compactenum}
+% 	\item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$
+% 	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
+% \end{compactenum}
+%  where $\sched = \langle \pOneSched, \pTwoSched \rangle$
+% \end{mdframed}
 
 
 \subsection{Control Improvisation}
