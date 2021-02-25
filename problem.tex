@@ -178,7 +178,7 @@ Using the chain rule, one can relate causal entropy to (non-causal) entropy, $H(
   H(\mathcal{X}_{1:i}\mid\mid \mathcal{Y}_{1:i}) = \sum_{t=1^i} H(\mathcal{X}_i \mid \mathcal{Y}_{1:i}, X_{1:i-1})
 \end{equation}
 Implying that causal entropy is always lower bounded by non-causal
-entropy. Intuitively, the distinction is that causal entropy does not
+entropy (and thus non-negative). Intuitively, the distinction is that causal entropy does not
 condition on variables that have not been revealed. It has been observer
 that this makes causal entropy particularly well suited for measuring
 uncertainty in \emph{sequential} decision making problems, where
@@ -209,7 +209,8 @@ where $\tau' = \lceil \nicefrac{\tau}{2}\rceil$ is the number of $\pOne$-actions
 Together, this yields the necessary ingredients to formalize the problem statement. 
 \begin{mdframed}[backgroundcolor=blue!5]
 \textbf{The Entropic Control Improvisation (ERCI) Problem}:
-Given a SG $\sg$, $\tau$-bounded path properties $\psi$ and $\varphi$, thresholds $\scthreshold \in [0,1]$ and $\randomness \in [0,\infty)$, and a horizon $\horizon$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ \begin{compactenum}
+Given a SG $\sg$, $\tau$-bounded path properties $\psi$ and $\varphi$, and thresholds $\scthreshold \in [0,1]$ and $\randomness \in [0,\infty)$, find a $\pOne$-policy $\pOneSched$  such that for every $\pTwo$-policy $\pTwoSched$,
+\begin{compactenum}
 	\item (\emph{hard constraint}) $\Pr(\psi \mid \sched) \geq 1$
 	\item (\emph{soft constraint)} $\Pr(\varphi \mid \sched) \geq \scthreshold$
 \item (\emph{randomness constraint}) $H_\tau(\sigma) \geq \randomness$
@@ -274,20 +275,43 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 
 
 \subsection{Preprocessing}
-To ease the technical exposition, without loss of generality, we make the following assumptions\footnote{We argue that these assumptions are indeed w.l.o.g.\ in Sec.~\ref{sec:assumptions}}: 
-We assume the graph structure underlying the SG is finite acyclic and acyclic.
-When considering $\tau$-bounded path properties, 
-this assumption is naturally realized by a $\tau$-step unrolling the SG's graph, i.e., augment the state space with the path leading to a given state..
-As in \cite{DBLP:conf/cav/Vazquez-Chanlatte20}, one may then represent this unrolled graph as a binary decision diagram, which typically results in a concise representation.
-We calculate all states from which the $\pTwo$-player can enforce violating the hard constraint. We remove these states along with their in- and outgoing transitions. Any $\pOne$-policy now satisfies the hard constraint. 
-We may now define a unique target state $\target$ and a unique sink state $\sink$ such that these are the only states without any outgoing transitions.  The set $X_{\lozenge\mathbf{\top}}$ denotes all paths with $\last{\path} = s_\top$.
+To ease the technical exposition, without loss of generality, we make
+the following assumptions\footnote{We argue that these assumptions are
+indeed w.l.o.g.\ in Sec.~\ref{sec:assumptions}}: We assume the graph
+structure underlying the SG is finite and acyclic - and thus all paths
+are finite length. When considering $\tau$-bounded path properties,
+this assumption is naturally realized by a $\tau$-step unrolling the
+SG's graph, i.e., augmenting the state space with the path leading to
+a given state.  One may then represent this unrolled graph as a binary
+decision diagram, resulting in a (typically) concise graph that grows
+proportional to the horizon and minimal\footnotemark state space augmentation
+required~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
 
+\footnotetext{Formally, the state space is quotiented by distinguishablity under $\varphi$ and $\psi$.}
+
+Next, in order to ensure the hard constraint, $\psi$, we
+calculate all states from which the $\pTwo$-player can enforce
+violating the hard constraint. Such states are identifiable using a single
+lexicographic pass over $\sg$ from the leaves to the root.  We remove
+such states along with their in- and outgoing transitions. Any
+$\pOne$-policy now satisfies the hard constraint. 
+The remaining sink states are all merged into two states $\target$ and
+$\sink$, based on membership in $\varphi$, i.e.,
+\begin{equation}
+  \begin{split}
+    \last{\path} = \target ~\implies~ \path \in \varphi\\
+    \last{\path} = \sink ~\implies~ \path \notin \varphi
+  \end{split}.
+\end{equation}
+This yields the following (core) ERCI problem.
 \begin{mdframed}
 \textbf{The Entropic Control Improvisation (ERCI) Problem}:
-Given an acyclic SG $\sg$, including target states $s_\top$ and sink state $s_\bot$, thresholds $\scthreshold \in (0,1)$ and $\randomness \in [0,\infty)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ \begin{compactenum}
-	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
+Given an finite acyclic SG $\sg$, with sink states, $\target$ and $\sink$, and thresholds $\scthreshold \in (0,1)$ and $\randomness \in [0,\infty)$,  find a $\pOne$-policy $\pOneSched$  such that for every $\pTwo$-policy $\pTwoSched$
+\begin{enumerate}
+\item (\emph{soft constraint)}
+  $\Pr(\last{\xi} = \target \mid \sched) \geq \scthreshold$
 \item (\emph{randomness constraint}) $H(\sigma) \geq \randomness$
-\end{compactenum}
+\end{enumerate}
 where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
 
