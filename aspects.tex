@@ -27,21 +27,56 @@ $\rndp_\sched \geq \rndp$. Thus, a point is guaranteed if no matter
 what policy $\pTwo$ uses, $x_\sched$ will induce a point no worse
 w.r.t.\ to either randomization or performance.
 
-We then define the following elementary sets:
-For any $\pOneSched$, we define the set of guaranteed points:
+We then define the following elementary sets: For any $\pOneSched$,
+that $\pOneSched$ guarantees $\langle \scp, \rndp \rangle$, we define
+the set of guaranteed points:
 \begin{equation}\label{eq:guaranteed}
-\solutions_\pOne = \{ \langle \scp', \rndp' \rangle \mid \scp' \leq \scp \wedge \rndp \leq \rndp'\},
+\solutions[\pOneSched] = \{ \langle \scp', \rndp' \rangle \mid \scp' \leq \scp \wedge \rndp \leq \rndp'\},
 \end{equation}
-where $\pOneSched$ guarantees $\langle \scp, \rndp \rangle$.
-Any point that can be guaranteed by some $\pOneSched$ is called \emph{achievable}, i.e., the achievable points are:   	
- $ \solutions = \bigcup_{\pOneSched} \solutions_\pOne$.
-Now, it holds that the ERCI problem is satisfiable iff $\langle \scthreshold, \randomness \rangle$ is achievable.  
-\sj{We should clarify satisfiable lingo}
 
+Any point that can be guaranteed by some $\pOneSched$ is called
+\emph{achievable}, i.e., the achievable points are: $ \solutions =
+\bigcup_{\pOneSched} \solutions[\pOneSched]$.  Importantly, it holds
+that the ERCI problem is satisfiable iff $\langle \scthreshold,
+\randomness \rangle$ is achievable.  \sj{We should clarify satisfiable
+lingo} Thus, to solve ERCI instances, we start by characterizing
+$\solutions$.
 
 \begin{example}
 	
 \end{example}
+
+\begin{proposition}
+  The set $\solutions$ is convex. 
+\end{proposition}
+\begin{proof}[Proof Sketch]
+  Recall that a set is convex, if it is closed under
+  convex-combinations\footnotemark. Consider two points
+  $\langle \scthreshold, \randomness \rangle, \langle \scthreshold',
+  \randomness' \rangle \in \solutions$ achieved by $\pOneSched$ and
+  $\pOneSchedPrime$ resp. Consider the new policy,
+  $\pOneSchedPrimePrime$ defined by using $\pOneSched$ with
+  probability $q$ and $\pOneSchedPrime$ with probability $1 - q$.
+  By construction, this new policy as performance at least $q\cdot \scthreshold + (1 - q)\cdot \scthreshold'$.
+  Similarly, via chain rule, the causal entropy of this new policy is:
+  \begin{equation}
+    \begin{split}
+      H_\tau(\sigma) &= q \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pOneSched) \\
+      &~~+ ~(1 - q)  \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pOneSchedPrime)\\
+      &=~q\cdot\randomness + (1 - q)\cdot \randomness'.
+    \end{split}
+  \end{equation}
+  
+  Finally, observe that randomness and perf...
+
+  Finally, observe that the convex combination of policies is also a
+  policy\hfill $\blacksquare$.
+  % Let $\sched'$ and $\sched''$ be two schedulers with induced
+  % solution $\langle \scthreshold', \randomness' \rangle$ and
+  % $\langle \scthreshold'', \randomness'' \rangle$
+\end{proof}
+\footnotetext{That is, $y, y' \in Y$ implies for
+    every $w \in [0,1]$ that $w \cdot y + (1-w) \cdot y \in Y$}
 
 
 We can characterize the solutions using the Pareto-front. Therefore, we say that a point $x = \langle \scp,\rndp \rangle$ is dominated by $x' = \langle \scp', \rndp' \rangle$, in symbols $x \prec x'$, if $x'$ is strictly larger in at least one dimension and not smaller in the other, that is, 
@@ -60,13 +95,6 @@ and if there exists an $x \in \pareto{}$ such that $x \prec \langle \scthreshold
 \end{example}
 
 We can improve upon the construction of the Pareto-front by exploiting its convexity.
-Recall that a set is convex, if it is closed under convex-combinations.\footnote{That is, $y, y' \in Y$ implies for every $w \in [0,1]$ that $w \cdot y + (1-w) \cdot y \in Y$}
-\begin{proposition}
-	The set $\solutions$ is convex. 
-\end{proposition}
-%\begin{proof}
-%Let $\sched'$ and $\sched''$ be two schedulers with induced solution $\langle \scthreshold', \randomness' \rangle$ and $\langle \scthreshold'', \randomness'' \rangle$ 	
-%\end{proof}
 
 While $\solutions$ is defined as a subset of $[0,1] \times [0,\infty)$, we can restrict ourselves to the domain in which we can actually trade performance for randomness. 
 We define 
