@@ -188,11 +188,11 @@ To that end, recall that a path alternates states and actions.  The
 next state after observing a sequence of state-action pairs is a
 random variable. Formally, given a game graph, $\sg$ and a schedule,
 $\sched$, let us denote by $\mathcal{A}^{\pOne}_{1:i}$ and
-$\mathcal{S}_{1:\tau}$ the corresponding random variable sequences for
-$\pOne$-player actions and states respectively.  The causal entropy of
-controllable actions in $\tau$ length paths under $\sched$ is then,
+$\mathcal{S}_{1:i}$ random variable sequences for
+$\pOne$-player actions and states respectively. The causal entropy of
+controllable actions in $\tau$-length paths under $\sched$ is then,
 \begin{equation}
-   H_\tau(\sigma) \colonequals H( \mathcal{A}^{\pOne}_{1:\tau'} \mid\mid \mathcal{S}_{1:\tau} ),
+   H_\tau(\sigma) \eqdef H( \mathcal{A}^{\pOne}_{1:\tau'} \mid\mid \mathcal{S}_{1:\tau} ),
 \end{equation}
 where $\tau' = \lceil \nicefrac{\tau}{2}\rceil$ is the number of $\pOne$-actions given $\tau$.
 
@@ -216,7 +216,14 @@ Given a SG $\sg$, $\tau$-bounded path properties $\psi$ and $\varphi$, threshold
 \end{compactenum}
 where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
-Rather than fixing $\kappa$ a priori, we are often interested in limiting the \emph{regret}: The last point then becomes:
+\begin{remark}[Regret Based Variant]
+  In practice, rather that fixing $\scthreshold$ and $\randomness$ a
+  priori, one seeks achieve some percentage of the
+  achievable soft constraint or causal entropy measure.
+
+  In such cases,
+\end{remark}
+
 $H(\sched) \geq (1-\delta) \cdot H(\sched^{*})$, where $\sched^{*}$ .... \sj{I am not sure how to define this concisely.} 
 
 
