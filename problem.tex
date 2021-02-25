@@ -68,6 +68,7 @@ P(s,\act)(s')>0 \}$, and $\Succ(s) \eqdef\bigcup_{\act \in \EnAct(s)}
   labelling probability $1$ transitions.
 \end{example}
 	
+
 SGs capture a variety of models.  For example, if $\Act_\pOne$ is a
 singleton set, then $\sg$ is a \emph{Markov decision process} (MDP).
 If both $\Act_\pOne$ and $\Act_\pTwo$ are singleton sets, then $\sg$ is a
@@ -95,6 +96,8 @@ based on their last state: $\POnePaths[]{} = \{ \path \in
  \Paths[]{} \mid \last{\path} \in S_\pOne \}$ and $\PTwoPaths[]{} =
 \Paths[]{} \setminus \POnePaths[]{}$.
 
+
+
 \begin{example}
   In Fig.~\ref{fig:toysg}, there are two paths that end in $s_2$, $s_0 \xrightarrow{a} s_1 \xrightarrow{b} s_2$ of length $2$ and $s_0 \xrightarrow{b} s_2$ of length $1$. Both paths are in $\PTwoPaths[]{}$.
 \end{example}
@@ -117,9 +120,9 @@ To ease notation, we liberally use the notation $\sched \colon \Paths{} \rightar
   \begin{equation}
     \pOneSched(\alpha~|~\xi) =
     \begin{cases}
-      1 & \text{if } \alpha = b,~\xi = s_0\xrightarrow{a}s_1\xrightarrow{b}s_2\\
-      \nicefrac{1}{2} & \text{if } \alpha \in \{a, b\},~\xi = s_0\xrightarrow{b}s_2\\
       1 & \text{if } \alpha = a,~\xi = s_0\\
+      \nicefrac{1}{2} & \text{if } \alpha \in \{a, b\},~\xi = s_0\xrightarrow{b}s_2\\
+      1 & \text{if } \alpha = b,~\xi = s_0\xrightarrow{a}s_1\xrightarrow{b}s_2\\
     \end{cases}.
   \end{equation}
 \end{example}
@@ -324,28 +327,74 @@ Using the notation from the ERCI problem, find the set $\solutions \subseteq \ma
 We are going to iteratively construct the  Pareto optimal points in $\solutions$. This yields a semi-decision procedure.
 Clearly, finding $\solutions$ solves the ERCI problem, as we only need to decide whether $\langle \scthreshold, \randomness \rangle \in \solutions$.
 
-\subsection{ERCI versus reactive control improvisation}
-
 With these facts, we are now well-equiped to develop the algorithms in Sec.~\ref{sec:mdps} for MDPs and Sec.~\ref{sec:sgs} for SGs.
+We use the remainder of this section to motivate the choice for our problem formulation.
+
+\subsection{ERCI versus reactive control improvisation}
 
 Before we continue, we compare ERCI with the reactive, i.e. 2-player control improvisation framework from~\cite{}:
 \begin{mdframed}
-\textbf{The Deterministic (Reactive) Control Improvisation (DCI) Problem}:
-Given a \emph{deterministic} SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$, and a threshold $p \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$ 
+\textbf{The Deterministic Reactive Control Improvisation (DRCI) Problem}:
+Given a (\emph{deterministic}) SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$,  thresholds $\scthreshold \in (0,1)$ and $\ppthreshold \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$: 
 \begin{compactenum}
-\item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$
-	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$
-	\item (\emph{randomness}) $\Pr(\path) \leq \delta \text{ for all } \path \in \Paths{\sg[\sched]}$.
+\item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$,
+	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$,
+	\item (\emph{randomness}) $\Pr(\path \mid \sched) \leq \ppthreshold \text{ for all } \path \in \Paths{\sg}$,
 \end{compactenum}
+where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
-We observe that the `only' difference is that that we allow for probabilistic outcomes of actions and that we use entropy rather than an upper bound on the probability of a path. 
-First, we highlight that in the reactive setting, all randomization is due to the random behavior of $\pOne$. Roughly speaking, every path is than just good (i.e., ending in a target state) or bad (i.e., ending in a sink state). The randomization criterion then may just ensure that we do not select the same path with too much probability, which intuitively means that the $\pOne$-player must ensure in every step that it selects actions where there are enough different suffixes to the path (which then means that one can uniformly randomize over these paths and meet the threshold).
-In the SG case, not all paths are equal. This also directly makes the randomness constraint proposed in DIC
+While DRCI is only applied to deterministic SGs in \cite{DBLP:conf/cav/FremontS18}, there is nothing in the definition that prevents its application to the general class of SGs\footnote{However, this does not mean that the algorithm to compute a solution carries over to the general case}.
+We observe that then, the only difference between ERCI and DRCI is that we use entropy rather than an upper bound on the probability of a path.  Let us first illustrate why we choose a different type of randomness constraint.
+\begin{figure}
+\begin{tikzpicture}
+	\node[sstate, initial, initial text=] (s0) {$s_0$};
+	\node[sstate,right=of s0, yshift=2.5em] (s2) {$s_2$};
+	\node[sstate,above=0.4cm of s2] (s1) {$s_1$};
+	
+	\node[right=of s0,yshift=0.3em,xshift=0.2em] (sdots) {$\vdots$};
+	\node[sstate,right=of s0, yshift=-2.5em] (sn) {$s_n$};
+	\node[sstate,right=of s1] (t1) {$t_1$};
+	\node[right=of t1] (tdots) {$\hdots$};
+	\node[sstate,right=of tdots] (tn) {$t_m$};
+	\node[sstate, right=2.2cm of s0] (u) {$u$};
+	\node[sstate, right=of u, yshift=1em] (v1) {$v_1$};
+	\node[sstate, right=of u, yshift=-1em] (v2) {$v_2$};
+	\node[right=0.5cm of v1] {$\hdots$};
+	\node[right=0.5cm of v2] {$\hdots$};
+	
+	
+	
+	\draw[->] (t1) -- node[elab] {$1$} (tdots);
+	\draw[->] (tdots) -- node[elab] {$1$} (tn);
+	
+	\draw[->] (s0) -- node[elab] {$\nicefrac{1}{n}$} (s1);
+	\draw[->] (s0) -- node[elab,below] {$\nicefrac{1}{n}$} (s2);
+	\draw[->] (s0) -- node[elab,below] {$\nicefrac{1}{n}$} (sn);
+	
+	\draw[->] (s1) -- node[elab,above] {$1$} (t1);
+	\draw[->] (s2) -- node[elab,near end,above] {$1$} (u);
+	\draw[->] (sn) -- node[elab,near end,below] {$1$} (u);
+	
+	\draw[->] (u) -- node[actnode] {} node[elab,above, near start] {$a$}  node[elab,above, near end] {$1$} (v1);
+	\draw[->] (u) -- node[actnode] {} node[elab,below, near start] {$b$} node[elab,below, near end] {$1$} (v2);
+	
+	
+\end{tikzpicture}
+\caption{}	
+\end{figure}
+
+\begin{example}
+	Consider the SG (actually, an MDP) in Fig.~\ref{fig:drciOnSgs}. 
+	First consider that under each scheduler, the path from $s_0$ to $t_m$ has probability $\nicefrac{1}{n}$. In particular, this means that a feasible DRCI instance (applied to an SG) must have $\ppthreshold \geq \nicefrac{1}{n}$. At the same time, every path in the SG already has probability at most $\nicefrac{1}{n}$, and thus, every schedulder that satisfies the randomness constraint for $\delta = 1$ satisfies it for any $\ppthreshold \geq \nicefrac{1}{n}$. Thus, DRCI does not allow us to enforce any kind of randomization in the $\pOne$-policy. 
+\end{example}
+
+On the other hand, for deterministic SGs, all randomization is due to the random behavior of $\pOne$. Roughly speaking, every path is then just good (i.e., ending in a target state) or bad (i.e., ending in a sink state). The randomization criterion then may just ensure that we do not select the same path with too much probability, which intuitively means that the $\pOne$-player must ensure in every step that there are a sufficient number of paths from the next state (no matter what $\pTwo$-player does). 
+As long as there exist a sufficient number of paths, randomizing (uniformly) over those paths leads to a solution.
+
+	For deterministic SGs, the feasible ERCI and DRCI instances coincide.
 
 \begin{theorem}
-	For deterministic SGs, the ERCI and DCI problem coincide.
 \end{theorem}
-We defer a discussion and a precise statement to Lemma~\ref{}.
 
 \subsection{Causal Entropy versus Entropy}
 
