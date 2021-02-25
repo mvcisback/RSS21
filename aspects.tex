@@ -61,14 +61,11 @@ $\solutions$.
   Similarly, via chain rule, the causal entropy of this new policy is:
   \begin{equation}
     \begin{split}
-      H_\tau(\sigma) &= q \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pOneSched) \\
+      H_\tau(\sigma) &\geq q \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pOneSched) \\
       &~~+ ~(1 - q)  \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pOneSchedPrime)\\
-      &=~q\cdot\randomness + (1 - q)\cdot \randomness'.
+      &\geq~q\cdot\randomness + (1 - q)\cdot \randomness'.
     \end{split}
   \end{equation}
-  
-  Finally, observe that randomness and perf...
-
   Finally, observe that the convex combination of policies is also a
   policy\hfill $\blacksquare$.
   % Let $\sched'$ and $\sched''$ be two schedulers with induced
