@@ -194,7 +194,7 @@ controllable actions in $\tau$-length paths under $\sched$ is then,
 \begin{equation}
    H_\tau(\sigma) \eqdef H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} ),
 \end{equation}
-where $\tau' = \lceil \nicefrac{\tau}{2}\rceil$ is the number of $\pOne$-actions given $\tau$.
+where $\tau' = \lceil \frac{\tau}{2}\rceil$ is the number of $\pOne$-actions due to alternation.
 
 %, which we liberally use the set $\Paths[\tau]{\sg \mid \sched}$ to indicate these sequences (and the distribution over them) .  We want to express the causal entropy of a sequence of $\pOne$-action choices given the paths. 
 % For that, let us define $\Act_\pOne(\path)$ as the sequence $\act_{j_1} \act_{j_2} \hdots \act_{j_n}$ from $\path = s_0\act_0\hdots s_n$ where $j_i$ are the indices such that $s_{j_i} \in S_\pOne$, i.e., 
@@ -230,7 +230,8 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
       \rangle \big )\bigg)
     \end{split},
   \end{equation}
-  where $\epsilon, \delta \in [0, 1]$.
+  where $\epsilon, \delta \in [0, 1]$. As we shall later see, these maximum quantities are
+  directly computed in our proposed algorithm.
 \end{remark}
 
 \begin{figure}
