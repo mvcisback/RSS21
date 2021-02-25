@@ -117,9 +117,9 @@ To ease notation, we liberally use the notation $\sched \colon \Paths{} \rightar
   \begin{equation}
     \pOneSched(\alpha~|~\xi) =
     \begin{cases}
-      1 & \text{if } \alpha = a, \xi = s_0\\
-      \nicefrac{1}{2}{ & \text{if } \alpha \in \{a, b\},\xi = s_0\xrightarrow{b}s_2\\
-      1 & \text{if } \alpha = b, \xi = s_0\xrightarrow{a}s_1\xrightarrow{b}s_2\\
+      1 & \text{if } \alpha = b,~\xi = s_0\xrightarrow{a}s_1\xrightarrow{b}s_2\\
+      \nicefrac{1}{2} & \text{if } \alpha \in \{a, b\},~\xi = s_0\xrightarrow{b}s_2\\
+      1 & \text{if } \alpha = a,~\xi = s_0\\
     \end{cases}.
   \end{equation}
 \end{example}
@@ -130,13 +130,23 @@ The probability $\Pr(\path \mid \sched)$ of a finite path $\path$ in an SG $\sg$
 More precisely, we define the probability $\Pr(\path \mid \sched)$ recursively as:
 \begin{equation}
   \begin{split}
-    &\Pr(s \mid \sched) \eqdef 1\\
-    &\Pr(\path \act  s'\mid \sched) \eqdef \Pr(\path\mid\sched)\cdot \sched(\act\mid\path) \cdot P(\last{\path},\act)(s')
+    \Pr(s \mid \sched) &\eqdef 1\\
+    \Pr(\path~|~\sigma) \eqdef \Pr(\path\mid\sched)\cdot \sched(&\act\mid\path) \cdot P(\last{\path'},\act)(s')\\
   \end{split}
 \end{equation}
-The probability of a prefix-free set $X \subseteq \Paths{}$  of paths is the sum over the individual path probabilities, $\Pr(X \mid \sched) = \sum_{\path \in X} \Pr^\sg(\path \mid \sched )$.
-We consider sets $X_\varphi$ of finite paths\footnote{Such paths may e.g. be defined using temporal properties such as linear temporal logic over finite traces (LTLf)~\cite{}.} reflecting some specification $\varphi$.   
-In all definitions, we omit the superscript $\sg$ whenever it is clear from the context.
+where $\path =  \path' \xrightarrow{\act} s'$.
+The probability of a prefix-free set $X \subseteq \Paths{}$  of paths is the sum over the individual path probabilities, $\Pr(X \mid \sched) = \sum_{\path \in X} \Pr(\path \mid \sched )$.
+
+Next, we develop machinery to distinguish between desirable and
+undesirable paths. For simplicity, we focus on finite path properties,
+referred to as specifications or constraints, that are decidable
+within some fixed $\tau \in \Nat$ time steps, e.g., ``Recharge before
+t=20.'' Technically, we represent these path properties as prefix free
+sets of finite paths, $\varphi$, reflecting some formal
+property\footnotemark.
+%In all definitions, we omit the superscript $\sg$ whenever it is clear from the context.
+
+\footnotetext{{Such paths may e.g. be defined using temporal properties such as linear temporal logic over finite traces (LTLf)~\cite{}.}}
 
 \begin{example}
 	
