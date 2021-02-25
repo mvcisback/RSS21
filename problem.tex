@@ -223,7 +223,7 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
   re-parameterized the ERCI instance with:
   \begin{equation}
     \begin{split}
-      \scthreshold(\epsilon) &\eqdef \epsilon \cdot \bigg (\max_{\pOneSched} \min_{\pTwoSched} \Pr(\varphi \mid \langle \pTwoSched, \pOneSched \rangle\bigg)\\
+      \scthreshold(\epsilon) &\eqdef \epsilon \cdot \bigg (\max_{\pOneSched} \min_{\pTwoSched} \Pr(\varphi \mid \langle \pTwoSched, \pOneSched \rangle)\bigg)\\
       \randomness(\delta) &\eqdef  \delta \cdot \bigg(\max_{\pOneSched}
       \min_{\pTwoSched} H_\tau\big (\langle \pTwoSched, \pOneSched
       \rangle \big )\bigg)
@@ -274,11 +274,11 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 
 
 \subsection{Preprocessing}
-In this subsection, we preprocess the problem statement.
-To ease the technical construction, without loss of generality, we make the following assumptions\footnote{We argue that these assumptions are indeed w.l.o.g.\ in Sec.~\ref{sec:assumptions}}: 
-We assume the (graph structure underlying the) SG is acyclic, which we realise by means of unfolding the graph. 
-Once we have the acyclic SG, we can also set the horizon $\horizon$ to be sufficiently long such that $\horizon$ is at least the length of the , and thus we drop any reference to $\horizon$ from here onwards.
-As in \cite{DBLP:conf/cav/Vazquez-Chanlatte20}, we may represent this computation tree (typically) concisely using binary decision diagrams.
+To ease the technical exposition, without loss of generality, we make the following assumptions\footnote{We argue that these assumptions are indeed w.l.o.g.\ in Sec.~\ref{sec:assumptions}}: 
+We assume the graph structure underlying the SG is finite acyclic and acyclic.
+When considering $\tau$-bounded path properties, 
+this assumption is naturally realized by a $\tau$-step unrolling the SG's graph, i.e., augment the state space with the path leading to a given state..
+As in \cite{DBLP:conf/cav/Vazquez-Chanlatte20}, one may then represent this unrolled graph as a binary decision diagram, which typically results in a concise representation.
 We calculate all states from which the $\pTwo$-player can enforce violating the hard constraint. We remove these states along with their in- and outgoing transitions. Any $\pOne$-policy now satisfies the hard constraint. 
 We may now define a unique target state $\target$ and a unique sink state $\sink$ such that these are the only states without any outgoing transitions.  The set $X_{\lozenge\mathbf{\top}}$ denotes all paths with $\last{\path} = s_\top$.
 
