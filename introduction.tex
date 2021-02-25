@@ -22,14 +22,14 @@ single path through the workspace.
 
 % On the importance of being varied.
 Such policies have two weaknesses. First, in many tasks, the
-predictability of the policy may be a liability, .e.g., a patrol guard
+predictability of the policy may be a liability, e.g., a patrol guard
 should be sufficiently random to prevent an adversarial observer to
 easily guessing the remainder of their path. Second, synthesis
 algorithms work on idealized models, and indeed while randomization is
 a well-known ingredient to make policies or algorithm in general more
 robust against worst-case
 deviations~\cite{mceThesis, maxEntAnswer},
-these synthesized policies need not exhibit randomization.
+these synthesized policies need not (and typically do not) exhibit randomization.
 
 % Propose CI and highlight new features.
 These observations lead us to advocate for the adoption of control
@@ -41,19 +41,19 @@ ensure that a synthesized policy does not overly commit to a
 particular action or behavior. The idea of control improvisation is
 not new~\cite{DBLP:conf/cav/FremontS18,DBLP:conf/fsttcs/FremontDSW15},
 but has been limited to deterministic domains where uncertainty is
-resolved adversarialy. These assumption are too restrictive and lead
+resolved adversarially. This assumption is too restrictive and leads
 (together with the soft/hard constraints) to conservative policies or
 situations in which the synthesis algorithm cannot be employed at
 all. To overcome this weakness, we develop a theory of control
 improvisation in stochastic games which admit combinations of
-adversarial and probabilistic uncertainty, e.g., unknown or imprecise
+adversarial and probabilistic uncertainty, including unknown or imprecise
 transition probabilities. As we show later, this extension requires a
 different view on randomization constraints, as the policy is no
 longer the only source of randomization.
 
 Technically, we formulate our problem on \emph{simple stochastic
-games}, an extension of Markov decision processes that divides states
-between controllable states and uncontrollable (or adverserially
+games}~\cite{DBLP:conf/dimacs/Condon90}, an extension of Markov decision processes that divides states
+between controllable states and uncontrollable (or adversarially
 controlled) states. \emph{Soft constraints} are finite horizon
 temporal properties with a threshold on the worst-case probability of
 that the property holding by the end of the episode. \emph{Hard
