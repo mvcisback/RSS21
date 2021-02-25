@@ -1,21 +1,38 @@
-
 \section{On ERCI and its Pareto Front}\label{sec:convex}
-We consider the ERCI problem in more detail. 
-In particular, we interpret the problem as a trade-off to a multi-objective problem in which we want to find a policy that maximizes both the probability of the set $X_\varphi$ and the causal entropy $H$. 
-Furthermore, we clarify the difference with existing work on control improvisation. 
 \subsection{ERCI as a multi-objective problem}
-We are interested in understanding how a lower bound on the soft constraint affects the optimal causal entropy induced by a policy (from here onwards: \emph{the randomization}), and vice versa, how a lower bound on the causal entropy affects the maximal probability of the paths in $X_\varphi$ (from here onwards: \emph{the performance}). We thus frame our problem in terms of randomization versus performance.
-In particular, we are interested in understanding the combinations of $\scthreshold$ and $\randomness$ that allow to solve the (preprocessed) ERCI problem. 
+As may already be apparent to the reader, there is a natural trade off
+between probability of generating paths in $\varphi$ (from her
+onwards: \emph{the performance}) and causal entropy induced by a
+policy (from here onwards: \emph{the randomization}).  In particular,
+we are interested in understanding the combinations of $\scthreshold$
+and $\randomness$ that allow to solve the (core) ERCI problem. To this
+end, we cast ERCI as a variant of multi-objective optimization and
+studying its Pareto Front.
 
-It is convenient to consider this geometrically. Thus, we say that scheduler $\sched$ induces a point $x_\sched$: \[x_\sched \eqdef \langle \Pr(X_\varphi \mid \sched), H(\sched)  \rangle \in [0,1] \times [0,\infty).\] 
-To ease notation, for $x_\sched = \langle \scp,\rndp \rangle$ we use $\scp_\sched \eqdef \scp$ and $\rndp_\sched \eqdef \rndp$.
+% It is convenient to consider this geometrically.
+To begin, given a fixed ERCI instance, observe that a scheduler $\sched$
+induces a point $x_\sched$:
+\begin{equation}
+  x_\sched \eqdef \Big\langle \Pr(X_\varphi \mid \sched), H(\sched) \Big\rangle \in [0,1] \times [0,\infty).  
+\end{equation}
 
-However, we are not interested in points induced by any scheduler. Instead, we are interested in the worst-case values in the sense that we ask which points are necessarily dominated by 
-For a $\pOne$-policy $\pOneSched$, we say that $\pOneSched$ \emph{guarantees} a point $x_\pOne \eqdef \langle \scp, \rndp \rangle$, if for every policy $\pTwoSched$, using $\sched = \langle \pOneSched, \pTwoSched \rangle$, we have $\scp_\sched \geq \scp$ and $\rndp_\sched \geq \rndp$. Thus, a point is guaranteed if no matter what policy  $\pTwo$ uses, $x_\sched$ will induce a point no worse w.r.t.\ to either randomization or performance.
+To ease notation, for $x_\sched = \langle \scp,\rndp \rangle$ we use
+$\scp_\sched \eqdef \scp$ and $\rndp_\sched \eqdef \rndp$.
+
+For a $\pOne$-policy $\pOneSched$, we say that $\pOneSched$
+\emph{guarantees} a point $x_\pOne \eqdef \langle \scp, \rndp
+\rangle$, if for every policy $\pTwoSched$, using $\sched = \langle
+\pOneSched, \pTwoSched \rangle$, we have $\scp_\sched \geq \scp$ and
+$\rndp_\sched \geq \rndp$. Thus, a point is guaranteed if no matter
+what policy $\pTwo$ uses, $x_\sched$ will induce a point no worse
+w.r.t.\ to either randomization or performance.
 
 We then define the following elementary sets:
-For any $\pOneSched$ and a fixed ERCI instance, we define the set of guaranteed points:
-  \[ \solutions_\pOne = \{ \langle \scp, \rndp \rangle \mid  \pOneSched \text{ guarantees } \langle \scp, \rndp \rangle \}. \]
+For any $\pOneSched$, we define the set of guaranteed points:
+\begin{equation}\label{eq:guaranteed}
+\solutions_\pOne = \{ \langle \scp', \rndp' \rangle \mid \scp' \leq \scp \wedge \rndp \leq \rndp'\},
+\end{equation}
+where $\pOneSched$ guarantees $\langle \scp, \rndp \rangle$.
 Any point that can be guaranteed by some $\pOneSched$ is called \emph{achievable}, i.e., the achievable points are:   	
  $ \solutions = \bigcup_{\pOneSched} \solutions_\pOne$.
 Now, it holds that the ERCI problem is satisfiable iff $\langle \scthreshold, \randomness \rangle$ is achievable.  
@@ -145,3 +162,8 @@ We note that the policies solving the two problems do in general not coincide.
 
 \subsection{Causal Entropy versus Entropy}
 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
