@@ -18,19 +18,31 @@ For any $\pOneSched$ and a fixed ERCI instance, we define the set of guaranteed 
   \[ \solutions_\pOne = \{ \langle \scp, \rndp \rangle \mid  \pOneSched \text{ guarantees } \langle \scp, \rndp \rangle \}. \]
 Any point that can be guaranteed by some $\pOneSched$ is called \emph{achievable}, i.e., the achievable points are:   	
  $ \solutions = \bigcup_{\pOneSched} \solutions_\pOne$.
+Now, it holds that the ERCI problem is satisfiable iff $\langle \scthreshold, \randomness \rangle$ is achievable.  
+\sj{We should clarify satisfiable lingo}
 
-
-We can characterize the solutions using the Pareto-front. Therfore, we say that a point $x = \langle \scp,\rndp \rangle$ is dominated by $x' = \langle \scp', \rndp' \rangle$, in symbols $x \prec x'$, if $x'$ is strictly larger in at least one dimension and not smaller in the other, that is, 
-\begin{equation}
-  \langle \scp', \rndp' \rangle 	 \prec \langle \scp', \rndp' \rangle \eqdef \Big( \scp \leq \scp' \land \rndp \leq \rndp' \land \big(\scp \neq \scp' \lor \rndp \leq \rndp'\big)	\Big)
-\end{equation}
-
-The Pareto-front $\pareto{\solutions}$ of $\solutions$ is given as \[ \{ x \in \solutions \mid \forall x' \in \solutions, x \not\prec x'  \}. \]
 
 \begin{example}
 	
 \end{example}
 
+
+We can characterize the solutions using the Pareto-front. Therefore, we say that a point $x = \langle \scp,\rndp \rangle$ is dominated by $x' = \langle \scp', \rndp' \rangle$, in symbols $x \prec x'$, if $x'$ is strictly larger in at least one dimension and not smaller in the other, that is, 
+\begin{equation}
+  \langle \scp', \rndp' \rangle 	 \prec \langle \scp', \rndp' \rangle \eqdef \Big( \scp \leq \scp' \land \rndp \leq \rndp' \land \big(\scp \neq \scp' \lor \rndp \leq \rndp'\big)	\Big)
+\end{equation}
+The Pareto-front $\pareto{\solutions}$ of $\solutions$ is given as \[ \pareto{\solutions} \eqdef \{ x \in \solutions \mid \forall x' \in \solutions, x \not\prec x'  \}. \]
+Now, it holds that the ERCI problem is satisfiable iff there exists a  $x \in \pareto{\solutions}$ such that $\langle \scthreshold, \randomness \rangle \prec x$.  
+
+The important aspect of this Pareto-front is that it gives a natural approximation scheme in the following sense.
+For any subset $\pareto{} \subseteq \pareto{\solutions}$, if there exists an  $x \in \pareto{}$ such that $\langle \scthreshold, \randomness \rangle \prec x$, then the ERCI Problem must be satisfiable, 
+and if there exists an $x \in \pareto{}$ such that $x \prec \langle \scthreshold, \randomness \rangle$ then the ERCI problem is not satisfiable. 
+
+\begin{example}
+	
+\end{example}
+
+We can improve upon the construction of the Pareto-front by exploiting its convexity.
 Recall that a set is convex, if it is closed under convex-combinations.\footnote{That is, $y, y' \in Y$ implies for every $w \in [0,1]$ that $w \cdot y + (1-w) \cdot y \in Y$}
 \begin{proposition}
 	The set $\solutions$ is convex. 
@@ -39,19 +51,18 @@ Recall that a set is convex, if it is closed under convex-combinations.\footnote
 %Let $\sched'$ and $\sched''$ be two schedulers with induced solution $\langle \scthreshold', \randomness' \rangle$ and $\langle \scthreshold'', \randomness'' \rangle$ 	
 %\end{proof}
 
-\begin{definition}
+While $\solutions$ is defined as a subset of $[0,1] \times [0,\infty)$, we can restrict ourselves to the domain in which we can actually trade performance for randomness. 
 We define 
-$\rndopt \colonequals \max \{ \rndp \mid \exists \scp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $
-and 
-$\scopt \colonequals \max \{ \scp \mid \exists \rndp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $.
+$\rndopt \eqdef \max \{ \rndp \mid \exists \scp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $, i.e., the largest randomness that can be guaranteed by any $\pOne$-policy. 
+Likewise, we define 
+$\scopt \eqdef \max \{ \scp \mid \exists \rndp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $, i.e., the largest performance that can be guaranteed by any $\pOne$-policy. 
 Then, we define 
-$\scmin \colonequals \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$ and $\rndmin \colonequals \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$.
-\end{definition}
+$\scmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$, the best performance that $\pOne$ can guarantee while guaranteeing optimal randomness. 
+Likewise, we define  the analogous $\rndmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$.
+We thus obtain two points on the Pareto-curve: $\langle \scmin, \rndopt \rangle$ and $\langle \scopt, \rndmin \rangle$, and intuitively, we can trade between these two points following the Pareto curve.
 
 
-
-
-
+Finally, it is helpful to think about the Pareto-curve as a function of either $\rndp$. 
 We define a characteristic function $\solfuncp\colon [\rndmin,\rndopt] \rightarrow [\scmin,\scopt]$ such that $\solfuncp(\rndp) = \max \{ \scp \mid \langle \scp, \rndp \rangle \in \solutions \} \cup \{ 0 \}$.  
 \begin{proposition}
 	$\solfuncp$ is smooth monotonically decreasing. 
