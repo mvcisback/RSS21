@@ -302,10 +302,12 @@ $\sink$, based on membership in $\varphi$, i.e.,
     \last{\path} = \target ~\implies~ \path \in \varphi\\
     \last{\path} = \sink ~\implies~ \path \notin \varphi
   \end{split}.
+  
 \end{equation}
+
 This yields the following (core) ERCI problem.
 \begin{mdframed}
-\textbf{The Entropic Control Improvisation (ERCI) Problem}:
+\textbf{The Core ERCI Problem}:
 Given an finite acyclic SG $\sg$, with sink states, $\target$ and $\sink$, and thresholds $\scthreshold \in (0,1)$ and $\randomness \in [0,\infty)$,  find a $\pOne$-policy $\pOneSched$  such that for every $\pTwo$-policy $\pTwoSched$
 \begin{enumerate}
 \item (\emph{soft constraint)}
