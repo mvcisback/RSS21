@@ -2,19 +2,31 @@
 \section{The Control Improvisation Problem for MDPs}
 \label{sec:mdps}
 
-
-We present an algorithm for the control improvisation problem for MDPs. The key insight is to rephrase the tradeoff between randomisation and performance as a degree in rationality $\rat$ of the policy. Intuitively, a rationality of $\rat = 1$ means that we focus completely on the performance criterion, and rationality $\rat = 0$ We can then reuse ideas from policy inference from specifications~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
-In the next section, we extend this idea to SGs. 
+We present an algorithm for the control improvisation problem for
+MDPs. The key insight is to rephrase the tradeoff between
+randomisation and performance as a degree in rationality $\rat$ of the
+policy. Intuitively, a rationality of $\rat = \infty$ means that we
+focus completely on the performance criterion, and rationality $\rat =
+0$. We can then reuse ideas from maximum entropy inference from
+specifications~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.  In the next
+section, we extend this idea to SGs.
 
 \subsection{Rationality}
 
-We define the following smooth variant of the Bellman equations. In particular, we use $\smoothmax{}$ as the log-sum-exp, i.e., $\smoothmax{X}  \colonequals \log \left( \sum_{x\in X} e^x \right)$
-\begin{align}
-	& V_\rat(s) \colonequals  \begin{cases} \smoothmax{\{  Q_\rat(s,\act) \}} & \text{if }s \not\in \{ \target, \sink \}, \\ \lambda  \cdot \indicator{s = \target} & \text{otherwise.}  \end{cases}\\ 
-	& Q_\rat(s, \act) \colonequals \sum_{s'} P(s,\act,s') \cdot V_\rat(s')
-\end{align}
-For each rationality $\lambda$, we define a policy:
-The policy $\sched_\lambda$ is then given by $\sched(s)(\act) = \log( Q_\rat(s,\act) - V_\rat(s))$ for each $s \in S \setminus \{ \sink, \target \}$ and $\act \in \EnAct(s)$.\sj{Need to put in enact}
+\noindent
+In context of MDPs, the maximum causal entropy policy for a particular
+reward (here performance) is given by a smooth variant of the Bellman
+equations~\cite{mceThesis}. Namely, let $\smoothmax{}$ denote the
+log-sum-exp operator, i.e., $\smoothmax{X} \eqdef \log \left(
+\sum_{x\in X} e^x \right)$. For each rationality $\lambda \in [0,
+\infty)$, we define a policy,
+ \begin{align}
+   &\sched_\rat(s\mid \act) = \log( Q_\rat(s,\act) - V_\rat(s))  \\
+	& V_\rat(s) \colonequals  \begin{cases} \smoothmax_{\act \in \EnAct(s)}{\{  Q_\rat(s,\act) \}} & \text{if }s \not\in \{ \target, \sink \}, \\ \lambda  \cdot \indicator{s = \target} & \text{otherwise.}  \end{cases}\\ 
+	& Q_\rat(s, \act) \colonequals \sum_{s'} P(s,\act,s') \cdot V_\rat(s').
+ \end{align}
+ for each $s \in S \setminus \{ \sink, \target \}$ and $\act \in \EnAct(s)$ and
+\sj{Need to put in enact}
 To ease notation, we denote $x_\rat \colonequals x_{\sched_\rat}, \scp_\rat \colonequals \scp_{\sched_\rat}, \rndp_\rat \colonequals \rndp_{\sched_\rat}$.
 
 \begin{proposition}
@@ -38,3 +50,8 @@ It is convenient to talk about a third player, $\mathsf{rnd}$, that owns all sta
 \subsection{Pareto-exploration}
 
 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
