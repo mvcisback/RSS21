@@ -3,7 +3,7 @@
 \label{sec:mdps}
 
 We present an algorithm for the control improvisation problem for
-MDPs. The key insight is to rephrase the tradeoff between
+MDPs. The key idea is to rephrase the tradeoff between
 randomisation and performance as a degree in rationality $\rat$ of the
 policy. Intuitively, a rationality of $\rat = \infty$ means that we
 focus completely on the performance criterion, and rationality $\rat =
@@ -14,42 +14,69 @@ section, we extend this idea to SGs.
 \subsection{Rationality}
 
 \noindent
-In context of MDPs, the maximum causal entropy policy for a particular
-reward (here performance) is given by a smooth variant of the Bellman
-equations~\cite{mceThesis}. Namely, let $\smoothmax{}$ denote the
-log-sum-exp operator, i.e., $\smoothmax(X) \eqdef \log \left(
-\sum_{x\in X} e^x \right)$. For each rationality $\lambda \in [0,
-\infty)$, we define a policy,
+In context of MDPs, the maximum causal entropy policy consistent with
+an expected reward (here performance, $\scthreshold$) is given by a
+smooth variant of the Bellman equations~\cite{mceThesis}. Namely, let
+$\smoothmax{}$ denote the log-sum-exp operator, i.e., $\smoothmax(X)
+\eqdef \log \left( \sum_{x\in X} e^x \right)$. For each rationality
+$\rat \in [0, \infty)$, we define a policy,
  \begin{align}
-   &\sched_\rat(s\mid \act) = \log( Q_\rat(s,\act) - V_\rat(s))  \\
-	& V_\rat(s) \colonequals  \begin{cases} \smoothmax_{\act \in \EnAct(s)}{\{  Q_\rat(s,\act) \}} & \text{if }s \not\in \{ \target, \sink \}, \\ \lambda  \cdot \indicator{s = \target} & \text{otherwise.}  \end{cases}\\ 
-	& Q_\rat(s, \act) \colonequals \sum_{s'} P(s,\act,s') \cdot V_\rat(s').
+   &\sched_\rat(s\mid \act) \eqdef \exp( Q_\rat(s,\act) - V_\rat(s))  \\
+   & V_\rat(s) \eqdef  \begin{cases}
+     \lambda  \cdot \indicator{s = \target} & \text{if }s \in \{ \target, \sink \},\\
+     \smoothmax_{\act \in \EnAct(s)}{  Q_\rat(s,\act) } & \text{otherwise.}
+   \end{cases}\\ 
+	& Q_\rat(s, \act) \eqdef \sum_{s'} P(s,\act,s') \cdot V_\rat(s').
  \end{align}
- for each $s \in S \setminus \{ \sink, \target \}$ and $\act \in \EnAct(s)$ and
 \sj{Need to put in enact}
-To ease notation, we denote $x_\rat \colonequals x_{\sched_\rat}, \scp_\rat \colonequals \scp_{\sched_\rat}, \rndp_\rat \colonequals \rndp_{\sched_\rat}$.
+To ease notation, we denote $x_\rat \colonequals x_{\sched_\rat},
+\scp_\rat \colonequals \scp_{\sched_\rat}, \rndp_\rat \colonequals
+\rndp_{\sched_\rat}$. As previously alluded, the key property
+is that $\sched_\rat$ is the \emph{unique} maximum causal entropy policy
+such that $\Pr(\varphi) = \scp_\rat$~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
+
+In terms of the machinery developed in the previous section, this
+family serves to index the Pareto-Front, $\pareto{\solutions}$.  As a
+consequence, we can use $\rat$ to explore the Pareto-front.  To see
+this, first observe the following easily verified proposition.
 
 \begin{proposition}
-$\scp_\rat$ is monotonically increasing in $\rat$ and $\rndp_\rat$ is monotonically decreasing in $\rat$.	
+  $\scp_\rat$ is smoothly and (strictly) monotonically increasing in $\rat$ and $\rndp_\rat$
+  is smoothly (strictly) monotonically decreasing in $\rat$.
 \end{proposition}
-As a consequence, we can use $\rat$ to explore the Pareto-front. 
 
-
-{\color{red}Need to talk about completness}
-\color{black!50}
-We consider $P$ as being defined using an auxiliary notion of environment actions $\Act_E$, a deterministic environment transition relation $P_{\hat{i}}\colon S_i \times \Act_i \rightarrow A_E$ and a (memoryless, randomized) environment-scheduler $A_E \rightarrow \Distr(S)$.
-
-
-
-It is convenient to talk about a third player, $\mathsf{rnd}$, that owns all states with $|\Act|$\sj{needs available actions}
-
-
-
-\color{black}
+Intuitively, as $\rat$ approaches $0$, $\sched_\rat$ approaches the
+uniform distribution over \emph{all available actions}. Note that this
+policy maximizes (causal) entropy, and thus $\rndopt = \rndp_0$.
+Similarly, as $\rat$ approaches $\infty$, $\sched_\rat$ selects (uniformly) from
+actions \emph{that maximize performance}. Thus, $\scopt = \scp_\infty$.
 
 \subsection{Pareto-exploration}
+As a consequence, we can use $\rat$ to explore the Pareto-front, and
+in particular, assuming $\scopt, \rndopt \neq 0$ (which would otherwise yield a singleton
+$\solutions$ and $\pareto{\solutions}$), we have:
+\begin{equation}
+  \solfuncp\left(\frac{\rndp_\rat}{\rndp_0}\right) = \frac{\scp_\rat}{\scp_\infty}.
+\end{equation}
+The key algorithmic idea is thus to strategically evaluate a sequence
+of rationality coefficients to yield (input, output) pairs for
+$\solfuncp$. Due to convexity, this sequence of rationality
+coefficients gradually refines a piece-wise linear approximation of
+$\solfuncp$, and thus the Pareto Front. This approximation, $\hat{\solfuncp}$, is refined
+until either:
+\begin{enumerate}
+  \item $\hat{\solfuncp}(\nicefrac{\scthreshold}{\scp_\infty}) < h$, proving $\langle \scthreshold,
+\randomness \rangle \in \solutions$.
+\item A $\rat$ is found such that $x_{\rat} \prec \langle
+\scthreshold, \randomness \rangle$, proving $\langle \scthreshold,
+\randomness \rangle \notin \solutions$.
 
+\end{enumerate}
 
+TODO: Marcell. Pass done up to here.
+This sequence proceeds in three phases and is visualized in Fig ?:
+(i) Compute the end points $\rat \in {0, \infty}$, (ii) Doubling Trick.
+(iii) Binary Search.
 
 %%% Local Variables:
 %%% mode: latex

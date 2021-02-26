@@ -1,5 +1,4 @@
-\section{On ERCI and its Pareto Front}\label{sec:convex}
-\subsection{ERCI as a multi-objective problem}
+\section{ERCI as multi-objective optimization}\label{sec:convex}
 As may already be apparent to the reader, there is a natural trade off
 between probability of generating paths in $\varphi$ (from her
 onwards: \emph{the performance}) and causal entropy induced by a
@@ -143,12 +142,14 @@ We thus obtain two points on the Pareto-curve: $\langle \scmin, \rndopt \rangle$
   directly computed in our proposed algorithm.
 \end{remark}
 
-Finally, it is helpful to think about the Pareto-curve as a function in $\rndp$.  We define a
-characteristic function:
+Finally, it is helpful to think about the Pareto-curve as a function
+in $\rndp$.  We define a characteristic function which given a target
+performance ratio, $\epsilon$, yields the optimal randomness ratio,
+$\delta$:
 \begin{equation}
   \begin{split}
     & \solfuncp\colon [0,1] \rightarrow [0, 1]    \\
-    & \solfuncp(\delta) = \max_\epsilon \{ \scp(\epsilon) \mid \langle
+    & \solfuncp(\delta) = \max_\epsilon \{ \rndp(\delta) \mid \langle
     \scp(\epsilon), \rndp(\delta) \rangle \in \solutions \} 
   \end{split}
 \end{equation}
