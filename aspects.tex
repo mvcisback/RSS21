@@ -58,29 +58,31 @@ $\solutions$.
 \begin{proof}[Proof Sketch]
   Recall that a set is convex, if it is closed under
   convex-combinations\footnotemark. Consider two points
-  $\langle \scthreshold, \randomness \rangle, \langle \scthreshold',
-  \randomness' \rangle \in \solutions$ achieved by $\pOneSched$ and
-  $\pOneSchedPrime$ resp. Consider the new policy,
-  $\pi$, defined by employing $\pOneSched$ with
-  probability $q$ and $\pOneSchedPrime$ with probability $\bar{q} \eqdef 1 - q$.
-  Because each policy \emph{guarantees} its corresponding performance,
-  this new policy as performance at least $q\cdot \scthreshold + q\cdot \scthreshold'$.
-  Similarly, by viewing $\pi$ as a random variable and applying chain
-  rule yields,
+  $\langle \scp, \rndp \rangle, \langle \scp', \rndp' \rangle \in
+  \solutions$ achieved by $\pOneSched$ and $\pOneSchedPrime$
+  resp. Consider the new policy, $\pi$, defined by employing
+  $\pOneSched$ with probability $q$ and $\pOneSchedPrime$ with
+  probability $\bar{q} \eqdef 1 - q$.  Because each policy
+  \emph{guarantees} its corresponding performance, this new policy as
+  performance at least $q\cdot \scp + \bar{q}\cdot \scp'$.  Similarly,
+  by viewing $\pi$ as a random variable and applying chain rule
+  yields,
   \begin{equation}
     \begin{split}
-      H_\tau(\sigma) 
+      H_\tau(\sigma)
       \geq &~q \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSched)~+\\
       &~\bar{q}  \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSchedPrime)\\
-      =&~q\cdot\randomness + (1 - q)\cdot \randomness'.
+      =&~q\cdot\rndp + \bar{q}\cdot \rndp'.
     \end{split}
   \end{equation}
+  Thus, any convex combination of guaranteed points is guaranteed by
+  a convex combination of the resp. ego policies.
 \end{proof}
 \footnotetext{
   That is, $y, y' \in Y$ implies for
   every $w \in [0,1]$ that $w \cdot y + (1-w) \cdot y \in Y$
 }
-\noindent
+
 Next, observe that because $\solutions$ is downward closed, it
 suffices to study the ``maximal'' or non-dominated points.  Precisely,
 we say that a point $x$ is \emph{dominated} by $x'$, written $x \prec
