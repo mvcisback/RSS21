@@ -32,7 +32,8 @@
 \newtheorem{remark}{Remark}
 \newtheorem{example}{Example}
 \newtheorem{definition}{Definition}
-
+\usepackage{algorithm, algorithmicx}
+\usepackage[noend]{algpseudocode}
 
 \usetikzlibrary{patterns,arrows,backgrounds,calc,shapes,shadows,decorations.pathmorphing,decorations.pathreplacing,automata,shapes.multipart,positioning,shapes.geometric,fit,circuits,trees,shapes.gates.logic.US,fit,decorations.markings}
 
@@ -121,6 +122,7 @@
 \newcommand{\propref}[1]{{Prop.~\ref{prop:#1}}}
 \newcommand{\secref}[1]{{Sec.~\ref{sec:#1}}}
 
+\newcommand{\UPDATE}{{\mathsf{update}}}
 
 \setlength\marginparwidth{110pt}
 \newcommand{\colorpar}[3]{\colorbox{#1}{\parbox{#2}{#3}}}

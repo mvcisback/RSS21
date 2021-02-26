@@ -1,9 +1,9 @@
-
 \section{The Control Improvisation Problem for MDPs}
 \label{sec:mdps}
 
 We present an algorithm for the control improvisation problem for
-MDPs. The key idea is to rephrase the tradeoff between
+MDPs. Recall that an MDP is a stochastic game with a 
+The key idea is to rephrase the tradeoff between
 randomisation and performance as a degree in rationality $\rat$ of the
 policy. Intuitively, a rationality of $\rat = \infty$ means that we
 focus completely on the performance criterion, and rationality $\rat =
@@ -52,31 +52,50 @@ Similarly, as $\rat$ approaches $\infty$, $\sched_\rat$ selects (uniformly) from
 actions \emph{that maximize performance}. Thus, $\scopt = \scp_\infty$.
 
 \subsection{Pareto-exploration}
-As a consequence, we can use $\rat$ to explore the Pareto-front, and
-in particular, assuming $\scopt, \rndopt \neq 0$ (which would otherwise yield trivial
-$\solutions$ and $\pareto{\solutions}$), we have:
+As a consequence, we can use $\rat$ to explore the Pareto-front.
+In particular, assuming $\scopt, \rndopt \neq 0$ (which would
+otherwise yield trivial $\solutions$ and $\pareto{\solutions}$), one
+can define $\epsilon_\rat \eqdef \nicefrac{\scp_\rat}{\scp_\infty}, \delta_\rat \eqdef \nicefrac{\rndp_\rat}{\rndp_0}$. Then, because
+$\sched_\rat$ maximizes randomness given a target performance, one derives:
 \begin{equation}
-  \solfuncp\left(\frac{\rndp_\rat}{\rndp_0}\right) = \frac{\scp_\rat}{\scp_\infty}.
+  \solfuncp\left(\epsilon_\rat\right) = \delta_\rat.
 \end{equation}
 The key algorithmic idea is thus to strategically evaluate a sequence
 of rationality coefficients to yield (input, output) pairs for
-$\solfuncp$. Due to convexity, this sequence of rationality
-coefficients gradually refines a piece-wise linear approximation of
-$\solfuncp$, and thus the Pareto Front. This approximation, $\hat{\solfuncp}$, is refined
-until either:
+$\solfuncp$. Due to convexity, the convex hull this sequence of
+rationality-indexed points (and the origin) gradually refines a
+polygonal approximation of $\solutions$, and thus the Pareto
+Front. This approximation, $\hat{\solutions}$, is refined until
+either:
 \begin{enumerate}
-  \item $\hat{\solfuncp}(\nicefrac{\randomness}{\rndp_0}) \leq \nicefrac{\scthreshold}{\scp_\infty}$, proving $\langle \scthreshold,
-\randomness \rangle \in \solutions$.
-\item A $\rat$ is found such that $x_{\rat} \prec \langle
-\scthreshold, \randomness \rangle$, proving $\langle \scthreshold,
-\randomness \rangle \notin \solutions$.
-
+\item $\langle \scthreshold, \randomness \rangle \in \hat{S}$ proving
+  $\langle \scthreshold, \randomness \rangle \in \solutions$.
+\item A $\rat$ is found such that
+  $x_{\rat} \prec \langle \scthreshold, \randomness \rangle$, proving
+  $\langle \scthreshold, \randomness \rangle \notin \solutions$.
 \end{enumerate}
+Next, to extract an improviser, observe that because
+$\hat{\solutions}$ is a convex polygon, if $\langle \scthreshold,
+\randomness \rangle \in \hat{S}$, then there must two corners of
+$\hat{\solutions}$ indexed by $\rat_1$ and $\rat_2$, that form a
+triangle with $(0, 0)$ containing $\langle \scthreshold, \randomness
+\rangle$. Thus, as in the convexity proof, there must be a convex
+combination of $q\cdot x_{\rat_1} + \bar{q}\cdot x_{\rat_2}$ that
+dominates $\langle \scthreshold, \randomness \rangle$. Therefore, the
+following policy solves the ERCI instance:
+\begin{equation}\label{eq:4}
+  \sigma^*_\pOne(a\mid s) \eqdef q\cdot \sched_{\rat_1}(a\mid s) + \bar{q} \cdot \sched_{\rat_2}(a \mid s)
+\end{equation}
 
-TODO: Marcell. Pass done up to here.
-This sequence proceeds in three phases and is visualized in Fig ?:
-(i) Compute the end points $\rat \in {0, \infty}$, (ii) Doubling Trick.
-(iii) Binary Search.
+\mypara{Approximation Sequence} The final algorithmic question for
+MDPs is then: what order should one evaluate rationality coefficients.
+We propose a three staged sequence:
+(i) Compute $x_\rat$ for the end points $\rat \in \{0, \infty\}$.
+(ii) Double $\rat$ until $h_\rat < \randomness$, yielding $\rat_1\ldots \rat_j$, where $\rat_1 = 1$.
+(iii) Binary search for $\rat \in [\rat_{j-1}, \rat{j}]$.
+
+This approximation scheme yields a semi-decision process, and decidable whenever .
+
 
 %%% Local Variables:
 %%% mode: latex
