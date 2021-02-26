@@ -89,13 +89,27 @@ following policy solves the ERCI instance:
 
 \mypara{Approximation Sequence} The final algorithmic question for
 MDPs is then: what order should one evaluate rationality coefficients.
-We propose a three staged sequence:
-(i) Compute $x_\rat$ for the end points $\rat \in \{0, \infty\}$.
-(ii) Double $\rat$ until $h_\rat < \randomness$, yielding $\rat_1\ldots \rat_j$, where $\rat_1 = 1$.
+We propose a three staged sequence: (i) Compute $x_\rat$ for the end
+points $\rat \in \{0, \infty\}$.  (ii) Double $\rat$ until $h_\rat \leq
+\randomness$, yielding $\rat_1\ldots \rat_j$, where $\rat_1 = 1$.
 (iii) Binary search for $\rat \in [\rat_{j-1}, \rat{j}]$.
-
-This approximation scheme yields a semi-decision process, and decidable whenever .
-
+\begin{mdframed}
+  Our approximation scheme yields a semi-decision process which halts
+  iff either (a) $\langle \scthreshold, \randomness \rangle$ is
+  bounded away from $\pareto{\solutions}$ \emph{or} (b)
+  $\langle \scthreshold, \randomness \rangle$ is visited by
+  $x_{\rat_i}$.
+\end{mdframed}
+Next, observe that given a maximum resolution, $\kappa$, in
+rationality, this approximation scheme becomes linear in the MDP size
+and logarithmic in the final rationality coefficient $\rat_*$ and the
+resolution $\kappa$, i.e., the run-time is,
+\begin{equation}
+  O\bigg(\hspace{-1.4em}\underbrace{|\sg|}_{\text{Bellman Backup}}\hspace{-1.4em}\cdot\overbrace{\log(\rat_*)}^{\text{Doubling Phase}}\cdot\underbrace{\log(\nicefrac{1}{\kappa})}_{\text{Binary Search}}\bigg)
+\end{equation}
+Finally, before generalizing to stochastic games, we observe that in
+practice, $\sched_{100} \approx \sched_\infty$, and one can often take
+$\rat_* \leq 100$.
 
 %%% Local Variables:
 %%% mode: latex
