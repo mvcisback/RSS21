@@ -15,23 +15,32 @@ induces a point $x_\sched$:
 \begin{equation}
   x_\sched \eqdef \Big\langle \Pr(X_\varphi \mid \sched), H(\sched) \Big\rangle \in [0,1] \times [0,\infty).  
 \end{equation}
-
 To ease notation, for $x_\sched = \langle \scp,\rndp \rangle$ we use
-$\scp_\sched \eqdef \scp$ and $\rndp_\sched \eqdef \rndp$.
+$\scp_\sched \eqdef \scp$ and $\rndp_\sched \eqdef \rndp$. Next, we
+partially order these points via the standard product ordering:
+\begin{equation}
+  \langle \scp,\rndp \rangle \leq \langle \scp',\rndp' \rangle \implies \scp \leq \scp' \wedge \rndp \leq \rndp'.
+\end{equation}
 
-For a $\pOne$-policy $\pOneSched$, we say that $\pOneSched$
-\emph{guarantees} a point $x_\pOne \eqdef \langle \scp, \rndp
-\rangle$, if for every policy $\pTwoSched$, using $\sched = \langle
-\pOneSched, \pTwoSched \rangle$, we have $\scp_\sched \geq \scp$ and
-$\rndp_\sched \geq \rndp$. Thus, a point is guaranteed if no matter
-what policy $\pTwo$ uses, $x_\sched$ will induce a point no worse
-w.r.t.\ to either randomization or performance.
+We say that $\pOneSched$ \emph{guarantees} a point $x_\pOne \eqdef
+\langle \scp, \rndp \rangle$, if for every policy $\pTwoSched$, using
+$\sched = \langle \pOneSched, \pTwoSched \rangle$, we have
+$\scp_\sched \geq \scp$ and $\rndp_\sched \geq \rndp$. Thus, a point
+is guaranteed if no matter what policy $\pTwo$ uses, $x_\sched$ will
+induce a point no worse w.r.t.\ to either randomization or performance
+than $x_\pOne$. Furthermore, observe that guaranteed points are
+downward closed, i.e., if $\pOneSched$ guarantees $x$ and $x' \leq x$,
+then $\pOneSched$ guarantees $x'$.
+
+\begin{example}
+	
+\end{example}
 
 We then define the following elementary sets: For any $\pOneSched$,
 that $\pOneSched$ guarantees $\langle \scp, \rndp \rangle$, we define
 the set of guaranteed points:
 \begin{equation}\label{eq:guaranteed}
-\solutions[\pOneSched] = \{ \langle \scp', \rndp' \rangle \mid \scp' \leq \scp \wedge \rndp \leq \rndp'\},
+  \solutions[\pOneSched] \eqdef \{ \langle \scp, \rndp \rangle \mid  \pOneSched \text{ guarantees } \langle \scp, \rndp \rangle \}.
 \end{equation}
 
 Any point that can be guaranteed by some $\pOneSched$ is called
@@ -42,9 +51,6 @@ that the ERCI problem is satisfiable iff $\langle \scthreshold,
 lingo} Thus, to solve ERCI instances, we start by characterizing
 $\solutions$.
 
-\begin{example}
-	
-\end{example}
 
 \begin{proposition}
   The set $\solutions$ is convex. 
@@ -55,45 +61,63 @@ $\solutions$.
   $\langle \scthreshold, \randomness \rangle, \langle \scthreshold',
   \randomness' \rangle \in \solutions$ achieved by $\pOneSched$ and
   $\pOneSchedPrime$ resp. Consider the new policy,
-  $\pOneSchedPrimePrime$ defined by using $\pOneSched$ with
-  probability $q$ and $\pOneSchedPrime$ with probability $1 - q$.
-  By construction, this new policy as performance at least $q\cdot \scthreshold + (1 - q)\cdot \scthreshold'$.
-  Similarly, via chain rule, the causal entropy of this new policy is:
+  $\pi$, defined by employing $\pOneSched$ with
+  probability $q$ and $\pOneSchedPrime$ with probability $\bar{q} \eqdef 1 - q$.
+  Because each policy \emph{guarantees} its corresponding performance,
+  this new policy as performance at least $q\cdot \scthreshold + q\cdot \scthreshold'$.
+  Similarly, by viewing $\pi$ as a random variable and applying chain
+  rule yields,
   \begin{equation}
     \begin{split}
-      H_\tau(\sigma) &\geq q \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pOneSched) \\
-      &~~+ ~(1 - q)  \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pOneSchedPrime)\\
-      &\geq~q\cdot\randomness + (1 - q)\cdot \randomness'.
+      H_\tau(\sigma) 
+      \geq &~q \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSched)~+\\
+      &~\bar{q}  \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSchedPrime)\\
+      =&~q\cdot\randomness + (1 - q)\cdot \randomness'.
     \end{split}
   \end{equation}
-  Finally, observe that the convex combination of policies is also a
-  policy.
-  % Let $\sched'$ and $\sched''$ be two schedulers with induced
-  % solution $\langle \scthreshold', \randomness' \rangle$ and
-  % $\langle \scthreshold'', \randomness'' \rangle$
 \end{proof}
-\footnotetext{That is, $y, y' \in Y$ implies for
-    every $w \in [0,1]$ that $w \cdot y + (1-w) \cdot y \in Y$}
-
-
-We can characterize the solutions using the Pareto-front. Therefore, we say that a point $x = \langle \scp,\rndp \rangle$ is dominated by $x' = \langle \scp', \rndp' \rangle$, in symbols $x \prec x'$, if $x'$ is strictly larger in at least one dimension and not smaller in the other, that is, 
+\footnotetext{
+  That is, $y, y' \in Y$ implies for
+  every $w \in [0,1]$ that $w \cdot y + (1-w) \cdot y \in Y$
+}
+\noindent
+Next, observe that because $\solutions$ is downward closed, it
+suffices to study the ``maximal'' or non-dominated points.  Precisely,
+we say that a point $x$ is \emph{dominated} by $x'$, written $x \prec
+x'$, if $x'$ is strictly larger in at least one dimension and not
+smaller in the other, i.e., 
 \begin{equation}
-  \langle \scp', \rndp' \rangle 	 \prec \langle \scp', \rndp' \rangle \eqdef \Big( \scp \leq \scp' \land \rndp \leq \rndp' \land \big(\scp \neq \scp' \lor \rndp \leq \rndp'\big)	\Big)
+x \prec x' \iff x \leq x' \wedge x \neq x'.
 \end{equation}
-The Pareto-front $\pareto{\solutions}$ of $\solutions$ is given as \[ \pareto{\solutions} \eqdef \{ x \in \solutions \mid \forall x' \in \solutions, x \not\prec x'  \}. \]
-Now, it holds that the ERCI problem is satisfiable iff there exists a  $x \in \pareto{\solutions}$ such that $\langle \scthreshold, \randomness \rangle \prec x$.  
+The Pareto-front $\pareto{\solutions}$ of $\solutions$ is then the set of non-dominated guaranteed points,
+\begin{equation}
+  \pareto{\solutions} \eqdef \{ x \in \solutions \mid \forall x' \in \solutions, x \not\prec x'  \}.  
+\end{equation}
+\noindent
+\begin{mdframed}
+Importantly, it holds that the ERCI problem is satisfiable iff there exists a  $x \in \pareto{\solutions}$ such that $\langle \scthreshold, \randomness \rangle \prec x$.    
+\end{mdframed}
 
-The important aspect of this Pareto-front is that it gives a natural approximation scheme in the following sense.
-For any subset $\pareto{} \subseteq \pareto{\solutions}$, if there exists an  $x \in \pareto{}$ such that $\langle \scthreshold, \randomness \rangle \prec x$, then the ERCI Problem must be satisfiable, 
-and if there exists an $x \in \pareto{}$ such that $x \prec \langle \scthreshold, \randomness \rangle$ then the ERCI problem is not satisfiable. 
+\noindent
+Thus the approximating the Pareto-front gives a natural approximation
+scheme for ERCI instances. Namely, for any subset $\pareto{} \subseteq
+\pareto{\solutions}$,
+\begin{enumerate}
+\item If there exists an $x \in \pareto{}$ such that
+$\langle \scthreshold, \randomness \rangle \prec x$, then the ERCI
+Problem must be satisfiable.
+\item If there exists an $x \in \pareto{}$
+such that $x \prec \langle \scthreshold, \randomness \rangle$ then the
+ERCI problem is not satisfiable.
+\end{enumerate}
 
 \begin{example}
 	
 \end{example}
 
-We can improve upon the construction of the Pareto-front by exploiting its convexity.
-
-While $\solutions$ is defined as a subset of $[0,1] \times [0,\infty)$, we can restrict ourselves to the domain in which we can actually trade performance for randomness. 
+Thus a key algorithmic question in ERCI is how to efficiently explore
+and approximate the $\pareto{\solutions}$.  
+To this end, we note that while $\solutions$ is defined as a subset of $[0,1] \times [0,\infty)$, we can restrict ourselves to the domain in which we can actually trade performance for randomness. 
 We define 
 $\rndopt \eqdef \max \{ \rndp \mid \exists \scp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $, i.e., the largest randomness that can be guaranteed by any $\pOne$-policy. 
 Likewise, we define 
@@ -103,89 +127,41 @@ $\scmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \
 Likewise, we define  the analogous $\rndmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$.
 We thus obtain two points on the Pareto-curve: $\langle \scmin, \rndopt \rangle$ and $\langle \scopt, \rndmin \rangle$, and intuitively, we can trade between these two points following the Pareto curve.
 
+\begin{remark}[Regret Based ERCI]
+  In practice, rather that fixing $\scthreshold$ and $\randomness$ a
+  priori, one seeks achieve some percentage of the achievable soft
+  constraint or causal entropy measure.  In such cases, we
+  re-parameterized the ERCI instance with:
+  \begin{equation}
+    \scthreshold(\epsilon) \eqdef \epsilon \cdot \scopt
+    \hspace{3em}
+    \randomness(\delta) \eqdef  \delta \cdot \rndopt
+  \end{equation}
+  where $\epsilon, \delta \in [0, 1]$. As we shall later see, these maximum quantities are
+  directly computed in our proposed algorithm.
+\end{remark}
 
-Finally, it is helpful to think about the Pareto-curve as a function of either $\rndp$. 
-We define a characteristic function $\solfuncp\colon [\rndmin,\rndopt] \rightarrow [\scmin,\scopt]$ such that $\solfuncp(\rndp) = \max \{ \scp \mid \langle \scp, \rndp \rangle \in \solutions \} \cup \{ 0 \}$.  
-\begin{proposition}
-	$\solfuncp$ is smooth monotonically decreasing. 
+Finally, it is helpful to think about the Pareto-curve as a function in $\rndp$.  We define a
+characteristic function:
+\begin{equation}
+  \begin{split}
+    & \solfuncp\colon [0,1] \rightarrow [0, 1]    \\
+    & \solfuncp(\delta) = \max_\epsilon \{ \scp(\epsilon) \mid \langle
+    \scp(\epsilon), \rndp(\delta) \rangle \in \solutions \} 
+  \end{split}
+\end{equation}
+\begin{proposition}\label{prop:monotone}
+  $\solfuncp$ is smooth and (strictly) monotonically decreasing.
 \end{proposition}
-Monotone decreasing follows directly from convexity and using the adequate domains. 
-{\color{red}how do we know smoothness? Isn't that a consequence of the rationality-construction that we only have available later?}
-In particular, the set is not a finite polytope, there exist infinitely many vertices.
+In particular, the set is \emph{not} a finite polytope, but can be
+well approximated by one. We shall however post-pone the proof of
+\propref{monotone} until Sec ?. For now, one case observe that
+(non-strict) monotone decreasing follows directly from convexity and
+using the adequate domains.
 
 
 With these facts, we are now well-equiped to develop the algorithms in Sec.~\ref{sec:mdps} for MDPs and Sec.~\ref{sec:sgs} for SGs.
 We use the remainder of this section to motivate the choice for our problem formulation.
-
-\subsection{ERCI versus reactive control improvisation}
-
-Before we continue, we compare ERCI with the reactive, i.e. 2-player control improvisation framework from~\cite{}:
-\begin{mdframed}
-\textbf{The Deterministic Reactive Control Improvisation (DRCI) Problem}:
-Given a (\emph{deterministic}) SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$,  thresholds $\scthreshold \in (0,1)$ and $\ppthreshold \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$: 
-\begin{compactenum}
-\item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$,
-	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$,
-	\item (\emph{randomness}) $\Pr(\path \mid \sched) \leq \ppthreshold \text{ for all } \path \in \Paths{\sg}$,
-\end{compactenum}
-where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
-\end{mdframed}
-While DRCI is only applied to deterministic SGs in \cite{DBLP:conf/cav/FremontS18}, there is nothing in the definition that prevents its application to the general class of SGs\footnote{However, this does not mean that the algorithm to compute a solution carries over to the general case}.
-We observe that then, the only difference between ERCI and DRCI is that we use entropy rather than an upper bound on the probability of a path.  Let us first illustrate why we choose a different type of randomness constraint.
-\begin{figure}
-\begin{tikzpicture}
-	\node[sstate, initial, initial text=] (s0) {$s_0$};
-	\node[sstate,right=of s0, yshift=2.5em] (s2) {$s_2$};
-	\node[sstate,above=0.4cm of s2] (s1) {$s_1$};
-	
-	\node[right=of s0,yshift=0.3em,xshift=0.2em] (sdots) {$\vdots$};
-	\node[sstate,right=of s0, yshift=-2.5em] (sn) {$s_n$};
-	\node[sstate,right=of s1] (t1) {$t_1$};
-	\node[right=of t1] (tdots) {$\hdots$};
-	\node[sstate,right=of tdots] (tn) {$t_m$};
-	\node[sstate, right=2.2cm of s0] (u) {$u$};
-	\node[sstate, right=of u, yshift=1em] (v1) {$v_1$};
-	\node[sstate, right=of u, yshift=-1em] (v2) {$v_2$};
-	\node[right=0.5cm of v1] {$\hdots$};
-	\node[right=0.5cm of v2] {$\hdots$};
-	
-	
-	
-	\draw[->] (t1) -- node[elab] {$1$} (tdots);
-	\draw[->] (tdots) -- node[elab] {$1$} (tn);
-	
-	\draw[->] (s0) -- node[elab] {$\nicefrac{1}{n}$} (s1);
-	\draw[->] (s0) -- node[elab,below] {$\nicefrac{1}{n}$} (s2);
-	\draw[->] (s0) -- node[elab,below] {$\nicefrac{1}{n}$} (sn);
-	
-	\draw[->] (s1) -- node[elab,above] {$1$} (t1);
-	\draw[->] (s2) -- node[elab,near end,above] {$1$} (u);
-	\draw[->] (sn) -- node[elab,near end,below] {$1$} (u);
-	
-	\draw[->] (u) -- node[actnode] {} node[elab,above, near start] {$a$}  node[elab,above, near end] {$1$} (v1);
-	\draw[->] (u) -- node[actnode] {} node[elab,below, near start] {$b$} node[elab,below, near end] {$1$} (v2);
-	
-	
-\end{tikzpicture}
-\caption{}	
-\end{figure}
-
-\begin{example}
-	Consider the SG (actually, an MDP) in Fig.~\ref{fig:drciOnSgs}. 
-	First consider that under each scheduler, the path from $s_0$ to $t_m$ has probability $\nicefrac{1}{n}$. In particular, this means that a feasible DRCI instance (applied to an SG) must have $\ppthreshold \geq \nicefrac{1}{n}$. At the same time, every path in the SG already has probability at most $\nicefrac{1}{n}$, and thus, every schedulder that satisfies the randomness constraint for $\delta = 1$ satisfies it for any $\ppthreshold \geq \nicefrac{1}{n}$. Thus, DRCI does not allow us to enforce any kind of randomization in the $\pOne$-policy. 
-\end{example}
-
-On the other hand, for deterministic SGs, all randomization is due to the random behavior of $\pOne$. Roughly speaking, every path is then just good (i.e., ending in a target state) or bad (i.e., ending in a sink state). The randomization criterion then may just ensure that we do not select the same path with too much probability, which intuitively means that the $\pOne$-player must ensure in every step that there are a sufficient number of paths from the next state (no matter what $\pTwo$-player does). 
-As long as there exist a sufficient number of paths, randomizing (uniformly) over those paths leads to a solution.
-
-	For deterministic SGs, the set of feasbile ERCI and DRCI instances coincide.
-\begin{theorem}
-For any deterministic SG with some path sets $X_\varphi$, $X_\psi$ and threshold $\scthreshold$, 
-there exists an $\pOne$-policy solving the DRCI problem with threshold $\ppthreshold$ iff there exists a $\pOne$-policy solving the ERCI problem with threshold $\randomness = f(\ppthreshold)$ for an adequate (computable) $f$.
-\end{theorem}
-We note that the policies solving the two problems do in general not coincide. 
-
-\subsection{Causal Entropy versus Entropy}
 
 
 %%% Local Variables:

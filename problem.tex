@@ -175,10 +175,18 @@ The causal entropy of $\rv{X}_{1:i}$ given $\rv{Y}_{1:i}$ is then defined as,
 \end{equation}
 Using the chain rule, one can relate causal entropy to (non-causal) entropy, $H(\rv{X} | \rv{Y}) \eqdef \expOver{\rv{X}}{-\log(\Pr(\rv{X}~|~\rv{Y}))}$ via:
 \begin{equation}
-  H(\rv{X}_{1:i}\mid\mid \rv{Y}_{1:i}) = \sum_{t=1^i} H(\rv{X}_i \mid \rv{Y}_{1:i}, X_{1:i-1})
+  H(\rv{X}_{1:i}\mid\mid \rv{Y}_{1:i}) = \sum_{t=1}^i H(\rv{X}_i \mid \rv{Y}_{1:i}, X_{1:i-1})
 \end{equation}
-Implying that causal entropy is always lower bounded by non-causal
-entropy (and thus non-negative). Intuitively, the distinction is that causal entropy does not
+This relation shows that:
+\begin{enumerate}
+  \item Causal entropy is always lower bounded by non-causal
+    entropy (and thus non-negative).
+  \item Causal and non-causal conditioning can be mixed, e.g,
+    \begin{equation}
+      H(\rv{X}_{1:i}\mid\mid \rv{Y}_{1:i} \mid Z) \eqdef \sum_{t=1}^i H(\rv{X}_i \mid \rv{Y}_{1:i}, X_{1:i-1}, Z).
+    \end{equation}
+\end{enumerate}
+Intuitively, the distinction is that causal entropy does not
 condition on variables that have not been revealed. It has been observed
 that this makes causal entropy particularly well suited for measuring
 predictability in \emph{sequential} decision making problems, where
@@ -217,22 +225,6 @@ Given a SG $\sg$, $\tau$-bounded path properties $\hard$ and $\soft$, and thresh
 \end{compactenum}
 where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
-\begin{remark}[Regret Based Variant]
-  In practice, rather that fixing $\scthreshold$ and $\randomness$ a
-  priori, one seeks achieve some percentage of the achievable soft
-  constraint or causal entropy measure.  In such cases, we
-  re-parameterized the ERCI instance with:
-  \begin{equation}
-    \begin{split}
-      \scthreshold(\epsilon) &\eqdef \epsilon \cdot \bigg (\max_{\pOneSched} \min_{\pTwoSched} \Pr(\soft \mid \langle \pTwoSched, \pOneSched \rangle)\bigg)\\
-      \randomness(\delta) &\eqdef  \delta \cdot \bigg(\max_{\pOneSched}
-      \min_{\pTwoSched} H_\tau\big (\langle \pTwoSched, \pOneSched
-      \rangle \big )\bigg)
-    \end{split},
-  \end{equation}
-  where $\epsilon, \delta \in [0, 1]$. As we shall later see, these maximum quantities are
-  directly computed in our proposed algorithm.
-\end{remark}
 
 \begin{figure}
 \centering
