@@ -2,17 +2,13 @@
 
 \subsection{Control Improvisation in the Literature}
 
-Control improvisation~\cite{DBLP:journals/corr/FremontDS17,DBLP:conf/cav/FremontS18} -- discussed in Sec.~\ref{sec:rci} -- has been used in a stochastic environment for lane changing~\cite{DBLP:conf/cdc/GeM18} and imitating power usage in households~\cite{DBLP:conf/iotdi/AkkayaFVDLS16}. However, in those both settings, the randomness constraint is phrased as an upper-bound on the probability of indefinitely-long paths. Consequently, those  randomness constraints are trivially satisfied and the obtained policies are deterministic. 
- In comparison, we consider the synthesis of policies that randomize in presence of stochastic behavior in the environment. 
-
-
-Before we continue, we compare ERCI with the reactive, i.e. 2-player control improvisation framework from~\cite{}:
+We compare ERCI with the reactive, i.e. 2-player control improvisation framework from~\cite{DBLP:conf/cav/FremontS18}:
 \begin{mdframed}
 \textbf{The Deterministic Reactive Control Improvisation (DRCI) Problem}:
-Given a (\emph{deterministic}) SG $\sg$, finite path sets $X_\psi$ and $X_\varphi$,  thresholds $\scthreshold \in (0,1)$ and $\ppthreshold \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$: 
+Given a (\emph{deterministic}) SG $\sg$, finite path sets $\psi$ and $\varphi$,  thresholds $\scthreshold \in (0,1)$ and $\ppthreshold \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$: 
 \begin{compactenum}
-\item (\emph{hard constraint}) $\Pr(X_\psi \mid \sched) \geq 1$,
-	\item (\emph{soft constraint)} $\Pr(X_\varphi \mid \sched) \geq \scthreshold$,
+\item (\emph{hard constraint}) $\Pr(\psi \mid \sched) \geq 1$,
+	\item (\emph{soft constraint)} $\Pr(\varphi \mid \sched) \geq \scthreshold$,
 	\item (\emph{randomness}) $\Pr(\path \mid \sched) \leq \ppthreshold \text{ for all } \path \in \Paths{\sg}$,
 \end{compactenum}
 where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
@@ -75,6 +71,11 @@ We note that the policies solving the two problems do in general not coincide.
 \color{red}
 Maybe briefly discuss synthesis algorithms mentioned at start of intro?
 \color{black}
+
+
+Control improvisation has been used in a stochastic environment for lane changing~\cite{DBLP:conf/cdc/GeM18} and imitating power usage in households~\cite{DBLP:conf/iotdi/AkkayaFVDLS16}. However, in those both settings, the randomness constraint is phrased as an upper-bound on the probability of indefinitely-long paths. Consequently, those  randomness constraints are trivially satisfied and the obtained policies are deterministic. 
+ In comparison, we consider the synthesis of policies that randomize in presence of stochastic behavior in the environment. 
+
 
 \subsection{Related Work}
  
