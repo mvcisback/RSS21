@@ -1,15 +1,18 @@
 MDP algorithm in hand, we are now ready to provide an algorithm for
 stochastic games. At a high level, this algorithm works by initially
 planning for $\pTwo$ selecting the action that minimizes randomness
-(with ties broken by performance). If this assumption is ever
-violated, the resulting state must support more randomness.
-The $\pOne$ policy is thus adjusted to match the worst case
-randomness, which due to monotonicity of $\solfuncp$, can only
-increase performance. We formalize below.
+(with ties broken by performance). This assumption leads to a
+reduction to the MDP-case, where the rationality indexed family,
+$\sched_\rat$, indexes the Pareto Front.  If this assumption is ever
+violated, the resulting state must support more randomness.  The
+rationality, $\rat$, is thus lowered to match the worst case randomness,
+which due to monotonicity of $\solfuncp$, can only increase
+performance. Surprisingly, as we shall later prove, this class of
+policies indexes the Pareto Front for SGs!
 
 \mypara{Deterministic Adversaries}
-First and foremost, observe that in order to render an ERCI instance
-un-achievable, it suffices for an adversarial $\pTwo$ to violate
+First and foremost, observe that to render an ERCI instance
+un-achievable, it suffices for $\pTwo$ to violate
 either the performance threshold OR the randomness threshold.  Next,
 notice that because $\pOneSched$ is a priori fixed, $\pTwoSched$ can
 be seen as repeatedly selecting between a convex combination of
@@ -33,18 +36,22 @@ causal entropy policy family, $\pi^\pOne_\rat[~.~]$. By
 We shall refer to resulting (partial) schedule as: $\pi_\rat \eqdef \langle
 \pi^\pOne_\rat[\sched_\rat^\pTwo] , \sched_\rat^\pTwo \rangle$.
 
-\mypara{Recursive Causal Entropy Matching}
-
+\mypara{Recursively Matching Randomness}
 Of course, even if $\rat$ is fixed, $\pTwoSched$ need not be
-$\sched^\pTwo_\rat$. Nevertheless, observe that because
-$\pi_\rat$ establishes an achievable randomness for the
-sub-game rooted at each player two state, call $\delta_\rat$
-
-
-state.
-Observe that $\sched_\rat$
-Finally, we associate the causal entropy of the subgraph rooted
-at that state....
+$\sched^\pTwo_\rat$. Nevertheless, observe that by selecting the worst
+entropy MDP, $\pi_\rat$ establishes an achievable randomness for the
+sub-game rooted at each state, call $\delta_\rat(s)$. Now suppose,
+$\pTwo$ deviates from $\sched_\rat^\pTwo$ at state $s$. Note that, so
+long as $\pOneSched$ does not result yield randomness less than
+$\delta_\rat(s)$, the worst-case randomness will not decrease.
+Therefore, in order to determine the guaranteed performance, we
+ask ``what maximum performance can one guarantee at $s' \in
+\Succ(s)$ given randomness $\delta_\rat(s)$.''
+\begin{mdframed}
+The key observation is that each state $s'$ is the root of a sub game,
+$\sg[s]$, with a corresponding Pareto Front, $\pareto{\solutions}[s]$.
+\end{mdframed}
+... TODO: explain dynamic programming to answer min query.
 
 
 
