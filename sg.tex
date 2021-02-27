@@ -44,28 +44,61 @@ sub-game rooted at each state, call $\delta_\rat(s)$. Now suppose,
 $\pTwo$ deviates from $\sched_\rat^\pTwo$ at state $s$. Note that, so
 long as $\pOneSched$ does not result yield randomness less than
 $\delta_\rat(s)$, the worst-case randomness will not decrease.
-Therefore, in order to determine the guaranteed performance, we
-ask ``what maximum performance can one guarantee at $s' \in
-\Succ(s)$ given randomness $\delta_\rat(s)$.''
+This begs the question ``what maximum performance can one guarantee at $s' \in
+\Succ(s)$ given randomness $\delta_\rat(s)$?''
 \begin{mdframed}
-The key observation is that each state $s'$ is the root of a sub game,
-$\sg[s]$, with a corresponding Pareto Front, $\pareto{\solutions}[s]$.
+  The key observation is that each state $s'$ is the root of a sub
+  game, $\sg[s]$, with a corresponding Pareto Front,
+  $\pareto{\solutions}[s]$.
 \end{mdframed}
-... TODO: explain dynamic programming to answer min query.
+In particular, given access the characteristic functions,
+$f_\solutions^{s'}$, for each $s' \in \Succ(s)$, one can compute:
+\begin{equation}\label{eq:performance_lookup}
+  \epsilon_\rat(s) = \min_{s'} f_\solutions^{s'}(\delta_\rat(s)).
+\end{equation}
+Thus, via dynamic programming, one can define $\epsilon_\rat(\iota)$.
+Moreover, assuming that this entropy matching family of policies
+indexes $\pareto{\solutions}$ (proved in Lemma ?), one can handle
+deviations from $\sigma^\pTwo_\rat$ by ``replanning''. Namely, one
+extends $\pi_\rat$ at $s'$ by computing a new rationality coefficient,
+$\rat'$, such that:
+\begin{equation}
+  \delta_{\rat'}(s') = \delta_{\rat}(s)
+\end{equation}
+Due to the monotonicity $\rat \leq \rat'$, and thus $\epsilon_\rat \leq \epsilon_{\rat'}$, 
+Therefore, ignoring the feasibility of computing the exact Pareto
+Front, we obtain a synthesis algorithm for SGs!
 
+\mypara{Approximate Pareto Fronts}
+Of course, by varying $\rat$, one can only construct approximate
+Pareto Fronts. We now
+adapt the above algorithm to the case where on has access to
+$\kappa$-close Pareto Front under-approximations,
+$\hat{f}_\solutions^{s'}$, where $\kappa$ bounds the $\infty$-norm
+error. In particular, observe that if $\epsilon_\rat(s)$ is known
+within $\kappa$, convex combinations of these intervals cannot
+increase the error beyond $\kappa$, i.e.,
+\begin{equation}
+  q\cdot[x, x + \kappa] + \bar{q}\cdot[y, y + \kappa] = [z, z + \kappa],
+\end{equation}
+where $z = q\cdot x + \bar{q}\cdot y$. Thus, since $\pi_\rat$ and
+$P(s, a)$ are independent of this Pareto Front (and manipulate
+performance via convex combinations) the error can only accumulate on
+the Pareto Fronts for $s \in S_\pTwo$. Notice then that so long as,
+$\kappa\cdot\tau$ is enough resolution to answer $\scp_\rat <
+\scthreshold$, one obtains a semi-decision procedure as in the MDP
+case.
 
-
-
-\subsection{Playing against deterministic adversaries}
-To formalise our argument
-\paragraph{Reformulation as a set of MDPs}
-
-\paragraph{}
-
-
-\subsection{Randomizing adversaries will not play better}
-
-\subsection{Non-observable adversaries}
+We then propose the following high-level algorithm:
+\begin{mdframed}
+\begin{enumerate}
+\item Let $0 < \kappa < 1$ be some arbitrary initial tolerance.
+\item Recursively compute $\kappa$-close Pareto Fronts for each state
+in $s'$ using causal entropy matching.
+\item If $\scthreshold$ is within $\kappa\cdot \tau$ distance to $\hat{\pareto_{\solutions}}$,
+  halve $\kappa$ and repeat.
+\end{enumerate}  
+\end{mdframed}
 
 %%% Local Variables:
 %%% mode: latex
