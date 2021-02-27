@@ -69,16 +69,14 @@ P(s,\act)(s')>0 \}$, and $\Succ(s) \eqdef\bigcup_{\act \in \EnAct(s)}
 \end{example}
 	
 
-SGs capture a variety of models.  For example, if $\EnAct(s)$ is a
-singleton set for all uncontrolled states, then $\sg$ is a
-\emph{Markov decision process} (MDP).  If $\EnAct(s)$ is a singleton
-set for all states, then $\sg$ is a \emph{Markov chain}. If
+SGs capture a variety of models.  For example, if $|\EnAct(s)| = 1$ for all uncontrolled states $s \in S_\pTwo$, then $\sg$ is a
+\emph{Markov decision process} (MDP).  If $|\EnAct(s)| = 1 $ for all $s \in S$, then $\sg$ is a \emph{Markov chain}. If
 $P(s,\act)$ is a Dirac distribution for every $s \in S$ and $\act \in
 \Act$, then $\sg$ is called \emph{deterministic} or a \emph{2-player
 game}.
 
 \subsection{Paths and Path Properties}
-A finite \emph{path}, $\path$, of length $n$ is a sequence $s^0
+A finite \emph{path}, $\path$, of length $n$ is a sequence $s_0
 \xrightarrow{\act_0} s_1 \xrightarrow{\act_1} s_2 \rightarrow \hdots
 \rightarrow s_n$ in $\left( S \times \Act \right)^{n} \times S$ where
 $P(s_i,\act_i)(s_{i+1}) > 0$ for each $i$.  We denote the length with
