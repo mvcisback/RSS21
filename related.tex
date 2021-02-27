@@ -2,10 +2,24 @@
 
 \subsection{Control Improvisation in the Literature}
 
-We compare ERCI with the reactive, i.e. 2-player control improvisation framework from~\cite{DBLP:conf/cav/FremontS18}:
+In this section, we briefly compare ERCI with other forms of control
+improvisation. Firstly, we observe that general Control Improvisation
+has been proposed in stochastic environments for lane
+changing~\cite{DBLP:conf/cdc/GeM18} and imitating power usage in
+households~\cite{DBLP:conf/iotdi/AkkayaFVDLS16}. However, in those
+both settings, the randomness constraint is phrased as an upper-bound
+on the probability of indefinitely-long paths. Consequently, those
+randomness constraints are trivially satisfied and the obtained
+policies are deterministic.  In comparison, we consider the synthesis
+of policies that necessarily randomize in presence of stochastic
+behavior in the environment. The closest prior work is to ours
+is Reactive Control Improvisation for (deterministic) 2-player games
+~\cite{DBLP:conf/cav/FremontS18}. As in ERCI, this work features
+a three kinds of constraints, hard, soft, and randomness. As in ERCI,
+(Deterministic) Reactive Control Improvisation (DRCI) can be reduced to the following core problem:
 \begin{mdframed}
-\textbf{The Deterministic Reactive Control Improvisation (DRCI) Problem}:
-Given a (\emph{deterministic}) SG $\sg$, finite path sets $\psi$ and $\varphi$,  thresholds $\scthreshold \in (0,1)$ and $\ppthreshold \in (0,1)$,  find a $\pOne$-policy $\pOneSched \in \POneScheds$  such that for every $\pTwo$-policy $\pTwoSched \in \PTwoScheds$: 
+\textbf{The Core Deterministic Reactive Control Improvisation (DRCI) Problem}:
+Given a (\emph{deterministic}) SG $\sg$, finite path sets $\psi$ and $\varphi$,  thresholds $\scthreshold \in (0,1)$ and $\ppthreshold \in (0,1)$,  find a $\pOne$-policy $\pOneSched$  such that for every $\pTwo$-policy $\pTwoSched$: 
 \begin{compactenum}
 \item (\emph{hard constraint}) $\Pr(\psi \mid \sched) \geq 1$,
 	\item (\emph{soft constraint)} $\Pr(\varphi \mid \sched) \geq \scthreshold$,
@@ -73,11 +87,7 @@ Maybe briefly discuss synthesis algorithms mentioned at start of intro?
 \color{black}
 
 
-Control improvisation has been used in a stochastic environment for lane changing~\cite{DBLP:conf/cdc/GeM18} and imitating power usage in households~\cite{DBLP:conf/iotdi/AkkayaFVDLS16}. However, in those both settings, the randomness constraint is phrased as an upper-bound on the probability of indefinitely-long paths. Consequently, those  randomness constraints are trivially satisfied and the obtained policies are deterministic. 
- In comparison, we consider the synthesis of policies that randomize in presence of stochastic behavior in the environment. 
-
-
-\subsection{Related Work}
+\subsection{Additional Related Work}
  
 Synthesis in MDPs with multiple hard and soft constraints (often over indefinite horizons) is a well-studied problem~\cite{DBLP:conf/stacs/ChatterjeeMH06,DBLP:conf/tacas/EtessamiKVY07,DBLP:conf/atva/ForejtKP12,DBLP:journals/fmsd/RandourRS17}.  In this setting, one generates deterministic policies and their convex combinations. Put differently, some degree of randomization is \emph{not an objective}, but rather a consequence. Interestingly, in \cite{DBLP:conf/tacas/DelgrangeKQR20} the optimal policies in \emph{absence} of randomization are investigated. Along similar lines, \cite{DBLP:journals/jcss/BrazdilCFK17} trades average performance for less variance, thereby implicitly trading off the average and the worst-case performance.  
 The original results sparked interest in different extension to MDPs and the type of soft constraints, such as continuous MDPs \cite{DBLP:journals/csysl/HaesaertNS21} and continuous-time MDPs~\cite{DBLP:conf/cav/QuatmannJK17},  cost-bounded reachability \cite{DBLP:journals/jar/HartmannsJKQ20}, or mean-payoff properties~\cite{DBLP:journals/corr/abs-1104-3489}. 
