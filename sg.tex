@@ -72,7 +72,7 @@ Front, we obtain a synthesis algorithm for SGs!
 \mypara{Approximate Pareto Fronts}
 Of course, by varying $\rat$, one can only construct approximate
 Pareto Fronts. We now
-adapt the above algorithm to the case where on has access to
+adapt the above algorithm to the case where one has access to
 $\kappa$-close Pareto Front under-approximations,
 $\hat{f}_\solutions^{s'}$, where $\kappa$ bounds the $\infty$-norm
 error. In particular, observe that if $\epsilon_\rat(s)$ is known
@@ -89,8 +89,8 @@ $\kappa\cdot\tau$ is enough resolution to answer $\scp_\rat <
 \scthreshold$, one obtains a semi-decision procedure as in the MDP
 case.
 
-We then propose the following high-level algorithm:
 \begin{mdframed}
+  We then propose the following high-level algorithm:
 \begin{enumerate}
 \item Let $0 < \kappa < 1$ be some arbitrary initial tolerance.
 \item Recursively compute $\kappa$-close Pareto Fronts for each state
@@ -99,6 +99,24 @@ in $s'$ using causal entropy matching.
   halve $\kappa$ and repeat.
 \end{enumerate}  
 \end{mdframed}
+In practice, this algorithm can be significantly improved by adaptive
+tolerances, lazily computing the Pareto Fronts, and only computing
+Pareto Fronts for non-deterministic $\pTwo$ states. Nevertheless,
+already this na\"ive algorithm gives a sense of the run-time
+bottlenecks. Namely, if $\kappa^*$ tolerance is required to terminate,
+then the $\kappa$ search introduces $O(\log(\nicefrac{1}{\kappa^*}))$
+overhead. Furthermore, by computing $O(|\sg|)$ Pareto fronts, from the
+leaves, one ensures that the complexity grows linearly with the graph
+size - although the multiplicative constant depends on the number of
+rationality coefficients explored per Pareto-front. We found that most
+of the rationality coefficients explored were shared, which in
+practice seems to amortize the cost per state. Finally, as in the
+MDP-case, the resulting algorithm is only a semi-decision procedure,
+being decidable if $\langle \scthreshold, \randomness \rangle$ is
+bounded away from the root Pareto Front. As the Pareto Front has
+measure 0, we argue that this is merely a technical concern, as a
+small perturbation to the ERCI instance (i.e. a Smoothed
+Analysis~\cite{SmoothedAnalysis}) or $\sg$ admits decidability.
 
 %%% Local Variables:
 %%% mode: latex
