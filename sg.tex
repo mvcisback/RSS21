@@ -1,0 +1,51 @@
+MDP algorithm in hand, we are now ready to provide an algorithm for
+stochastic games. At a high level, this algorithm works by initially
+planning for $\pTwo$ selecting the action that minimizes randomness
+(with ties broken by performance). If this assumption is ever
+violated, the resulting state must support more randomness.
+The $\pOne$ policy is thus adjusted to match the worst case
+randomness, which due to monotonicity of $\solfuncp$, can only
+increase performance. We formalize below.
+
+ First and foremost, observe that in order to render an ERCI instance
+un-achievable, it suffices for an adversarial $\pTwo$ to violate
+either the performance threshold OR the randomness threshold.  Next,
+notice that because $\pOneSched$ is a priori fixed, $\pTwoSched$ can
+be seen as repeatedly selecting between a convex combination of
+$\rndp$ (and $\scp$) for the corresponding sub-graph. As the maximum of a
+convex combination is always achievable on the boundaries, we can
+w.l.o.g. assume that $\pTwoSched$ is \emph{deterministic}.  Similarly,
+notice that given a fixed $\pOneSched$, the worst-case $\pTwoSched$
+response can be computed via dynamic programming in topological order
+from the leafs to the root of $\sg$. We shall refer to this policy
+as $\pTwoSchedWorstH$.
+
+On the other hand, suppose $\pTwoSched$ was known, reducing the SG to
+a MDP. As discussed in the previous section, for the MDP case, it
+suffices to consider rationality indexed policies. Let use denote the
+resulting MDP and  maximum causal entropy family of (partial) policies as
+$\sg[\pTwoSched]$ and $\sched_\rat[\pTwoSched]$ resp.
+
+As stated at the start of the section, our key insight is to initially
+assume that $\pTwoSched = \pTwoSchedWorstH$. Then for each rationality
+coefficient, we associate the causal entropy of the subgraph rooted
+at that state....
+
+
+
+
+\subsection{Playing against deterministic adversaries}
+To formalise our argument
+\paragraph{Reformulation as a set of MDPs}
+
+\paragraph{}
+
+
+\subsection{Randomizing adversaries will not play better}
+
+\subsection{Non-observable adversaries}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
