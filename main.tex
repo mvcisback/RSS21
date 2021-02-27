@@ -33,7 +33,10 @@
 \newtheorem{example}{Example}
 \newtheorem{definition}{Definition}
 
+
 \usepackage{pgfplots}
+\usepackage{algorithm, algorithmicx}
+\usepackage[noend]{algpseudocode}
 
 \usepgfplotslibrary{fillbetween}
 \usetikzlibrary{patterns,arrows,backgrounds,calc,shapes,shadows,decorations.pathmorphing,decorations.pathreplacing,automata,shapes.multipart,positioning,shapes.geometric,fit,circuits,trees,shapes.gates.logic.US,fit,decorations.markings}
@@ -86,6 +89,7 @@ cross/.default={1pt}}
 \newcommand{\POneScheds}{\Sigma_\pOne}
 \newcommand{\PTwoScheds}{\Sigma_\pTwo}
 \newcommand{\pTwoSched}{{\sigma_\pTwo}}
+\newcommand{\pTwoSchedWorstH}{{\sigma_\pTwo^H}}
 \newcommand{\rat}{\lambda}
 \newcommand{\pOne}{\mathsf{ego}}
 \newcommand{\pTwo}{\mathsf{env}}
@@ -127,6 +131,7 @@ cross/.default={1pt}}
 \newcommand{\propref}[1]{{Prop.~\ref{prop:#1}}}
 \newcommand{\secref}[1]{{Sec.~\ref{sec:#1}}}
 
+\newcommand{\UPDATE}{{\mathsf{update}}}
 
 \setlength\marginparwidth{110pt}
 \newcommand{\colorpar}[3]{\colorbox{#1}{\parbox{#2}{#3}}}
@@ -226,20 +231,8 @@ This section formalizes the problem statement.  We start with some necessary def
 
 \input{mdp}
  
-\section{The Control Improvisation Problem for SGs}
-\label{sec:sgs}
-\paragraph{Maximising entropy against an adverserial player}
-
-\subsection{Playing against deterministic adverseries}
-To formalise our argument
-\paragraph{Reformulation as a set of MDPs}
-
-\paragraph{}
-
-
-\subsection{Randomizing adversaries will not play better}
-
-\subsection{Non-observable adversaries}
+\section{The Control Improvisation Problem for SGs}\label{sec:sgs}
+\input{sg}
 %\begin{mdframed}
 %
 %\begin{compactenum}
