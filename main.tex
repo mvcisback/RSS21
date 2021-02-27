@@ -32,9 +32,13 @@
 \newtheorem{remark}{Remark}
 \newtheorem{example}{Example}
 \newtheorem{definition}{Definition}
+
+
+\usepackage{pgfplots}
 \usepackage{algorithm, algorithmicx}
 \usepackage[noend]{algpseudocode}
 
+\usepgfplotslibrary{fillbetween}
 \usetikzlibrary{patterns,arrows,backgrounds,calc,shapes,shadows,decorations.pathmorphing,decorations.pathreplacing,automata,shapes.multipart,positioning,shapes.geometric,fit,circuits,trees,shapes.gates.logic.US,fit,decorations.markings}
 
 \tikzset{sstate/.style={circle, draw=black, inner sep=1pt,minimum height=6mm}}
@@ -42,6 +46,10 @@
 \tikzset{tstate/.style={rectangle, draw=black, inner sep=1pt, minimum height=5mm}}
 \tikzset{actnode/.style={fill=black, inner sep=1pt}}
 \tikzset{elab/.style={auto,font={\fontsize{9pt}{12}\selectfont}}}
+
+\tikzset{cross/.style={cross out, draw=black, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt},
+%default radius will be 1pt. 
+cross/.default={1pt}}
 
 \makeatletter
 \let\MYcaption\@makecaption
