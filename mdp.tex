@@ -58,7 +58,7 @@ otherwise yield trivial $\solutions$ and $\pareto{\solutions}$), one
 can define $\epsilon_\rat \eqdef \nicefrac{\scp_\rat}{\scp_\infty}, \delta_\rat \eqdef \nicefrac{\rndp_\rat}{\rndp_0}$. Then, because
 $\sched_\rat$ maximizes randomness given a target performance, one derives:
 \begin{equation}
-  \solfuncp\left(\epsilon_\rat\right) = \delta_\rat.
+  \solfuncp\left(\delta_\rat\right) = \epsilon_\rat.
 \end{equation}
 The key algorithmic idea is thus to strategically evaluate a sequence
 of rationality coefficients to yield (input, output) pairs for
@@ -68,7 +68,7 @@ polygonal approximation of $\solutions$, and thus the Pareto
 Front. This approximation, $\hat{\solutions}$, is refined until
 either:
 \begin{enumerate}
-\item $\langle \scthreshold, \randomness \rangle \in \hat{S}$ proving
+\item $\langle \scthreshold, \randomness \rangle \in \hat{\solutions}$ proving
   $\langle \scthreshold, \randomness \rangle \in \solutions$.
 \item A $\rat$ is found such that
   $x_{\rat} \prec \langle \scthreshold, \randomness \rangle$, proving
