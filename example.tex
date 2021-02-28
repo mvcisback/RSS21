@@ -26,54 +26,103 @@ $\droneEnv$ can be certified.
 % Paint a picture.
 Concretely, suppose we have high-level models (e.g. motion planners)
 for $\droneEnv$ and $\droneEgo$, and suppose we can command
-$\droneEnv$ to deliver packages to certain houses in a particular
-order. We illustrate such a scenario in~Fig.~\ref{fig:motivating}, in
-which $\droneEnv$ and $\droneEgo$ are shown as black square and white
-circle drones respectively.  For this test scenario, the regulatory
-agency, wishes to exam how $\droneEnv$ responds to delivering packages
-to the red houses in the presence of $\droneEgo$. To test $\droneEnv$,
-the agency wishes to have $\droneEgo$ also deliver packages while
-avoiding $\droneEnv$.  Ideally, this $\droneEgo$'s policy should be as
+$\droneEnv$ to continuously visit four houses in our workspace. We
+illustrate such a scenario in~Fig.~\ref{fig:motivating}, in which
+$\droneEnv$ and $\droneEgo$ are shown as black square and white circle
+drones respectively.  For this test scenario, the regulatory agency,
+wishes to exam how $\droneEnv$ responds to delivering packages to the
+red houses in the presence of $\droneEgo$. To test $\droneEnv$, the
+agency wishes to have $\droneEgo$ also deliver packages while avoiding
+$\droneEnv$.  Ideally, this $\droneEgo$'s policy should be as
 un-biased as possible to exercise $\droneEnv$ on a variety of
 scenarios, and ideally capture and sensor, software, or hardware
 errors, e.g., a bug in a machine learned perception sensor.
 
+% Frame as RCI.
+With the ERCI framework, the agency may formalize the above scenario with the
+following constraints on $\droneEgo$:
+\begin{enumerate}
+\item (\emph{hard constraint}) Ensure that the two drones \emph{never} collide.
+\item (\emph{soft constraint}) With probability at least $.8$, visit all four houses within 10 minutes.
+\item (\emph{randomness constraint}) Perform this task as unpredictability as possible.
+\end{enumerate}
+What then remains is to synthesize a controller given the constraints
+\emph{and} the world model. At this point, it is worth examining more
+closely how one models $\droneEnv$'s controller when synthesizing
+$\droneEgo$. We illustrate by examining four models.
+
+\mypara{Deterministic Model}
+In the simplest case, the manufacture might guarantee that a
+$\droneEgo$ will deliver packages on a fixed route. While tempting to
+believe, such a route may be hard to a-priori compute and sensitive to
+the exact details of the test workspace.
+
+\mypara{Adversarial Model}
+After testing $\droneEnv$, one might discover that it always visits
+the houses in either clock-wise or counter-wise order, but seems to
+switch direction non-deterministically.  As a first step, one might
+model $\droneEnv$ as acting adversarially. Note however that such a
+model is clearly too pessimistic -- there is no policy that satisfies
+our constraints -- and frankly unrealistic within the context.
+
+\mypara{Stochastic Model}
+Next, after examining the data, one observes that $\droneEnv$ appears
+to flip a biased coin whenever it reaches a house to decide whether or
+not to turn around. The resulting Markov Decision Process may be
+sufficiently correct to synthesize adequate improvisers without
+being too pessimistic.
+
+\mypara{Stochastic Games} However, a natural criticism for stochastic
+models is the dependence on \emph{fixed} probabilities.  In our
+example, we may have observed $\droneEnv$'s behavior and extracted
+(point-)estimate probabilities, but these probabilities may still have
+non-trivial error margins.  In absence of (enough or reliable) data,
+we can combine adversarial choices and stochastic behavior such that
+we may model ranges of possible transition probabilities.  More
+precisely, we support interval-valued transition probabilities.
+Consider the delivery-drone $\droneEnv$. Rather than inferring a
+point-estimate from data, we may have inferred that the probability of
+turning around is in the interval $[p - \varepsilon, p + \varepsilon]$
+for adequate values of $p$ and $\varepsilon$.  Furthermore the actual
+probability may even depend on aspects of the current state.
+
+% Bring it all together.
+\mypara{ERCI as a unifying framework}
+The strength of the (entropy-guided) control improvisation framework
+is that we can combine all these aspects into a single computational
+model, which is very flexible. In the coming sections, we shall
+formally define the ERCI problem, highlight that there is the implicit
+trade-off between performance of the soft constraint and
+unpredictability, and provide algorithms to solve ERCI in Stochastic
+Games.
+
+% Pareto-curve that shows how randomization and performance yield a tradeoff. This means that rather than a-priori selecting threshold for entropy and the probability of not running out of battery, we obtain a variety op options and select the trade-off that is most satisfactory. Consider Fig.~\ref{}.
 
 
+% We consider high-level planning for drones. We consider a setting with a controllable drone $D$ and in presence of a secondary drone $E$. 
+% We partition the airspace into different zones. Four zones are marked as special points of interest (POIs).
+% One of the zones in a corner is a recharge station, where $D$ initially starts. $E$ starts in the opposite corner. We assume perfect observability.  
+% For safety, our plan must (\emph{hard constraint}) ensure that the two drones are never in the same zone. We are only interested in plans that visit the four POIs within a given time horizon (\emph{hard constraint}).
+% We should (\emph{soft constraint}) ensure that we do not run out of battery with high probability. 
+% Our aim is to create a plan such that the paths of $D$ within its environment are maximally unpredictable (random constraint), i.e., we want to maximally randomize over the paths that satisfy the constraints. Due to the nature of the soft constraint, some of the paths that we include may violate this constraint.  We apply our novel entropy-guided control improvisation. In the folllowing, we discuss different aspects of this setting.
 
-We consider high-level planning for drones. We consider a setting with a controllable drone $D$ and in presence of a secondary drone $E$. 
-We partition the airspace into different zones. Four zones are marked as special points of interest (POIs).
-One of the zones in a corner is a recharge station, where $D$ initially starts. $E$ starts in the opposite corner. We assume perfect observability.  
-For safety, our plan must (\emph{hard constraint}) ensure that the two drones are never in the same zone. We are only interested in plans that visit the four POIs within a given time horizon (\emph{hard constraint}).
-We should (\emph{soft constraint}) ensure that we do not run out of battery with high probability. 
-Our aim is to create a plan such that the paths of $D$ within its environment are maximally unpredictable (random constraint), i.e., we want to maximally randomize over the paths that satisfy the constraints. Due to the nature of the soft constraint, some of the paths that we include may violate this constraint.  We apply our novel entropy-guided control improvisation. In the folllowing, we discuss different aspects of this setting.
+% Let us first start in absence of $E$. 
+% The main task here is to ensure power-aware scheduling, i.e., depending on the state of charge of the battery, we want to adapt our plan. Crucial in this is an adequate model of the battery. 
+% Both the battery quality itself and the power consumption are, however, uncertain. 
+% In particular, we may model that in every step deterministically the average power is consumed, but this plan will not be robust to any other behavior, and the plan is unrealistic~\cite{DBLP:conf/cyphy/HermannsKN15}. Typically, in synthesis, the other extreme is assumed (any amount of power can be drawn in every step). In this setting, this assumption leads the battery to be discharged with the maximal power consumption -- while this is clearly too pessimistic -- there is no policy that satisfies our constraints.
+% We use a model in which we discretize the battery charge, and in every time step the battery charge decrements by one step with some probability $p$. 
+% Overall, this yields a binomial distribution over the maximal steps until the battery is depleted.
+% In Fig.~\ref{fig:motivating:batteries}, we show paths with a larger and smaller battery. As to be expected, the larger battery allows for more freedom in randomizing, as it is easier to meet the soft constraint.
 
-Let us first start in absence of $E$. 
-The main task here is to ensure power-aware scheduling, i.e., depending on the state of charge of the battery, we want to adapt our plan. Crucial in this is an adequate model of the battery. 
-Both the battery quality itself and the power consumption are, however, uncertain. 
-In particular, we may model that in every step deterministically the average power is consumed, but this plan will not be robust to any other behavior, and the plan is unrealistic~\cite{DBLP:conf/cyphy/HermannsKN15}. Typically, in synthesis, the other extreme is assumed (any amount of power can be drawn in every step). In this setting, this assumption leads the battery to be discharged with the maximal power consumption -- while this is clearly too pessimistic -- there is no policy that satisfies our constraints.
-We use a model in which we discretize the battery charge, and in every time step the battery charge decrements by one step with some probability $p$. 
-Overall, this yields a binomial distribution over the maximal steps until the battery is depleted.
-In Fig.~\ref{fig:motivating:batteries}, we show paths with a larger and smaller battery. As to be expected, the larger battery allows for more freedom in randomizing, as it is easier to meet the soft constraint.
-
-
-Orthogonally, let us consider drone $E$. 
-In the best case, drone $E$ is a delivery drone delivering packages along a fixed route. We can encode this route into the model. 
-Compare Fig.~\ref{} without a drone $E$ and Fig.~\ref{} with drone $E$ flying the path marked in red. 
-We can see how fewer paths meet the hard constraint, and thus, $D$ randomizes over fewer paths. 
-The plans in Fig.~\ref{} are not very robust: what if $E$ occasionally decided to return to its base (e.g., to recharge). More precisely, in Fig.~\ref{} we illustrate the policy for $D$ if we assume that $E$ flips a biased coin in every step in which it decided to turn around.
-We observe that this decreases the paths that satisfy the hard guarantee (not crashing) and indirectly also means that it becomes more likely that we deplete the battery due to evading $E$.
-Finally, rather than assuming some stochastic behavior where $E$ turns around, we may want to not make any assumption on under which circumstances or what probability $E$ turns. 
-The difference is more subtle: changing from randomization to adversarial behavior of $E$ does not change the set of paths that violate the hard constraint, $D$ will need to evade $E$ more often, yielding higher battery consumption. 
-More generally, the difference between assuming random behavior of $E$ and adversarial behavior is as follows: In the latter case, we are interested in a policy that is good for any behavior of $E$, that is, it is good in the worst-case, whereas assuming (uniform) random behavior for $E$ in expectation, but does not give guarantees on the worst-case. Generally, optimizing for the worst-case is overly pessimistic.
-
-A natural criticism for stochastic models is the dependence on fixed probabilities.
- In our example, we may have observed $E$'s behavior and extracted (point-)estimate probabilities $p$ using inverse reinforcement learning. In absence of (enough or reliable) data, we can combine adversarial choices and stochastic behavior such that we may model ranges of possible transition probabilities. 
- More precisely, we support interval-valued transition probabilities. Consider the delivery-drone $E$. Rather than inferring a point-estimate from data, we may have inferred that the probability of turning around is in the interval $[p - \varepsilon, p + \varepsilon]$ for adequate values of $p$ and $\varepsilon$.  Furthermore the actual probability may even depend on aspects of the current state. 
-
-The strength of the (entropy-guided) control improvisation framework is that we can combine all these aspects into a single computational model, which is very flexible. For example, we use an interval-based model for the turn-around probability and a battery model to create the plans visualised in Fig.~\ref{}.
-Finally, one aspect we want to highlight here is the implicit construction of a Pareto-curve that shows how randomization and performance yield a tradeoff. This means that rather than a-priori selecting threshold for entropy and the probability of not running out of battery, we obtain a variety op options and select the trade-off that is most satisfactory. Consider Fig.~\ref{}.
-
+% Orthogonally, let us consider drone $E$. 
+% In the best case, drone $E$ is a delivery drone delivering packages along a fixed route. We can encode this route into the model. 
+% Compare Fig.~\ref{} without a drone $E$ and Fig.~\ref{} with drone $E$ flying the path marked in red. 
+% We can see how fewer paths meet the hard constraint, and thus, $D$ randomizes over fewer paths. 
+% The plans in Fig.~\ref{} are not very robust: what if $E$ occasionally decided to return to its base (e.g., to recharge). More precisely, in Fig.~\ref{} we illustrate the policy for $D$ if we assume that $E$ flips a biased coin in every step in which it decided to turn around.
+% We observe that this decreases the paths that satisfy the hard guarantee (not crashing) and indirectly also means that it becomes more likely that we deplete the battery due to evading $E$.
+% Finally, rather than assuming some stochastic behavior where $E$ turns around, we may want to not make any assumption on under which circumstances or what probability $E$ turns. 
+% The difference is more subtle: changing from randomization to adversarial behavior of $E$ does not change the set of paths that violate the hard constraint, $D$ will need to evade $E$ more often, yielding higher battery consumption. 
+% More generally, the difference between assuming random behavior of $E$ and adversarial behavior is as follows: In the latter case, we are interested in a policy that is good for any behavior of $E$, that is, it is good in the worst-case, whereas assuming (uniform) random behavior for $E$ in expectation, but does not give guarantees on the worst-case. Generally, optimizing for the worst-case is overly pessimistic.
 
 
 %%% Local Variables:
