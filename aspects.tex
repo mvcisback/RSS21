@@ -5,9 +5,10 @@ onwards: \emph{the performance}) and causal entropy induced by a
 policy (\emph{the randomization}).  In particular,
 we are interested in understanding the combinations of $\scthreshold$
 and $\randomness$ that allow to solve the (core) ERCI problem. To this
-end, we cast ERCI as an instance of a multi-objective optimization problem and
-study its Pareto front.
+end, we cast ERCI as an instance of a multi-objective optimization problem, and
+study its Pareto front. Some ideas are inspired by variants of multi-objective analysis of MDPs with multiple soft constraints, e.g.~\cite{DBLP:conf/stacs/ChatterjeeMH06,DBLP:conf/tacas/EtessamiKVY07}.
 
+\input{geometric}
 It is convenient to consider this front geometrically.
 To begin, given a fixed ERCI instance, a scheduler $\sched$
 \emph{induces} a point $x_\sched$:
@@ -20,7 +21,6 @@ partially order these points via the standard product ordering:
 \begin{equation}
   \langle \scp,\rndp \rangle \preceq \langle \scp',\rndp' \rangle \quad\text{ iff }\quad \scp \leq \scp' \wedge \rndp \leq \rndp'.
 \end{equation}
-\input{geometric}
 
 We say that $\pOneSched$ \emph{guarantees} a point $x_\pOne \eqdef
 \langle \scp, \rndp \rangle$, if for every policy $\pTwoSched$, using
@@ -28,27 +28,25 @@ $\sched = \langle \pOneSched, \pTwoSched \rangle$, we have
 $\scp_\sched \geq \scp$ and $\rndp_\sched \geq \rndp$. Thus, a point
 is guaranteed if no matter what policy $\pTwo$ uses, $x_\sched$ will
 induce a point no worse w.r.t.\ to either randomization or performance
-than $x_\pOne$. Furthermore, observe that guaranteed points are
-downward closed, i.e., if $\pOneSched$ guarantees $x$ and $x' \preceq x$,
-then $\pOneSched$ guarantees $x'$.
-
-
-We define the following elementary sets: For any $\pOneSched$,
-that $\pOneSched$ guarantees $\langle \scp, \rndp \rangle$, we define
-the set of guaranteed points:
+than $x_\pOne$. 
+We define
+\emph{the set of guaranteed points} for a scheduler $\pOneSched$:
 \begin{equation}\label{eq:guaranteed}
   \solutions[\pOneSched] \eqdef \{ \langle \scp, \rndp \rangle \mid  \pOneSched \text{ guarantees } \langle \scp, \rndp \rangle \}.
 \end{equation}
+We observe that guaranteed points are
+downward closed, i.e., if $\pOneSched$ guarantees $x$ and $x' \preceq x$,
+then $\pOneSched$ guarantees $x'$.
 \begin{example}
-Consider Fig.~\ref{fig:geom:guarantee}. We fix $\pOneSched$ and draw all points induced by $\sched = \langle \pOneSched, \pTwoSched \rangle$ when varying $\pTwoSched$ in the blue area. We take the minimal randomness $\rndp$ and the minimal performance $\scp$. The points in the downward closure of $\langle \scp, \rndp \rangle$ (green circle) are the guaranteed points for $\pOneSched$.	
+Consider Fig.~\ref{fig:geom:guarantee}. We fix $\pOneSched$ and draw all points induced by $\sched = \langle \pOneSched, \pTwoSched \rangle$ when varying $\pTwoSched$ in the blue hatched area. We take the minimal randomness $\rndp$ and the minimal performance $\scp$. The points in the downward closure  of $\langle \scp, \rndp \rangle$ (green circle) are the guaranteed points for $\pOneSched$ in the green solid area.	
+We notice the gap between both areas: While the performance and randomization may be better than the optimum that $\pOne$ can guarantee, it cannot guarantee a higher randomization \emph{and} performance simultaneously, as  the $\pTwo$-player would have a counter-policy violating either the performance \emph{or} the randomization.
 \end{example}
 
-Any point that can be guaranteed by some $\pOneSched$ is called
-\emph{achievable}, i.e., the achievable points are: $ \solutions =
-\bigcup_{\pOneSched} \solutions[\pOneSched]$.  Importantly, it holds
-that the ERCI problem is satisfiable iff $\langle \scthreshold,
-\randomness \rangle$ is achievable.  \sj{We should clarify satisfiable
-lingo} Thus, to solve ERCI instances, we start by characterizing
+Points guaranteed by some $\pOneSched$ are called
+\emph{achievable}. Thus, the achievable points are: $ \solutions =
+\bigcup_{\pOneSched} \solutions[\pOneSched]$.  Importantly, the ERCI problem is satisfiable iff $\langle \scthreshold,
+\randomness \rangle$ is achievable. 
+Thus, to solve ERCI instances, we start by characterizing
 $\solutions$.
 
 
@@ -60,7 +58,7 @@ $\solutions$.
   convex-combinations\footnotemark. Consider two points
   $\langle \scp, \rndp \rangle, \langle \scp', \rndp' \rangle \in
   \solutions$ achieved by $\pOneSched$ and $\pOneSchedPrime$
-  resp. Consider the new policy, $\pi$, defined by employing
+  respectively. Consider the new policy, $\pi$, defined by employing
   $\pOneSched$ with probability $q$ and $\pOneSchedPrime$ with
   probability $\bar{q} \eqdef 1 - q$.  Because each policy
   \emph{guarantees} its corresponding performance, this new policy as
@@ -71,19 +69,19 @@ $\solutions$.
     \begin{split}
       H_\tau(\sigma)
       \geq &~q \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSched)~+\\
-      &~\bar{q}  \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSchedPrime)\\
-      =&~q\cdot\rndp + \bar{q}\cdot \rndp'.
+      &~\bar{q}  \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSchedPrime)
+      =~q\cdot\rndp + \bar{q}\cdot \rndp'.
     \end{split}
   \end{equation}
   Thus, any convex combination of guaranteed points is guaranteed by
-  a convex combination of the resp. ego policies.
+  a convex combination of the corresponding ego policies.
 \end{proof}
 \footnotetext{
   That is, $y, y' \in Y$ implies for
   every $w \in [0,1]$ that $w \cdot y + (1-w) \cdot y \in Y$
 }
 
-Next, observe that because $\solutions$ is downward closed, it
+Next, because $\solutions$ is downward closed, it
 suffices to study the ``maximal'' or non-dominated points.  Precisely,
 we say that a point $x$ is \emph{dominated} by $x'$ if $x \prec
 x'$, i.e., if $x \preceq x' \wedge x \neq x'$.
@@ -96,13 +94,13 @@ The Pareto-front $\pareto{\solutions}$ of $\solutions$ is then the set of non-do
 Importantly, it holds that the ERCI problem is satisfiable iff there exists a  $x \in \pareto{\solutions}$ such that $\langle \scthreshold, \randomness \rangle \prec x$.    
 \end{mdframed}
 \begin{example}
-	
+	The set $\solutions$ illustrated in Fig.~\ref{fig:geom:solution} is obtained by taking the union of guaranteed points, and can be characterized by the set of points on the Pareto-front: This is the curved border between the green and white area, in particular the three green dots are on the Pareto-front. Any ERCI instance with $\langle \scthreshold, \randomness \rangle$ in the green area is satisfiable.
 \end{example}
 
 
 \noindent
-Thus the approximating the Pareto-front gives a natural approximation
-scheme for ERCI instances. Namely, for any subset $\pareto{} \subseteq
+Approximating the Pareto-front gives a natural approximation
+scheme for ERCI instances: For any subset $\pareto{} \subseteq
 \pareto{\solutions}$,
 \begin{enumerate}
 \item If there exists an $x \in \pareto{}$ such that
@@ -114,12 +112,14 @@ ERCI problem is not satisfiable.
 \end{enumerate}
 
 \begin{example}
-	
+\label{ex:approximation}
+	Consider Fig.~\ref{fig:geom:iterative}. We have found three points on the Pareto-curve, and already have a good impression of the trade off between randomization and performance. In particular, the green area is definitively a subset of $\solutions$: It exploits the downward closure and the convexity of $\solutions$. The red (dotted) part contain the points on the Pareto curve in their downward closure, thus they cannot be part of the Pareto curve themselves.
+	Furthermore, the topmost point on the Pareto curve was obtained by maximizing performance (and optimizing randomization only as a secondary objective). Thus, by construction, the bricked area at the top is not satisfiable. Analogously, the bricked area at the right reflects non-achievable entropy. 
 \end{example}
 
 Thus a key algorithmic question in ERCI is how to efficiently explore
-and approximate the $\pareto{\solutions}$.  
-To this end, we note that while $\solutions$ is defined as a subset of $[0,1] \times [0,\infty)$, we can restrict ourselves to the domain in which we can actually trade performance for randomness. 
+and approximate the Pareto front $\pareto{\solutions}$. As first steps, we find the two special points induced by (1) optimizing performance and only then randomization (the topmost green point in the figures) and (2) optimizing randomization and only then performance (the rightmost green point). 
+As we have seen, these restrict the domain in which we can actually trade performance for randomness. 
 We define 
 $\rndopt \eqdef \max \{ \rndp \mid \exists \scp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $, i.e., the largest randomness that can be guaranteed by any $\pOne$-policy. 
 Likewise, we define 
@@ -129,40 +129,39 @@ $\scmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \
 Likewise, we define  the analogous $\rndmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$.
 We thus obtain two points on the Pareto-curve: $\langle \scmin, \rndopt \rangle$ and $\langle \scopt, \rndmin \rangle$, and intuitively, we can trade between these two points following the Pareto curve.
 
-\begin{remark}[Regret Based ERCI]
-  In practice, rather that fixing $\scthreshold$ and $\randomness$ a
-  priori, one seeks achieve some percentage of the achievable soft
-  constraint or causal entropy measure.  In such cases, we
-  re-parameterized the ERCI instance with:
-  \begin{equation}
-    \scthreshold(\epsilon) \eqdef \epsilon \cdot \scopt
-    \hspace{3em}
-    \randomness(\delta) \eqdef  \delta \cdot \rndopt
-  \end{equation}
-  where $\epsilon, \delta \in [0, 1]$. As we shall later see, these maximum quantities are
-  directly computed in our proposed algorithm.
-\end{remark}
+%\begin{remark}[Regret Based ERCI]
 
-Finally, it is helpful to think about the Pareto-curve as a function
-in $\rndp$.  We define a characteristic function which given a target
+Often, rather that fixing $\scthreshold$ and $\randomness$ a
+  priori, one seeks achieve some percentage of the achievable soft
+  constraint or causal entropy measure.  We
+  re-parameterize ERCI as follows (with slight misuse of notation).
+  \begin{equation}
+    \scthreshold_\epsilon \eqdef \epsilon \cdot \scopt
+    \hspace{3em}
+    \randomness_\delta \eqdef  \delta \cdot \rndopt
+  \end{equation}
+  where $\epsilon, \delta \in [0, 1]$. We call this version of ERCI \emph{regret-based}. Geometrically, after computing $\scopt$ and $\rndopt$, we know that the left triangle in Fig.~\ref{fig:geom:regret} is definitively satisfiable, and the regret-based ERCI asks whether the white circle is also satisfiable (where the point of the white point is given by $\epsilon$ and $\delta$. %As we shall later see, these maximum quantities are
+ % directly computed in our proposed algorithm. 
+%\end{remark}
+
+Finally, it is helpful to think about the Pareto-curve as a function of randomization in this reparameterization.  We define a characteristic function which given a target
 performance ratio, $\epsilon$, yields the optimal randomness ratio,
 $\delta$:
 \begin{equation}
   \begin{split}
     & \solfuncp\colon [0,1] \rightarrow [0, 1]    \\
-    & \solfuncp(\delta) = \max_\epsilon \{ \rndp(\delta) \mid \langle
-    \scp(\epsilon), \rndp(\delta) \rangle \in \solutions \} 
+    & \solfuncp(\delta) = \max_\epsilon \{ \randomness_\delta \mid \langle
+    \scthreshold_\epsilon, \randomness_\delta \rangle \in \solutions \} 
   \end{split}
 \end{equation}
 \begin{proposition}\label{prop:monotone}
-  $\solfuncp$ is smooth and (strictly) monotonically decreasing.
+  $\solfuncp$ is continuous and (strictly) monotonically decreasing.
 \end{proposition}
-In particular, the set is \emph{not} a finite polytope, but can be
-well approximated by one. We shall however post-pone the proof of
-\propref{monotone} until Sec ?. For now, one case observe that
+ We shall however post-pone the proof of
+\propref{monotone} until {\color{red}{where?}}. For now, one case observe that
 (non-strict) monotone decreasing follows directly from convexity and
 using the adequate domains.
-
+Finally, the set  $\solutions$ is (in general) \emph{not} a finite polytope -- the MDP in Fig.~\ref{fig:minimal:mdp} serves as an example. Nevertheless,  $\solutions$ can be approximated with finitely many vertices, see Ex.~\ref{ex:approximation}.
 
 With these facts, we are now well-equiped to develop the algorithms in Sec.~\ref{sec:mdps} for MDPs and Sec.~\ref{sec:sgs} for SGs.
 

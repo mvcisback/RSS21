@@ -218,7 +218,7 @@ where $\tau' = \lceil \frac{\tau}{2}\rceil$ is the number of $\pOne$-actions due
 Together, we now have the necessary ingredients to formalize the problem statement. 
 \begin{mdframed}[backgroundcolor=blue!5]
 \textbf{The Entropic Control Improvisation (ERCI) Problem}:
-Given a SG $\sg$, $\tau$-bounded path properties $\hard$ and $\soft$, and thresholds $\scthreshold \in [0,1]$ and $\randomness \in [0,\infty)$, find a $\pOne$-policy $\pOneSched$  such that for every $\pTwo$-policy $\pTwoSched$,
+Given a SG $\sg$, $\tau$-bounded path properties $\hard$ and $\soft$, and thresholds $\scthreshold \in [0,1]$ and $\randomness \in [0,\infty)$, find a $\pOne$-policy $\pOneSched$ (or report that none exists) such that for every $\pTwo$-policy $\pTwoSched$,
 \begin{compactenum}
 	\item (\emph{hard constraint}) $\Pr(\hard \mid \sched) \geq 1$
 	\item (\emph{soft constraint)} $\Pr(\soft \mid \sched) \geq \scthreshold$
@@ -226,10 +226,11 @@ Given a SG $\sg$, $\tau$-bounded path properties $\hard$ and $\soft$, and thresh
 \end{compactenum}
 where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
+We say that an instance of the ERCI problem is satisfiable, if an appropriate $\pOneSched$ exists, and the problem is unsatisfiable otherwise.
 
 \begin{figure}
 \centering
-\begin{subfigure}{0.2\columnwidth}
+\begin{subfigure}{0.24\columnwidth}
 \centering
 \begin{tikzpicture}	
 	\node[sstate,initial, initial text=] (si) {$s_0$};
@@ -242,7 +243,7 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \caption{Minimal MDP}
 \label{fig:minimal:mdp}
 \end{subfigure}
-\begin{subfigure}{0.38\columnwidth}
+\begin{subfigure}{0.36\columnwidth}
 \centering
 \begin{tikzpicture}[scale=2]
  \draw[->] (-0.05, 0) -- (1, 0) node[below]{$\sched(a \mid s_0 )$};
@@ -254,7 +255,7 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \caption{Probability to reach $\target$}
 \label{fig:minimal:soft}
 \end{subfigure}
-\begin{subfigure}{0.38\columnwidth}
+\begin{subfigure}{0.36\columnwidth}
 \centering
 \begin{tikzpicture}[scale=2]	
  \draw[->] (-0.05, 0) -- (1, 0) node[below]{$\sched(a \mid s_0 )$};
