@@ -212,7 +212,7 @@ where $\tau' = \lceil \frac{\tau}{2}\rceil$ is the number of $\pOne$-actions due
 
 
 \begin{example}
-	{\color{red}todo}
+	{\color{red}todo, depends on downstream}
 \end{example}
 
 Together, we now have the necessary ingredients to formalize the problem statement. 
@@ -239,29 +239,32 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 	\draw[->] (si) -- node[right] {$b$} (s1);
 	
 \end{tikzpicture}
-\caption{}
+\caption{Minimal MDP}
+\label{fig:minimal:mdp}
 \end{subfigure}
 \begin{subfigure}{0.38\columnwidth}
 \centering
 \begin{tikzpicture}[scale=2]
- \draw[->] (-0.05, 0) -- (1, 0) node[below]{$\sched(s_0)(a)$};
+ \draw[->] (-0.05, 0) -- (1, 0) node[below]{$\sched(a \mid s_0 )$};
   	\draw[->] (0, -0.05) -- (0, 0.8) node[above] {$\Pr( \varphi \mid \sched)$};
   	%\draw[-,dashed] (0.4,0) -- (0.4,0.5184);
   	%\draw[-,dashed] (0.0,0.5184) -- (0.4,0.5184);
   \draw[ domain=0:0.8, smooth, variable=\x, blue] plot ({\x}, {\x});
 \end{tikzpicture}
-\caption{}
+\caption{Probability to reach $\target$}
+\label{fig:minimal:soft}
 \end{subfigure}
 \begin{subfigure}{0.38\columnwidth}
 \centering
 \begin{tikzpicture}[scale=2]	
- \draw[->] (-0.05, 0) -- (1, 0) node[below]{$\sched(s_0)(a)$};
+ \draw[->] (-0.05, 0) -- (1, 0) node[below]{$\sched(a \mid s_0 )$};
   	\draw[->] (0, -0.05) -- (0, 0.8) node[above] {$H(\sched)$};
   	%\draw[-,dashed] (0.4,0) -- (0.4,0.5184);
   	%\draw[-,dashed] (0.0,0.5184) -- (0.4,0.5184);
   \draw[ domain=0.001:0.999, smooth, variable=\x, blue] plot ({\x}, {-\x * ln(\x) - (1 - \x)*  ln(1-\x)});
 \end{tikzpicture}
-\caption{}
+\caption{Causal Entropy}
+\label{fig:minimal:entropy}
 \end{subfigure}
 
 \caption{Minimal ERCI problem with $\varphi = ( \last{\xi} = \target )$}
@@ -312,7 +315,8 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
 
 \begin{example}
-	In Fig.~\ref{fig:minierci} the plot
+	In Fig.~\ref{fig:minimal:mdp} we show a (deterministic) MDP and we plot for all schedulers the induced probability to reach $\target$ and the induced causal entropy, in Fig.~\ref{fig:minimal:soft} and \ref{fig:minimal:entropy}, respectively. 
+	We see that taking action $a$ with increasing probability yields obviously to a larger probability to reach $\target$, whereas taking action $a$ and $b$ uniformly at random is optimal for the entropy. 
 \end{example}
 
 
