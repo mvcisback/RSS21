@@ -18,9 +18,11 @@ synthesize a controller for another delivery drone, $\droneEgo$, to test if
 $\droneEnv$ can be certified.
 
 % Paint a picture.
-Concretely, suppose we have high-level models (e.g., motion planners)
-for $\droneEnv$ and $\droneEgo$, and we command
-$\droneEnv$ to continuously visit four houses in our workspace. We
+Concretely,
+% suppose we have high-level models (e.g., motion planners)
+%for $\droneEnv$ and $\droneEgo$, 
+suppose we command
+$\droneEnv$ to continuously visit four houses in our workspace. \sj{check} We
 illustrate such a scenario in~Fig.~\ref{fig:motivating}, in which
 $\droneEnv$ and $\droneEgo$ are shown as black square and white circle
 drones respectively.  For this test scenario, the regulatory agency,
@@ -54,7 +56,7 @@ $\droneEgo$. We illustrate by examining three models. In all models, we capture 
 %believe, such a route may be hard to a-priori compute and sensitive to
 %the exact details of the test workspace.
 
-\mypara{Adversarial Model}
+\mypara{Nondeterministic Model}
 The simplest approach to modelling is not to make any assumptions about  $\droneEnv$ beyond what already has been established. We consider here that the houses are visited either clock-wise or counter-wise order but that it may switch direction at any time. 
 Such a model is too liberal and leads to a bad test set.
 First, if $\droneEnv$ can do anything than $\droneEgo$'s behavior is severely limited. This limitation restricts the variance of its behavior, and it will not test $\droneEnv$'s true behavior. 
@@ -76,7 +78,7 @@ This models $\droneEnv$ much more precisely, and allows for more targeted test b
 %sufficiently correct to synthesize adequate improvisers without
 %being too pessimistic.
 
-\mypara{Adversarial and Stochastic Model} However, a natural criticism for stochastic
+\mypara{Nondeterministic and Stochastic Model} However, a natural criticism for stochastic
 models is the dependence on \emph{fixed} probabilities. 
 Obtaining such probabilities with confidence requires many tests which defeat the purpose of our test setup, and making point-estimates from little data may not create faithful models of the actual behavior..
 % In our
