@@ -1,14 +1,12 @@
 % Declarative Constraints ar neat idea.
-The use of declarative specifications to define high-level plans, e.g.,\sj{is this about plans or about specs?}
-automata and temporal logic formulas, has become popular in recent
-years~\cite{DBLP:conf/iros/HorowitzWM14, DBLP:conf/rss/WongEK14, DBLP:conf/iros/HeLKV17, DBLP:conf/icra/FuATP16, DBLP:conf/icra/HeWKV19, DBLP:journals/arobots/MoarrefK20, DBLP:conf/icra/KantarosM0P20}.
+The use of declarative specifications, e.g. in the form of temporal logic formulas, has become a popular way to construct high-level robot controllers~\cite{DBLP:conf/iros/HorowitzWM14, DBLP:conf/rss/WongEK14, DBLP:conf/iros/HeLKV17, DBLP:conf/icra/FuATP16, DBLP:conf/icra/HeWKV19, DBLP:journals/arobots/MoarrefK20, DBLP:conf/icra/KantarosM0P20}.
 % Synthesis closes the gap.
 Given a user provided specification, \emph{synthesis} algorithms aim
 to automatically create a control policy that ensures that the
 specification is met, or explain why such a policy does not
 exist. Together, synthesis and declarative specifications facilitate
 quickly and intuitively solving a wide variety of control tasks.  For
-example, consider a patrol\sj{Still patrol?} drone operating in a workspace. One may
+example, consider a delivery drone operating in a workspace. One may
 specify the drone should ``within 10 minutes, visit four locations (in any
 order) \emph{and} avoid crashing.''. A synthesis tool may then create a
 finite state controller which guarantees this specification is met,
@@ -44,7 +42,10 @@ declarative constraints. (1) \emph{Hard constraints} that, as in the
 classical setting, must be satisfied, (2) \emph{soft constraints} that
 on most executions should hold, and (3) \emph{randomization
 constraints} that ensure that a synthesized policy does not overly
-commit to a particular action or behavior. Unfortunately, control
+commit to a particular action or behavior. 
+The key challenge is that randomization and performance in the form of soft constraints form a natural trade off.
+
+Unfortunately, control
 improvisation has so far been limited to deterministic domains where
 uncertainty is resolved adversarially. This assumption is often too
 restrictive and leads (together with the soft/hard constraints) to
@@ -87,7 +88,7 @@ the reactive control improvisation. ERCI also conservatively extends  classical 
 %trade-off between these two entities.
 %
 \mypara{Contributions}
-In summary, this paper contributes ERCI, an algorithmic way to trade\sj{first occurance of trading}
+In summary, this paper contributes ERCI, an algorithmic way to trade 
 performance and randomization in stochastic games. As we motivate in the example below, the support for stochastic games that combine both
 adversarial and probabilistic behavior in an environment allows for
 modeling flexibility, admitting applicability to new domains. To

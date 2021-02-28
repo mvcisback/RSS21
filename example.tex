@@ -8,24 +8,18 @@
     the synthesized policy should be as randomized to avoid testing bias.\label{fig:motivating} }
 \end{figure}
 
-\begin{figure*}
-
-\caption{Plans for different models of drone $E$}	
-\end{figure*}
-
 % Setup Testing Premise.
-We consider a hypothetical scenario in which a regulatory agency
-wishes to certify the safety and performance of a new delivery drone.
-In order to do so, the agency may wish to run this new drone, call
-$\droneEnv$, through a series of tests. For example, given a certain
-delivery route, can $\droneEnv$ successfully deliver packages while
-avoiding \emph{other} delivery drones. To do so, the agency decides to
-synthesize a controller for another delivery drone, $\droneEgo$, and test if
+We consider a scenario in which a regulatory agency
+wishes to certify the safety and performance of a new delivery drone $\droneEnv$.
+As part of the process, the agency runs $\droneEnv$ through a series of tests. For example, given a certain
+delivery route, the agency investigates whether $\droneEnv$ successfully delivers packages while
+avoiding \emph{other} delivery drones. To execute this test, the agency decides to
+synthesize a controller for another delivery drone, $\droneEgo$, to test if
 $\droneEnv$ can be certified.
 
 % Paint a picture.
-Concretely, suppose we have high-level models (e.g. motion planners)
-for $\droneEnv$ and $\droneEgo$, and suppose we can command
+Concretely, suppose we have high-level models (e.g., motion planners)
+for $\droneEnv$ and $\droneEgo$, and we command
 $\droneEnv$ to continuously visit four houses in our workspace. We
 illustrate such a scenario in~Fig.~\ref{fig:motivating}, in which
 $\droneEnv$ and $\droneEgo$ are shown as black square and white circle
@@ -33,10 +27,13 @@ drones respectively.  For this test scenario, the regulatory agency,
 wishes to exam how $\droneEnv$ responds to delivering packages to the
 red houses in the presence of $\droneEgo$. To test $\droneEnv$, the
 agency wishes to have $\droneEgo$ also deliver packages while avoiding
-$\droneEnv$.  Ideally, this $\droneEgo$'s policy should be as
-un-biased as possible to exercise $\droneEnv$ on a variety of
-scenarios, and ideally capture and sensor, software, or hardware
-errors, e.g., a bug in a machine learned perception sensor.
+$\droneEnv$. 
+To properly exercise $\droneEnv$, $\droneEgo$ should show a variety of behaviors meeting  specification, and the behaviors should not be biased to any behavior beyond the given specification.  
+\sj{I did not understand sentence in the comments}
+% Ideally, this $\droneEgo$'s policy should be as
+%un-biased as possible to exercise $\droneEnv$ on a variety of
+%scenarios, and ideally capture and sensor, software, or hardware
+%errors, e.g., a bug in a machine learned perception sensor.
 
 % Frame as RCI.
 With the ERCI framework, the agency may formalize the above scenario with the
@@ -46,43 +43,50 @@ following constraints on $\droneEgo$:
 \item (\emph{soft constraint}) With probability at least $.8$, visit all four houses within 10 minutes.
 \item (\emph{randomness constraint}) Perform this task as unpredictability as possible.
 \end{enumerate}
-What then remains is to synthesize a controller given the constraints
+What  remains is to synthesize a controller given the constraints
 \emph{and} the world model. At this point, it is worth examining more
 closely how one models $\droneEnv$'s controller when synthesizing
-$\droneEgo$. We illustrate by examining four models.
-
-\mypara{Deterministic Model}
-In the simplest case, the manufacture might guarantee that a
-$\droneEgo$ will deliver packages on a fixed route. While tempting to
-believe, such a route may be hard to a-priori compute and sensitive to
-the exact details of the test workspace.
+$\droneEgo$. We illustrate by examining four models. In all models, we capture the behaviors of $\droneEnv$ and $\droneEgo$. We focus on $\droneEnv$, but the ideas carry over to modeling the actuation of $\droneEgo$.
+%
+%\mypara{Deterministic Model}
+%In the simplest case, the manufacture might guarantee that a
+%$\droneEgo$ will deliver packages on a fixed route.\sj{But it also needs to respond to other drones, so I do not find this fixed route particularly convincing. } While tempting to
+%believe, such a route may be hard to a-priori compute and sensitive to
+%the exact details of the test workspace.
 
 \mypara{Adversarial Model}
-After testing $\droneEnv$, one might discover that it always visits
-the houses in either clock-wise or counter-wise order, but seems to
-switch direction non-deterministically.  As a first step, one might
-model $\droneEnv$ as acting adversarially. Note however that such a
-model is clearly too pessimistic -- there is no policy that satisfies
-our constraints -- and frankly unrealistic within the context.
-Furthermore, even if there existed a winning policy, such a pessimistic
-model would result in an unnecessarily conservative (and thus predictable)
-test controller, limiting its utility.
+The simplest approach to modelling is not to make any assumptions about  $\droneEnv$ beyond what already has been established. We consider here that the houses are visited either clock-wise or counter-wise order but that it may switch direction at any time. 
+Such a model is too liberal and leads to a bad test set.
+First, if $\droneEnv$ can do anything than $\droneEgo$'s behavior is severely limited. This limitation restricts the variance of its behavior, and it will not test $\droneEnv$'s true behavior. 
+A purely non-deterministic model for $\droneEnv$ thus may not lead to the synthesis of adequate behavior for $\droneEgo$. 
+ %Such a model is clearly too pessimistic -- there is no policy that satisfies
+%our constraints -- and frankly unrealistic within the context.
+%Furthermore, even if there existed a winning policy, such a pessimistic
+%model would result in an unnecessarily conservative (and thus predictable)
+%test controller, limiting its utility.
 
 \mypara{Stochastic Model}
-Next, after examining the data, one observes that $\droneEnv$ appears
+Rather than the pessimistic adversarial assumption, we may collect data about $\droneEnv$ and construct a stochastic model, e.g., using inverse reinforcement learning~\sj{cite}\cite{}.
+Concretely (but simplified), after examining the data, one observes that $\droneEnv$ appears
 to flip a biased coin whenever it reaches a house to decide whether or
-not to turn around. The resulting Markov Decision Process may be
-sufficiently correct to synthesize adequate improvisers without
-being too pessimistic.
+not to turn around. 
+This models $\droneEnv$ much more precisely, and allows for more targeted test by $\droneEgo$.
 
-\mypara{Stochastic Games} However, a natural criticism for stochastic
-models is the dependence on \emph{fixed} probabilities.  In our
-example, we may have observed $\droneEnv$'s behavior and extracted
-(point-)estimate probabilities, but these probabilities may still have
-non-trivial error margins or could be sensitive to changes in the
-workspace.  In absence of (enough or reliable) data, we can combine
-adversarial choices and stochastic behavior such that we may model
-ranges of possible transition probabilities.  More precisely, we
+%The resulting Markov Decision Process may be
+%sufficiently correct to synthesize adequate improvisers without
+%being too pessimistic.
+
+\mypara{Adversarial and Stochastic Model} However, a natural criticism for stochastic
+models is the dependence on \emph{fixed} probabilities. 
+Obtaining such probabilities with confidence requires many tests which defeat the purpose of our test setup, and making point-estimates from little data may not create faithful models of the actual behavior..
+% In our
+%example, we may have observed $\droneEnv$'s behavior and extracted
+%(point-)estimate probabilities, but these probabilities may still have
+%non-trivial error margins or could be sensitive to changes in the
+%workspace.
+  In absence of (enough or reliable) data, we can arbitrarily combine
+adversarial choices and stochastic behavior. We may use stochastic abstractions for parts that we can faithfully model, and adversarial behavior in absence of data.
+In particular, we
 support interval-valued transition probabilities.  Consider the
 delivery-drone $\droneEnv$. Rather than inferring a point-estimate
 from data, we may have inferred that the probability of turning around
@@ -94,8 +98,11 @@ may even depend on aspects of the current state.
 \mypara{ERCI as a unifying framework}
 The strength of the (entropy-guided) control improvisation framework
 is that we can combine all these aspects into a single (flexible)
-computational model. For example, we shall provide an algorithm that
-can maximally randomize for all of the model discussed above. In the
+computational model. 
+In particular, the models above are captured by a 2-player game, a 1.5-player (MDP) and a 2.5-player game (stochastic game), respectively.
+In all cases, the first player controls the behavior of $\droneEgo$ and this controller is to be synthesized. 
+We contribute an algorithm that synthesizes that controller such that
+it  maximally randomizes for all of the model discussed above. In the
 coming sections, we shall formally define the ERCI problem, highlight
 that there is an implicit trade-off between performance of the soft
 constraint and unpredictability, and provide algorithms to solve ERCI
