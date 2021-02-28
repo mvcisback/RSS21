@@ -1,16 +1,44 @@
 
 \begin{figure}
-  \centering
-  \scalebox{0.4}{
-    \import{imgs/}{motivating_example.pdf_tex}
-    }
-\caption{Plans for different battery models}	
+  \centering \scalebox{0.4}{
+    \import{imgs/}{motivating_example.pdf_tex} }
+  \caption{ Illustration of delivery drone testing example. The goal
+    is to synthesize a policy for the bottom left (white circle) drone
+    to test the controller of the top right (black square) drone. Ideally,
+    the synthesized policy should be as randomized to avoid testing bias.\label{fig:motivating} }
 \end{figure}
 
 \begin{figure*}
 
 \caption{Plans for different models of drone $E$}	
 \end{figure*}
+
+% Setup Testing Premise.
+We consider a hypothetical scenario in which a regulatory agency
+wishes to certify the safety and performance of a new delivery drone.
+In order to do so, the agency may wish to run this new drone, call
+$\droneEnv$, through a series of tests. For example, given a certain
+delivery route, can $\droneEnv$ successfully deliver packages while
+avoiding \emph{other} delivery drones. To do so, the agency decides to
+synthesize a controller for another delivery drone, $\droneEgo$, and test if
+$\droneEnv$ can be certified.
+
+% Paint a picture.
+Concretely, suppose we have high-level models (e.g. motion planners)
+for $\droneEnv$ and $\droneEgo$, and suppose we can command
+$\droneEnv$ to deliver packages to certain houses in a particular
+order. We illustrate such a scenario in~Fig.~\ref{fig:motivating}, in
+which $\droneEnv$ and $\droneEgo$ are shown as black square and white
+circle drones respectively.  For this test scenario, the regulatory
+agency, wishes to exam how $\droneEnv$ responds to delivering packages
+to the red houses in the presence of $\droneEgo$. To test $\droneEnv$,
+the agency wishes to have $\droneEgo$ also deliver packages while
+avoiding $\droneEnv$.  Ideally, this $\droneEgo$'s policy should be as
+un-biased as possible to exercise $\droneEnv$ on a variety of
+scenarios, and ideally capture and sensor, software, or hardware
+errors, e.g., a bug in a machine learned perception sensor.
+
+
 
 
 We consider high-level planning for drones. We consider a setting with a controllable drone $D$ and in presence of a secondary drone $E$. 
