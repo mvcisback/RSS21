@@ -64,6 +64,9 @@ switch direction non-deterministically.  As a first step, one might
 model $\droneEnv$ as acting adversarially. Note however that such a
 model is clearly too pessimistic -- there is no policy that satisfies
 our constraints -- and frankly unrealistic within the context.
+Furthermore, even if there existed a winning policy, such a pessimistic
+model would result in an unnecessarily conservative (and thus predictable)
+test controller, limiting its utility.
 
 \mypara{Stochastic Model}
 Next, after examining the data, one observes that $\droneEnv$ appears
@@ -76,25 +79,28 @@ being too pessimistic.
 models is the dependence on \emph{fixed} probabilities.  In our
 example, we may have observed $\droneEnv$'s behavior and extracted
 (point-)estimate probabilities, but these probabilities may still have
-non-trivial error margins.  In absence of (enough or reliable) data,
-we can combine adversarial choices and stochastic behavior such that
-we may model ranges of possible transition probabilities.  More
-precisely, we support interval-valued transition probabilities.
-Consider the delivery-drone $\droneEnv$. Rather than inferring a
-point-estimate from data, we may have inferred that the probability of
-turning around is in the interval $[p - \varepsilon, p + \varepsilon]$
-for adequate values of $p$ and $\varepsilon$.  Furthermore the actual
-probability may even depend on aspects of the current state.
+non-trivial error margins or could be sensitive to changes in the
+workspace.  In absence of (enough or reliable) data, we can combine
+adversarial choices and stochastic behavior such that we may model
+ranges of possible transition probabilities.  More precisely, we
+support interval-valued transition probabilities.  Consider the
+delivery-drone $\droneEnv$. Rather than inferring a point-estimate
+from data, we may have inferred that the probability of turning around
+is in the interval $[p - \varepsilon, p + \varepsilon]$ for adequate
+values of $p$ and $\varepsilon$.  Furthermore the actual probability
+may even depend on aspects of the current state.
 
 % Bring it all together.
 \mypara{ERCI as a unifying framework}
 The strength of the (entropy-guided) control improvisation framework
-is that we can combine all these aspects into a single computational
-model, which is very flexible. In the coming sections, we shall
-formally define the ERCI problem, highlight that there is the implicit
-trade-off between performance of the soft constraint and
-unpredictability, and provide algorithms to solve ERCI in Stochastic
-Games.
+is that we can combine all these aspects into a single (flexible)
+computational model. For example, we shall provide an algorithm that
+can maximally randomize for all of the model discussed above. In the
+coming sections, we shall formally define the ERCI problem, highlight
+that there is an implicit trade-off between performance of the soft
+constraint and unpredictability, and provide algorithms to solve ERCI
+in Stochastic Games which admit arbitrarily combining adversarial and
+probabilistic uncertainty.
 
 % Pareto-curve that shows how randomization and performance yield a tradeoff. This means that rather than a-priori selecting threshold for entropy and the probability of not running out of battery, we obtain a variety op options and select the trade-off that is most satisfactory. Consider Fig.~\ref{}.
 
