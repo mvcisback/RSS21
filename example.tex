@@ -58,7 +58,7 @@ $\droneEgo$. We illustrate by examining three models. In all models, we capture 
 
 \mypara{Nondeterministic Model}
 The simplest approach to modelling is not to make any assumptions about  $\droneEnv$ beyond what already has been established. We consider here that the houses are visited either clock-wise or counter-wise order but that it may switch direction at any time. 
-Such a model is too liberal and leads to a bad test set.
+Such a model is too liberal and our assumptions will be too pessimistic, which leads to a bad test set.
 First, if $\droneEnv$ can do anything than $\droneEgo$'s behavior is severely limited. This limitation restricts the variance of its behavior, and it will not test $\droneEnv$'s true behavior. 
 A purely non-deterministic model for $\droneEnv$ thus may not lead to the synthesis of adequate behavior for $\droneEgo$. 
  %Such a model is clearly too pessimistic -- there is no policy that satisfies
@@ -68,7 +68,7 @@ A purely non-deterministic model for $\droneEnv$ thus may not lead to the synthe
 %test controller, limiting its utility.
 
 \mypara{Stochastic Model}
-Rather than the pessimistic adversarial assumption, we may collect data about $\droneEnv$ and construct a stochastic model, e.g., using inverse reinforcement learning~\sj{cite}\cite{}.
+Rather than the pessimistic nondeterministic (or adversarial)  assumption, we may collect data about $\droneEnv$ and construct a stochastic model, e.g., using inverse reinforcement learning~\sj{cite}\cite{}.
 Concretely (but simplified), after examining the data, one observes that $\droneEnv$ appears
 to flip a biased coin whenever it reaches a house to decide whether or
 not to turn around. 
@@ -87,7 +87,7 @@ Obtaining such probabilities with confidence requires many tests which defeat th
 %non-trivial error margins or could be sensitive to changes in the
 %workspace.
   In absence of (enough or reliable) data, we can arbitrarily combine
-adversarial choices and stochastic behavior. We may use stochastic abstractions for parts that we can faithfully model, and adversarial behavior in absence of data.
+nondeterministic choices and stochastic behavior. We may use stochastic abstractions for parts that we can faithfully model, and nondeterministic behavior in absence of data.
 In particular, we
 support interval-valued transition probabilities.  Consider the
 delivery-drone $\droneEnv$. Rather than inferring a point-estimate
@@ -108,7 +108,7 @@ it  maximally randomizes for all of the model discussed above. In the
 coming sections, we shall formally define the ERCI problem, highlight
 that there is an implicit trade-off between performance of the soft
 constraint and unpredictability, and provide algorithms to solve ERCI
-in Stochastic Games which admit arbitrarily combining adversarial and
+in Stochastic Games which admit arbitrarily combining nondeterminsitistic and
 probabilistic uncertainty.
 
 % Pareto-curve that shows how randomization and performance yield a tradeoff. This means that rather than a-priori selecting threshold for entropy and the probability of not running out of battery, we obtain a variety op options and select the trade-off that is most satisfactory. Consider Fig.~\ref{}.
