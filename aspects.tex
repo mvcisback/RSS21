@@ -105,11 +105,12 @@ scheme for ERCI instances: For any subset $\pareto{} \subseteq
 \begin{enumerate}
 \item If there exists an $x \in \pareto{}$ such that
 $\langle \scthreshold, \randomness \rangle \preceq x$, then the ERCI
-Problem must be satisfiable.
+Problem must be satisfiable, $x$ is a witness to satisfiability.
 \item If there exists an $x \in \pareto{}$
 such that $x \prec \langle \scthreshold, \randomness \rangle$ then the
-ERCI problem is not satisfiable.
+ERCI problem is not satisfiable, and $x$ is a witness to unsatisfiability.
 \end{enumerate}
+Due to convexity, we may speed up the search for satisfiability: If there exist $x_1, x_2 \in \pareto{}$ such that $\langle \scthreshold, \randomness \rangle \prec \big(w \cdot x_1 + (1-w) \cdot x_2\big)$, we call $x_1,x_2$ a witness-pair.
 
 \begin{example}
 \label{ex:approximation}
