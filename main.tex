@@ -199,12 +199,29 @@ cross/.default={1pt}}
 \maketitle
 
 \begin{abstract}
-Declarative constraints are a powerful tool to define high-level controllers. 
-However, most algorithms that synthesise controllers from these constraints construct deterministic policies -- which limits robustness and unpredictability.  
-Control improvisation aims to overcome these weaknesses. Key are three types of constraints: Hard constraints describe behavior that must occur, 
-soft constraints describe behavior that typically occurs, and a randomization constraint ensures variance in the behavior. 
-We provide the first control improvisation framework, based on causal entropy to describe randomization, that supports to adverserial and probabilistic environments. These features allow us to synthesise powerful robust policies that generate unpredictable behavior. 
-
+  % Sentence 1: State the problem
+  High level declarative constraints provide a powerful (and popular)
+  way to define and construct control policies; however, most
+  synthesis algorithms do not support specifying the degree of
+  randomness (unpredictability) of the resulting controller.
+  % Sentence 2: State the consequences
+  In many contexts, e.g., patrolling, testing, behavior predication,
+  and planning on idealized models, predictable or biased controllers
+  are undesirable.
+  % Sentence 3: State your solution
+  To address these concerns, we introduce the \emph{Entropic Reactive
+    Control Improvisation} (ERCI) framework and algorithm that
+  supports synthesizing control policies for stochastic games that are
+  declaratively specified by (i) a \emph{hard constraint} specifying
+  what must occur (ii) a \emph{soft constraint} specifying what
+  typically occurs, and (iii) a \emph{randomization constraint}
+  specifying the unpredictability (causal entropy) and variety of the
+  controller.
+  % Sentence 4: State the consequences of the solution
+  This framework, which extends the state-of-the-art by supporting
+  arbitrary combinations of adversarial and probabilistic uncertainty
+  in the environment, enables a flexible modeling formalism which, as
+  we demonstrate theoretically and empirically, remains tractable.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
