@@ -3,8 +3,8 @@
 
 We present an algorithm for the control improvisation problem for
 MDPs, which in the next section, will serve as basis for an algorithm
-on SGs. To start, recall that an MDP is a stochastic game with a The
-key idea is to rephrase the tradeoff between randomisation and
+on SGs. To start, recall that an MDP is a stochastic game with no action choices for the environment, i.e., the environment is purely stochastic. The
+key idea is to rephrase the tradeoff between randomization and
 performance as a degree in rationality $\rat$ of the
 policy. Intuitively, a rationality of $\rat = \infty$ means that we
 focus completely on the performance criterion, and rationality $\rat =
@@ -28,18 +28,17 @@ $\rat \in [0, \infty)$, we define a policy,
    \end{cases}\\ 
 	& Q_\rat(s, \act) \eqdef \sum_{s'} P(s,\act,s') \cdot V_\rat(s').
  \end{align}
-\sj{Need to put in enact}
+
 To ease notation, we denote $x_\rat \colonequals x_{\sched_\rat},
 \scp_\rat \colonequals \scp_{\sched_\rat}, \rndp_\rat \colonequals
-\rndp_{\sched_\rat}$. As previously alluded, the key property
+\rndp_{\sched_\rat}$. 
+We remark that for $\lambda \rightarrow \infty$, this variant of the Bellman-equations coincide with the standard Bellman equations.
+As previously alluded, the key property
 is that $\sched_\rat$ is the \emph{unique} maximum causal entropy policy
 such that $\Pr(\varphi) = \scp_\rat$~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
 
-In terms of the machinery developed in the previous section, this
-family serves to index the Pareto-Front, $\pareto{\solutions}$.  As a
-consequence, we can use $\rat$ to explore the Pareto-front.  To see
-this, first observe the following easily verified proposition.
-
+Thus, this
+family spans the Pareto-Front, $\pareto{\solutions}$ and by varying $\rat$ we can explore the Pareto-front. First observe the following easily verified proposition.
 \begin{proposition}
   $\scp_\rat$ is smoothly and (strictly) monotonically increasing in $\rat$ and $\rndp_\rat$
   is smoothly (strictly) monotonically decreasing in $\rat$.
