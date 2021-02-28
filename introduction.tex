@@ -1,6 +1,6 @@
 % Declarative Constraints ar neat idea.
-The use of declarative specifications to define high-level plans, e.g.,
-automata and temporal logic formula, has become popular in recent
+The use of declarative specifications to define high-level plans, e.g.,\sj{is this about plans or about specs?}
+automata and temporal logic formulas, has become popular in recent
 years~\cite{DBLP:conf/iros/HorowitzWM14, DBLP:conf/rss/WongEK14, DBLP:conf/iros/HeLKV17, DBLP:conf/icra/FuATP16, DBLP:conf/icra/HeWKV19, DBLP:journals/arobots/MoarrefK20, DBLP:conf/icra/KantarosM0P20}.
 % Synthesis closes the gap.
 Given a user provided specification, \emph{synthesis} algorithms aim
@@ -8,20 +8,20 @@ to automatically create a control policy that ensures that the
 specification is met, or explain why such a policy does not
 exist. Together, synthesis and declarative specifications facilitate
 quickly and intuitively solving a wide variety of control tasks.  For
-example, consider a patrol drone operating in a workspace. One may
-specify the drone should ``within 10 minutes, visit 4 locations (in any
-order) AND avoid crashing.''. A synthesis tool may then create a
+example, consider a patrol\sj{Still patrol?} drone operating in a workspace. One may
+specify the drone should ``within 10 minutes, visit four locations (in any
+order) \emph{and} avoid crashing.''. A synthesis tool may then create a
 finite state controller which guarantees this specification is met,
 under a particular world model.
 % Declarative Synthesis need not produce variety.  
 Importantly, while there may be many controllers that conform to the
-provided specification, many synthesis algorithms will provide a
+provided specification, many synthesis algorithms provide a
 single, often deterministic, policy.  For instance, in our drone
 example, a synthesized controller may generate only a single path
 through the workspace.
 
 % On the importance of being varied.
-In some settings, such policies however be undesirable.  First, in
+In some settings, such policies however are undesirable.  First, in
 many tasks, the predictability (or bias) of the policy may be a
 liability.  Example include
 patrolling~\cite{DBLP:journals/ior/AlpernMP11}, behavior prediction
@@ -53,9 +53,9 @@ algorithm cannot be employed at all. To overcome this weakness, we
 develop a theory of control improvisation in stochastic games which
 admit arbitrary \emph{combinations} of adversarial and probabilistic
 uncertainty, including unknown or imprecise transition
-probabilities. As we show later, this extension requires a different
-view on randomization constraints, as the policy is no longer the only
-source of randomization.
+probabilities. as the policy is no longer the only
+source of randomization, this extension requires a different
+view on randomization constraints.
 
 Technically, we formulate our problem on \emph{simple stochastic
 games}~\cite{DBLP:conf/dimacs/Condon90}, an extension of Markov decision processes that divides states
@@ -64,14 +64,14 @@ controlled) states. \emph{Soft constraints} are finite horizon
 temporal properties with a threshold on the worst-case probability of
 that the property holding by the end of the episode. \emph{Hard
 constraints} are soft constraints satisfied with probability 1. In
-contrast to other work on Control Improvisation, we adopt the notion
+contrast to other work on control improvisation, we adopt the notion
 of causal entropy as natural means to formalize \emph{randomness
 constraints}.  Causal entropy is a prominent notion in directed
-information theory that strongly correlates with robustness in the
+information theory \sj{Add citation?} that strongly correlates with robustness in the
 (inverse) reinforcement learning setting~\cite{mceThesis,
 maxEntAnswer}. We refer to this variant of control improvisation as
 Entropic Reactive Control Improvisation (ERCI) and show that ERCI
-conservatively extends reactive control improvisation to stochastic
+conservatively extends reactive control improvisation~\cite{DBLP:conf/cav/FremontS18} to stochastic
 games. More precisely, while we focus on stochastic games, entropy can
 be used in the non-stochastic setting and yields results analogous to
 the reactive control improvisation. ERCI also conservatively extends  classical policy synthesis in stochastic games, i.e. synthesis in absence of randomness constraints as, e.g., implemented in PRISM-games~\cite{DBLP:journals/sttt/KwiatkowskaPW18}.
@@ -87,9 +87,8 @@ the reactive control improvisation. ERCI also conservatively extends  classical 
 %trade-off between these two entities.
 %
 \mypara{Contributions}
-In summary, this paper contributes ERCI, an algorithmic way to trade
-performance and randomization in stochastic games. As we shall soon
-motivate, the support for stochastic games that combine both
+In summary, this paper contributes ERCI, an algorithmic way to trade\sj{first occurance of trading}
+performance and randomization in stochastic games. As we motivate in the example below, the support for stochastic games that combine both
 adversarial and probabilistic behavior in an environment allows for
 modeling flexibility, admitting applicability to new domains. To
 support this extension, the paper proposes and shows the benefits
@@ -97,8 +96,8 @@ formulating randomization constraints with causal entropy.  Finally,
 this paper contributes the necessary machinery as well as a
 prototypical implementation.
 
-\mypara{Overview} This paper is structured as follows. We shall begin
-with a motivating example (Sec.~\ref{sec:motivating}). Then we shall
+\mypara{Overview} This paper is structured as follows. We begin
+with a motivating example (Sec.~\ref{sec:motivating}). Then we
 provide preliminaries and formalize the ERCI problem statement in
 Sec.~\ref{sec:problem}. Next, in Sec.~\ref{sec:convex}, we cast ERCI
 as a multi-objective optimization problem and study properties of the
@@ -107,8 +106,8 @@ Sec.~\ref{sec:mdps} re-frames existing literature on maximum causal
 entropy inference and control to derive an algorithm for Markov
 Decision Processes.  Then in Sec.~\ref{sec:sgs}, we provide an
 algorithm for the general case of stochastic games. Finally, we
-conclude with an empirical evaluation (Sec~\ref{sec:empirical}) and a
-discussion of other control improvisation formulations and other
+conclude with an empirical evaluation (Sec.~\ref{sec:empirical}) and a
+comparison with other control improvisation formulations and other
 related work (in Sec.~\ref{sec:related}).
 
 
