@@ -37,8 +37,9 @@ that prevents its application to the general class of
 SGs\footnote{However, this does not mean that the algorithm to compute
 a solution carries over to the general case}.  We observe that then,
 the only difference between ERCI and RCI is that we use causal entropy
-rather than an upper bound on the probability of a path to enforce randomness.
-The follow example motivates the choice of causal entropy to formalize randomness.
+rather than an upper bound on the probability of a path to enforce
+randomness.  The follow example motivates the choice of causal entropy
+to formalize randomness in SGs.
 \begin{figure}
 \begin{tikzpicture}
         \node[sstate, initial, initial text=] (s0) {$s_0$};
@@ -82,36 +83,81 @@ The follow example motivates the choice of causal entropy to formalize randomnes
 \end{figure}
 
 \begin{example}
-	Consider the SG (actually, an MDP) in Fig.~\ref{fig:drciOnSgs}. 
-	First consider that under each scheduler, the path from $s_0$ to $t_m$ has probability $\nicefrac{1}{n}$. In particular, this means that a feasible DRCI instance (applied to an SG) must have $\ppthreshold \geq \nicefrac{1}{n}$. At the same time, every path in the SG already has probability at most $\nicefrac{1}{n}$, and thus, every schedulder that satisfies the randomness constraint for $\delta = 1$ satisfies it for any $\ppthreshold \geq \nicefrac{1}{n}$. Thus, DRCI does not allow us to enforce any kind of randomization in the $\pOne$-policy. 
+  Consider the SG (actually, an MDP) in Fig.~\ref{fig:drciOnSgs}.
+  First consider that under each scheduler, the path from $s_0$ to
+  $t_m$ has probability $\nicefrac{1}{n}$. In particular, this means
+  that a feasible RCI instance (applied to an SG) must have
+  $\ppthreshold \geq \nicefrac{1}{n}$. At the same time, every path in
+  the SG already has probability at most $\nicefrac{1}{n}$, and thus,
+  every schedulder that satisfies the randomness constraint for
+  $\delta = 1$ satisfies it for any
+  $\ppthreshold \geq \nicefrac{1}{n}$. Thus, for this MDP, RCI fails
+  enforce any randomization in the $\pOne$-policy. By contrast, a
+  causal entropy constraint will continuously trade off randomness
+  for performance, even in this setting.
 \end{example}
 
-On the other hand, for deterministic SGs, all randomization is due to
-the random behavior of $\pOne$. 
+% On the other hand, for deterministic SGs, all randomization is due to
+% the random behavior of $\pOne$. 
 
-Roughly speaking, every
-(controllable) path is then just good (i.e., ending in a target state)
-or bad (i.e., ending in a sink state). The randomization criterion
-then may just ensure that we do not select the same path with too much
-probability, which intuitively means that the $\pOne$-player must
-ensure in every step that there are a sufficient number of paths from
-the next state (no matter what $\pTwo$-player does).  As long as there
-exist a sufficient number of paths, randomizing (uniformly) over those
-paths leads to a solution.
+% Roughly speaking, every
+% (controllable) path is then just good (i.e., ending in a target state)
+% or bad (i.e., ending in a sink state). The randomization criterion
+% then may just ensure that we do not select the same path with too much
+% probability, which intuitively means that the $\pOne$-player must
+% ensure in every step that there are a sufficient number of paths from
+% the next state (no matter what $\pTwo$-player does).  As long as there
+% exist a sufficient number of paths, randomizing (uniformly) over those
+% paths leads to a solution.
 
-For deterministic SGs, the set of feasbile ERCI and DRCI instances coincide.
+On the other hand, for deterministic SGs, the set of feasbile ERCI and
+RCI instances coincide!
 \begin{theorem}
-For any deterministic SG with some path sets $X_\varphi$, $X_\psi$ and threshold $\scthreshold$, 
-there exists an $\pOne$-policy solving the DRCI problem with threshold $\ppthreshold$ iff there exists a $\pOne$-policy solving the ERCI problem with threshold $\randomness = f(\ppthreshold)$ for an adequate (computable) $f$.
+  For any deterministic SG with some path sets $X_\varphi$, $X_\psi$
+  and threshold $\scthreshold$, there exists an $\pOne$-policy solving
+  the DRCI problem with threshold $\ppthreshold$ iff there exists a
+  $\pOne$-policy solving the ERCI problem with threshold
+  $\randomness = f(\ppthreshold)$ for an adequate (computable) $f$.
 \end{theorem}
-We note that the policies solving the two problems do in general not coincide. 
-\label{sec:related}
-\color{red}
-Maybe briefly discuss synthesis algorithms mentioned at start of intro?
-\color{black}
+\begin{proof}[Proof Sketch]
+  First, observe that as in ERCI, for RCI, one can w.o.l.g. assume
+  $\pTwoSched$ is deterministic~\cite{DBLP:conf/cav/FremontS18}.
+  Thus, given some worst-case adversary (for randomness and
+  performance) all randomization is due to the behavior of
+  $\pOne$. Assuming a non-trivial solution set (and thus
+  $\scopt \neq 0$), this implies that $\pOne$ can \emph{first} decide
+  whether to meet the soft constraint and \emph{then} choose actions
+  weighted by the number of guaranteed ways to reach $\target$ in the
+  corresponding subtree. Now observe when planning against the
+  min-causal entropy adversary, $\sched_*^\pTwo$, the deterministic SG
+  reduces to a deterministic MDP. In deterministic MDPs, the action
+  sequence uniquely determines the state sequence, and thus the causal
+  entropy reduces to the entropy of the actions and states, i.e., the
+  paths, $\xi$.  Thus, treating $\xi$ as a random variable and
+  case splitting on winning yields:
+  \begin{equation}\label{eq:cond_win}
+    \begin{split}
+      h_{\langle \sched_\pOne, \sched^*_\pTwo\rangle} &= \scthreshold\cdot H(\xi \mid \text{win}) + (1 - \scthreshold)\cdot H(\xi \mid \neg \text{win})\\
+      &\leq \scthreshold\cdot \log(\#\text{win}) + (1 - \scthreshold)\cdot \log(\#\neg
+      \text{win})
+    \end{split},
+  \end{equation}
+  where $\#\text{win}$ and $\#\neg \text{win}$ are the
+  number of paths to $\target$ and $\sink$ respectively and equality holds
+  for the policy that selects paths uniformly. Furthermore, notice that this policy
+  bounds the maximum probability of a trace given the performance:
+  \begin{equation}
+    \ppthreshold \geq \max\left(\frac{\scthreshold}{\#\text{win}}, \frac{ 1- \scthreshold}{\#\neg \text{win}}\right).
+  \end{equation}
+  It follows then that the inverse of the Pareto characteristic
+  function determines the causal entropy threshold needed to decide the RCI instance
+  using RCI, i.e.,
+  \begin{equation}
+    \randomness = \solfuncp^{-1}(\scthreshold) \cdot h^*.
+  \end{equation}
+\end{proof}
 
-
-\subsection{Additional Related Work}
+\subsection{Additional Related Work}\label{sec:related}
  
 Synthesis in MDPs with multiple hard and soft constraints (often over indefinite horizons) is a well-studied problem~\cite{DBLP:conf/stacs/ChatterjeeMH06,DBLP:conf/tacas/EtessamiKVY07,DBLP:conf/atva/ForejtKP12,DBLP:journals/fmsd/RandourRS17}.  In this setting, one generates deterministic policies and their convex combinations. Put differently, some degree of randomization is \emph{not an objective}, but rather a consequence. Interestingly, in \cite{DBLP:conf/tacas/DelgrangeKQR20} the optimal policies in \emph{absence} of randomization are investigated. Along similar lines, \cite{DBLP:journals/jcss/BrazdilCFK17} trades average performance for less variance, thereby implicitly trading off the average and the worst-case performance.  
 The original results sparked interest in different extension to MDPs and the type of soft constraints, such as continuous MDPs \cite{DBLP:journals/csysl/HaesaertNS21} and continuous-time MDPs~\cite{DBLP:conf/cav/QuatmannJK17},  cost-bounded reachability \cite{DBLP:journals/jar/HartmannsJKQ20}, or mean-payoff properties~\cite{DBLP:journals/corr/abs-1104-3489}. 
