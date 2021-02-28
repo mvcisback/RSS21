@@ -2,15 +2,15 @@
 There is a natural trade off
 between probability of generating paths in $\varphi$ (from here
 onwards: \emph{the performance}) and causal entropy induced by a
-policy (from here onwards: \emph{the randomization}).  In particular,
+policy (\emph{the randomization}).  In particular,
 we are interested in understanding the combinations of $\scthreshold$
 and $\randomness$ that allow to solve the (core) ERCI problem. To this
-end, we cast ERCI as a variant of multi-objective optimization and
-studying its Pareto front.
+end, we cast ERCI as an instance of a multi-objective optimization problem and
+study its Pareto front.
 
-It is convenient to consider this geometrically.
-To begin, given a fixed ERCI instance, observe that a scheduler $\sched$
-induces a point $x_\sched$:
+It is convenient to consider this front geometrically.
+To begin, given a fixed ERCI instance, a scheduler $\sched$
+\emph{induces} a point $x_\sched$:
 \begin{equation}
   x_\sched \eqdef \Big\langle \Pr(X_\varphi \mid \sched), H(\sched) \Big\rangle \in [0,1] \times [0,\infty).  
 \end{equation}

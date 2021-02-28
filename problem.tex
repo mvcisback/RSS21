@@ -275,11 +275,11 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 To ease the technical exposition, without loss of generality, we make
 the following assumptions\footnote{We argue that these assumptions are
 indeed w.l.o.g.\ in Sec.~\ref{sec:assumptions}}: We assume the graph
-structure underlying the SG is finite and acyclic - and thus all paths
+structure underlying the SG is finite and acyclic -- and thus all paths
 are finite length. When considering $\tau$-bounded path properties,
 this assumption is naturally realized by a $\tau$-step unrolling the
-SG's graph, i.e., augmenting the state space with the path leading to
-a given state.  One may then represent this unrolled graph as a binary
+SG's graph, i.e., augmenting the state space with a counter from $0$ to $\tau$.
+One may then represent this unrolled graph as a binary
 decision diagram, resulting in a (typically) concise graph that grows
 proportional to the horizon and minimal\footnotemark state space augmentation
 required~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
