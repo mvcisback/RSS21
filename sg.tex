@@ -189,43 +189,13 @@ measure 0, we argue that this is merely a technical concern, as a
 small perturbation to the ERCI instance (i.e. a Smoothed
 Analysis~\cite{SmoothedAnalysis}) on $\sg$ admits decidability.
 
-\mypara{Soundness and Completeness} Our algorithm restricts itself to
-considering only recursive entropy matching policies,
-$\{\sched^{\pOne}_\rat\}_\rat$. Importantly, observe that because
-fixing a policy yields a verifiable point in $\solutions$,
-we can restrict ourselves to the case in which our algorithm claims
-the ERCI instance un-achievable.
-Below, we shall assume that our
-algorithm claims the ERCI is un-achievable, but there exists
-another policy not in $\{\sched^{\pOne}_\rat\}_\rat$, that achieves
-$\langle \scthreshold, \randomness \rangle$.
-
-\begin{proof}[Proof Sketch]
-  First, observe that on games with only sink nodes, completeness
-  follows directly. Now suppose the entropy matching family is
-  complete on all sub-graphs of $\sg$ and for the sake of
-  contradiction that, assume that,
-  \begin{align}
-    &\forall \sched_\pOne \in \{\sched^{\pOne}_\rat\}_\rat~.~ x_{\sched_{\pOne}} \prec \langle \scthreshold, \randomness \rangle\label{eq:reject}\\
-    &\exists \sched_\pOne^* \notin \{\sched^{\pOne}_\rat\}_\rat~.~  \langle \scthreshold, \randomness \rangle \prec x_{\sched_{\pOne}^*}\label{eq:incomplete}.
-  \end{align}
-  Let $\sched_\pTwo^*$ denote the min-randomness $\pTwo$-policy given
-  $\sched_\pOne^*$. On the MDP, $\sg[\sched_\pTwo^*]$, we know that
-  that the soft-bellman backup family is complete, and thus there must
-  exist some $\rat$ such that the partial policy $\pi_\rat$ matches
-  the worst-case entropy of $\sched_\pOne^*$, i.e.,
-  $\rndp_\rat = \rndp_{\sched_\pOne^*}$. Furthermore, because
-  $\pi_\rat$ \emph{uniquely} maximizes causal entropy for its
-  performance on $\sg[\sched_\pTwo^*]$, $\sched_\pOne^*$ must exactly
-  match $\pi_\rat$ on $\sg[\sched_\pTwo^*]$. Thus, these policies must
-  differ on some non-minimum entropy sub-graph. By the inductive
-  hypothesis, we know that the entropy matching family is complete on
-  these subgraphs, and thus if $\sched_\pOne^*$ achieves a given worst
-  case performance on this sub graph, there must be an entropy
-  matching that does so as well, contradicting
-  assumptions~\eqref{eq:reject} and \eqref{eq:incomplete}.  Thus,
-  entropy matching must be complete.
-\end{proof}
+Our algorithm restricts itself to considering only recursive entropy
+matching policies, $\{\sched^{\pOne}_\rat\}_\rat$.
+Importantly,
+observe that because fixing a policy yields a verifiable point in
+$\solutions$, we can restrict ourselves to the case in which our
+algorithm claims the ERCI instance un-achievable. Surprisingly,
+this is sound and complete (proof provided in Sec~\ref{sec:proofs}).
 
 Finally, observe that as a Corollary of the entropy matching family
 $\sched^\pOne_\rat$ being complete, it must be the case that
@@ -234,6 +204,7 @@ from the MDP case. Namely, at each $\pTwo$ state, the achievable
 points $\solutions$ are necessarily the intersection of the achievable
 points of the subgraphs. By induction, (with the MDP base case), we
 obtain continuity and strict monotonicity.
+
 
 %%% Local Variables:
 %%% mode: latex

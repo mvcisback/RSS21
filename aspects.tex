@@ -50,32 +50,10 @@ Thus, to solve ERCI instances, we start by characterizing
 $\solutions$.
 
 
-\begin{proposition}
+\begin{proposition}\label{prop:convex}
   The set of achievable points, $\solutions$, is convex. 
 \end{proposition}
-\begin{proof}[Proof Sketch]
-  Recall that a set is convex, if it is closed under
-  convex-combinations\footnotemark. Consider two points
-  $\langle \scp, \rndp \rangle, \langle \scp', \rndp' \rangle \in
-  \solutions$ achieved by $\pOneSched$ and $\pOneSchedPrime$
-  respectively. Consider the new policy, $\pi$, defined by employing
-  $\pOneSched$ with probability $q$ and $\pOneSchedPrime$ with
-  probability $\bar{q} \eqdef 1 - q$.  Because each policy
-  \emph{guarantees} its corresponding performance, this new policy as
-  performance at least $q\cdot \scp + \bar{q}\cdot \scp'$.  Similarly,
-  by viewing $\pi$ as a random variable and applying chain rule
-  yields,
-  \begin{equation}
-    \begin{split}
-      H_\tau(\sigma)
-      \geq &~q \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSched)~+\\
-      &~\bar{q}  \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSchedPrime)
-      =~q\cdot\rndp + \bar{q}\cdot \rndp'.
-    \end{split}
-  \end{equation}
-  Thus, any convex combination of guaranteed points is guaranteed by
-  a convex combination of the corresponding ego policies.
-\end{proof}
+
 \footnotetext{
   That is, $y, y' \in Y$ implies for
   every $w \in [0,1]$ that $w \cdot y + (1-w) \cdot y \in Y$
@@ -156,13 +134,13 @@ $\delta$:
   \end{split}
 \end{equation}
 \begin{proposition}\label{prop:monotone}
-  $\solfuncp$ is continuous and (strictly) monotonically decreasing.
+  $\solfuncp$ is continuous and (strictly) decreasing.
 \end{proposition}
- We shall however post-pone the proof of
-\propref{monotone} until {\color{red}{where?}\sj{todo}}. For now, one case observe that
+ We shall temporarily post-pone the proof of
+\propref{monotone}. For now, one case observe that
 (non-strict) monotone decreasing follows directly from convexity and
 using the adequate domains.
-Finally, the set  $\solutions$ is (in general) \emph{not} a finite polytope -- the MDP in Fig.~\ref{fig:minimal:mdp} serves as an example. Nevertheless,  $\solutions$ can be approximated with finitely many vertices, see Ex.~\ref{ex:approximation}.
+Finally, the set  $\solutions$ is (in general) \emph{not} a finite polytope -- the MDP in Fig.~\ref{fig:minimal:mdp} serves as an example. Nevertheless,  $\solutions$ can be well approximated with finitely many vertices, see Ex.~\ref{ex:approximation}.
 
 With these facts, we are now well-equiped to develop the algorithms in Sec.~\ref{sec:mdps} for MDPs and Sec.~\ref{sec:sgs} for SGs.
 
