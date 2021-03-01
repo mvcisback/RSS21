@@ -18,7 +18,7 @@ specifications~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
 
 \noindent
 In context of MDPs, the maximum causal entropy policy consistent with
-an expected reward (here performance, $\scthreshold$) is given by a
+an expected reward (here performance, $\scp$) is given by a
 smooth variant of the Bellman equations~\cite{mceThesis}. Namely, let
 $\smoothmax{}$ denote the log-sum-exp operator, i.e., $\smoothmax(X)
 \eqdef \log \left( \sum_{x\in X} e^x \right)$. For each rationality
@@ -35,7 +35,7 @@ $\rat \in [0, \infty)$, we define a policy,
 To ease notation, we denote $x_\rat \eqdef x_{\sched_\rat},
 \scp_\rat \eqdef \scp_{\sched_\rat}, \rndp_\rat \eqdef
 \rndp_{\sched_\rat}$. 
-We remark that for $\lambda \rightarrow \infty$, this variant of the Bellman-equations coincide with the standard Bellman equations.
+We remark that for $\lambda \rightarrow \infty$, this variant of the Bellman-equations coincide with the standard Bellman equations~\cite{DBLP:books/wi/Puterman94}.
 As previously alluded, the key property
 is that $\sched_\rat$ is the \emph{unique} maximum causal entropy policy
 such that $\Pr(\varphi) = \scp_\rat$~\cite{mceThesis}.
