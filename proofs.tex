@@ -1,0 +1,104 @@
+\section{Proofs}\label{sec:proofs}
+\mypara{Convexity of ERCI solution set}
+\begin{proof}[Proof Sketch Prop~\ref{prop:convex}]
+  Recall that a set is convex, if it is closed under
+  convex-combinations\footnotemark. Consider two points
+  $\langle \scp, \rndp \rangle, \langle \scp', \rndp' \rangle \in
+  \solutions$ achieved by $\pOneSched$ and $\pOneSchedPrime$
+  respectively. Consider the new policy, $\pi$, defined by employing
+  $\pOneSched$ with probability $q$ and $\pOneSchedPrime$ with
+  probability $\bar{q} \eqdef 1 - q$.  Because each policy
+  \emph{guarantees} its corresponding performance, this new policy as
+  performance at least $q\cdot \scp + \bar{q}\cdot \scp'$.  Similarly,
+  by viewing $\pi$ as a random variable and applying chain rule
+  yields,
+  \begin{equation}
+    \begin{split}
+      H_\tau(\sigma)
+      \geq &~q \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSched)~+\\
+      &~\bar{q}  \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSchedPrime)
+      =~q\cdot\rndp + \bar{q}\cdot \rndp'.
+    \end{split}
+  \end{equation}
+  Thus, any convex combination of guaranteed points is guaranteed by
+  a convex combination of the corresponding ego policies.
+\end{proof}
+
+
+\mypara{Completeness of Entropy Matching}
+Below, we shall
+assume that our algorithm claims the ERCI is un-achievable, but there
+exists another policy not in $\{\sched^{\pOne}_\rat\}_\rat$, that
+achieves $\langle \scthreshold, \randomness \rangle$.
+
+\begin{proof}[Proof Sketch of SG Completeness]
+  First, observe that on games with only sink nodes, completeness
+  follows directly. Now suppose the entropy matching family is
+  complete on all sub-graphs of $\sg$ and for the sake of
+  contradiction that, assume that,
+  \begin{align}
+    &\forall \sched_\pOne \in \{\sched^{\pOne}_\rat\}_\rat~.~ x_{\sched_{\pOne}} \prec \langle \scthreshold, \randomness \rangle\label{eq:reject}\\
+    &\exists \sched_\pOne^* \notin \{\sched^{\pOne}_\rat\}_\rat~.~  \langle \scthreshold, \randomness \rangle \prec x_{\sched_{\pOne}^*}\label{eq:incomplete}.
+  \end{align}
+  Let $\sched_\pTwo^*$ denote the min-randomness $\pTwo$-policy given
+  $\sched_\pOne^*$. On the MDP, $\sg[\sched_\pTwo^*]$, we know that
+  that the soft-bellman backup family is complete, and thus there must
+  exist some $\rat$ such that the partial policy $\pi_\rat$ matches
+  the worst-case entropy of $\sched_\pOne^*$, i.e.,
+  $\rndp_\rat = \rndp_{\sched_\pOne^*}$. Furthermore, because
+  $\pi_\rat$ \emph{uniquely} maximizes causal entropy for its
+  performance on $\sg[\sched_\pTwo^*]$, $\sched_\pOne^*$ must exactly
+  match $\pi_\rat$ on $\sg[\sched_\pTwo^*]$. Thus, these policies must
+  differ on some non-minimum entropy sub-graph. By the inductive
+  hypothesis, we know that the entropy matching family is complete on
+  these subgraphs, and thus if $\sched_\pOne^*$ achieves a given worst
+  case performance on this sub graph, there must be an entropy
+  matching that does so as well, contradicting
+  assumptions~\eqref{eq:reject} and \eqref{eq:incomplete}.  Thus,
+  entropy matching must be complete.
+\end{proof}
+
+\mypara{ERCI and RCI coincide}
+\begin{proof}[Proof Sketch of Prop~\ref{prop:conservative}]
+  First, observe that as in ERCI, for RCI, one can w.o.l.g. assume
+  $\pTwoSched$ is deterministic~\cite{DBLP:conf/cav/FremontS18}.
+  Thus, given some worst-case adversary (for randomness and
+  performance) all randomization is due to the behavior of
+  $\pOne$. Assuming a non-trivial solution set (and thus
+  $\scopt \neq 0$), this implies that $\pOne$ can \emph{first} decide
+  whether to meet the soft constraint and \emph{then} choose actions
+  weighted by the number of guaranteed ways to reach $\target$ in the
+  corresponding subtree. Now observe when planning against the
+  min-causal entropy adversary, $\sched_*^\pTwo$, the deterministic SG
+  reduces to a deterministic MDP. In deterministic MDPs, the action
+  sequence uniquely determines the state sequence, and thus the causal
+  entropy reduces to the entropy of the actions and states, i.e., the
+  paths, $\xi$.  Thus, treating $\xi$ as a random variable and
+  case splitting on winning yields:
+  \begin{equation}\label{eq:cond_win}
+    \begin{split}
+      h_{\langle \sched_\pOne, \sched^*_\pTwo\rangle} &= \scthreshold\cdot H(\xi \mid \text{win}) + (1 - \scthreshold)\cdot H(\xi \mid \neg \text{win})\\
+      &\leq \scthreshold\cdot \log(\#\text{win}) + (1 - \scthreshold)\cdot \log(\#\neg
+      \text{win})
+    \end{split},
+  \end{equation}
+  where $\#\text{win}$ and $\#\neg \text{win}$ are the
+  number of paths to $\target$ and $\sink$ respectively and equality holds
+  for the policy that selects paths uniformly. Furthermore, notice that this policy
+  bounds the maximum probability of a trace given the performance:
+  \begin{equation}
+    \ppthreshold \geq \max\left(\frac{\scthreshold}{\#\text{win}}, \frac{ 1- \scthreshold}{\#\neg \text{win}}\right).
+  \end{equation}
+  It follows then that the inverse of the Pareto characteristic
+  function determines the causal entropy threshold needed to decide the RCI instance
+  using RCI, i.e.,
+  \begin{equation}
+    \randomness = \solfuncp^{-1}(\scthreshold) \cdot h^*.
+  \end{equation}
+\end{proof}
+Thus, one can view ERCI as a conservative extension of RCI to stochastic games.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
