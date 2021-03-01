@@ -60,6 +60,7 @@ achieves $\langle \scthreshold, \randomness \rangle$.
 
 \mypara{ERCI and RCI coincide}
 \begin{proof}[Proof Sketch of Prop~\ref{prop:conservative}]
+
   First, observe that as in ERCI, for RCI, one can w.o.l.g. assume
   $\pTwoSched$ is deterministic~\cite{DBLP:conf/cav/FremontS18}.
   Thus, given some worst-case adversary (for randomness and
@@ -93,7 +94,10 @@ achieves $\langle \scthreshold, \randomness \rangle$.
   function determines the causal entropy threshold needed to decide the RCI instance
   using RCI, i.e.,
   \begin{equation}
-    \randomness = \solfuncp^{-1}(\scthreshold) \cdot h^*.
+    \begin{split}
+      \randomness &= \rndmin + \rndopt\cdot (\delta - \rndmin)\\
+      &= \rndmin + \rndopt \cdot \Big (\solfuncp^{-1}\left(\frac{\scthreshold - \scmin}{\scopt}\right) - \rndmin\Big) 
+    \end{split}.
   \end{equation}
 \end{proof}
 Thus, one can view ERCI as a conservative extension of RCI to stochastic games.
