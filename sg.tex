@@ -155,7 +155,7 @@ where $z = q\cdot x + \bar{q}\cdot y$. \sj{Sentences from here are vague}Thus, s
 $P(s, a)$ are independent of this Pareto front (and manipulate
 performance via convex combinations) the error can only accumulate on
 the Pareto Fronts for $s \in S_\pTwo$. Notice then that so long as,
-$\kappa\cdot\tau$ is enough resolution to answer $\scp_\rat <
+$\kappa\cdot\tau$\sj{what is $\tau$ doing here} is enough resolution to answer $\scp_\rat <
 \scthreshold$, one obtains a semi-decision procedure as in the MDP
 case.\sj{We have not talked about $\scthreshold$ in this section at all...}
 We propose the following high-level algorithm:
@@ -212,12 +212,12 @@ practice seems to amortize the cost per state.
 Our algorithm restricts itself to considering only recursive entropy
 matching policies, $\{\sched^{\pOne}_\rat\}_\rat$.  Importantly,
 observe that because fixing a policy yields a verifiable point in
-$\solutions$, we can restrict ourselves to the case in which our
-algorithm claims the ERCI instance un-achievable. Surprisingly, this
-is sound and complete (proof provided in Sec~\ref{sec:proofs}).
+$\solutions$, any witness for satisfiability we find is trivially sound. We can restrict ourselves to the case in which our
+algorithm claims the ERCI instance unsatisfiable. Surprisingly, the class of policies we consider suffices, and the algorithm 
+is thus sound and (whenever halting) complete (proof provided in Sec~\ref{sec:proofs}).
 
-Finally, observe that as a Corollary of the entropy matching family
-$\sched^\pOne_\rat$ being complete, it must be the case that
+Finally, observe that as a corollary of the entropy matching family
+$\{\sched^{\pOne}_\rat\}_\rat$ being complete, it must be the case that
 $\solfuncp(\rndp_\rat)$ inherits continuity and (strict) monotonicity
 from the MDP case. Namely, at each $\pTwo$ state, the achievable
 points $\solutions$ are necessarily the intersection of the achievable
