@@ -26,11 +26,11 @@ patrolling~\cite{DBLP:journals/ior/AlpernMP11}, behavior prediction
 and inference~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}, and creating
 controller harnesses for fuzz testing (see motivating
 example). Second, synthesis algorithms work on \emph{idealized}
-models, and thus any policy that over commits to any given model quirk
+models, and thus any policy that overcommits to any given model quirk
 may in practice yield poor performance. In such settings,
 randomization is known to make policies more robust against worst-case
-deviations~\cite{mceThesis, maxEntAnswer}. Unfortunately, traditional
-synthesis problems result in policies that need not (and typically do
+deviations~\cite{mceThesis, maxEntAnswer}. Unfortunately, classical 
+synthesis methods result in policies that need not (and typically do
 not) exhibit randomization.
 
 % Propose CI and highlight new features.
@@ -41,23 +41,22 @@ framework, in which one specifies a controller with three types of
 declarative constraints. (i) \emph{Hard constraints} that, as in the
 classical setting, must be satisfied, (ii) \emph{soft constraints} that
 on most executions should hold, and (iii) \emph{randomization
-constraints} that ensure that a synthesized policy does not overly
-commit to a particular action or behavior. 
-The key challenge is that randomization and performance, in the form of soft constraints, form a natural trade off.
+constraints} that ensure that a synthesized policy does not overcommit to a particular action or behavior. 
+The key challenge when solving control improvisation is that randomization and performance, in the form of soft constraints, constitute a natural trade off.
 
 Unfortunately, control improvisation has so far been limited to
-deterministic domains where uncertainty is resolved
+nondeterministic domains where uncertainty is resolved
 adversarially. This assumption is often too restrictive and leads
 (together with the soft/hard constraints) to conservative policies or
 common situations in which the synthesis algorithm cannot be employed
 at all. To overcome this weakness, we develop a theory of control
 improvisation in stochastic games which admit
-arbitrary \emph{combinations} of adversarial and probabilistic
+arbitrary \emph{combinations} of nondeterministic and probabilistic
 uncertainty, including unknown or imprecise transition
 probabilities. 
 
 Technically, we formulate our problem on \emph{simple stochastic
-games}~\cite{DBLP:conf/dimacs/Condon90}, an extension of Markov decision processes that divides states
+games}~\cite{DBLP:conf/dimacs/Condon90}, an extension of \emph{Markov decision processes} (MDPs) that divides states
 between controllable states and uncontrollable (or adversarially
 controlled) states. \emph{Soft constraints} are finite horizon
 temporal properties with a threshold on the worst-case probability of
@@ -68,9 +67,9 @@ constraints}.  Causal entropy is a prominent notion in directed
 information theory~\cite{DirectedInfoTheoery} that strongly correlates with robustness in the
 (inverse) reinforcement learning setting~\cite{mceThesis,
 maxEntAnswer}. We refer to this variant of control improvisation as
-Entropic Reactive Control Improvisation (ERCI) and show that ERCI
+\emph{Entropic Reactive Control Improvisation} (ERCI) and show that ERCI
 conservatively extends reactive control improvisation~\cite{DBLP:conf/cav/FremontS18} to stochastic
-games. More precisely, while we focus on stochastic games, entropy can
+games. More precisely, entropy can
 be used in the non-stochastic setting and yields results analogous to
 reactive control improvisation. ERCI also extends  classical policy synthesis in stochastic games, i.e. synthesis in absence of randomness constraints as, e.g., implemented in PRISM-games~\cite{DBLP:journals/sttt/KwiatkowskaPW18}.
 
@@ -99,18 +98,17 @@ modeling formalism.
 
 \mypara{Overview} This paper is structured as follows. We begin with a
 motivating example (Sec.~\ref{sec:motivating}). Then we provide
-preliminaries and formalize the ERCI problem statement in
-Sec.~\ref{sec:problem}. Next, in Sec.~\ref{sec:convex}, we cast ERCI
+preliminaries and formalize the ERCI problem statement
+(Sec.~\ref{sec:problem}). Next, we cast ERCI
 as a multi-objective optimization problem and study properties of the
-solution set. With this technical machinery developed,
+solution set (Sec.~\ref{sec:convex}). With this technical machinery developed,
 Sec.~\ref{sec:mdps} re-frames existing literature on maximum causal
 entropy inference and control to derive an algorithm for Markov
 Decision Processes.  Then in Sec.~\ref{sec:sgs}, we provide an
 algorithm for the general case of stochastic games. We conclude with
 an empirical evaluation (Sec.~\ref{sec:empirical}) and a comparison
 with related work, e.g., other control improvisation
-formulations (in Sec.~\ref{sec:related}). Finally, we provide proofs
-to propositions in Sec.~\ref{sec:proofs}.
+formulations (Sec.~\ref{sec:related}). Proofs are attached in Sec.~\ref{sec:proofs}.
 
 
 
