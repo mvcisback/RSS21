@@ -1,19 +1,78 @@
 \begin{figure*}
-  \begin{subfigure}{0.5\textwidth}
+    \begin{subfigure}{0.5\textwidth}
   \centering
   \scalebox{0.58}{
     \input{imgs/pareto_solve_time.pgf}
     }
-    \caption{Foo}
+    \caption{
+      Experimental times for computing Pareto Front of a variety
+      delivery drone problems
+      \label{fig:exp_times}.
+    }
   \end{subfigure}
   \hfill
-  \begin{subfigure}{0.5\textwidth}
+    \begin{subfigure}{0.5\textwidth}
     \centering \scalebox{0.6}{
       \input{imgs/bdd_size_by_horizon.pgf}
     }
-    \caption{Foo}
+    \caption{
+      BDD graph size as a function of horizon for the problems in our
+      benchmark suite. Distribution of problems, non-uniform in horizon
+      to avoid small horizon artifacts\label{fig:bdd_sizes}.
+    }
   \end{subfigure}
 \end{figure*}
+
+\mypara{Setup}
+To experimentally validate the feasibility of our ERCI algorithm for
+SGs, we benchmarked the time to approximate\footnote{At most $\kappa =
+1e-2$ error.} the Pareto Front on a parameterized variant of our
+delivery drone motivating example. Specifically, our experiments used
+a $k\times k$ grid discretization of the workspace, for $k \in
+\{4,5,6,7\}$ where the four target houses lie in
+$\{\lfloor\nicefrac{k}{3}\rfloor, \lfloor\nicefrac{2k}{3}\rfloor
+\}^2$, and the two drones are initially in opposite
+corners. Furthermore, for simplicity, we embedded the avoid crash
+condition as part of the soft constraint, rather than a hard
+constraint\footnotemark. We took~$\pOne$'s actions to be deterministic
+and modeled $\pTwo$ as visiting each house in either clock-wise or
+counter-wise order, where the orientation can switch with
+(a potentially state dependent) probability $p \in [\nicefrac{1}{100},
+\nicefrac{1}{50}]$ whenever a house is visited. Next, we considered an
+alternation between $\pOne$ and $\pTwo$ to be a single logical time
+step, and (non-uniformly) instantiate problem instances with horizons
+ranging from $10$ to $35$, i.e., paths ranged from length $20$ to
+$80$.
+
+\footnotetext{Note that counter-intuitively, only using soft
+constraints generally results in harder instances as the game graphs
+are larger.}
+
+Finally, we implemented a prototype ERCI synthesis algorithm in Python.
+Inspired by the recent work on compressing game graphs for specification
+inference~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}, each SG was represented
+as a Binary Decision Diagram (BDD)~\cite{DBLP:journals/csur/Bryant92} using the
+dd and py-aiger python packages~\cite{dd, pyAiger}. As demonstrated in Fig.~\ref{fig:exp_times},
+this introduced negligible overhead, while dramatically decreasing the size
+of the game graph.\footnotemark 
+
+
+\footnotetext{For example, the $(k=7,\text{horizon}=40)$ case is
+encoded using a 505,100 node BDD ($|\sg| = 243,365$ nodes). Compared,
+to the direct encoding $|\sg| = |S|\cdot \tau \cdot |\text{monitor state}| = (7\times 7)^2 \cdot (2 \cdot 40) \cdot (2^4\cdot 2) \approx 6,000,000$.}
+
+\mypara{Results} Consistent with our complexity analysis, the
+empirical time to estimate the Pareto Front seemed to increase linearly
+with our game graph encoding~(Fig~\ref{fig:exp_times}). Moreover,
+because our encoding seem to linearly track with the horizon for all
+$k$, suggesting that the overall run time grows linearly in the horizon
+within our parameterization. When combined with the potential to
+parallelize across the rationality coefficients, these results suggest
+that practical optimizations to our ERCI algorithm may admit usage on
+other more complicated benchmarks.
+
+
+
 
 
 %%% Local Variables:
