@@ -128,7 +128,7 @@ $f_\solutions^{s'}$, for each $s' \in \Succ(s)$, one can compute:
 \end{equation}
 Thus, via dynamic programming, one can define $\epsilon_\rat(\iota)$.
 Moreover, assuming that this entropy matching family of policies
-indexes $\pareto{\solutions}$ (proved in Lemma {\color{red}In which lemma?\sj{todo}}), one can handle
+indexes $\pareto{\solutions}$ (proved in~Sec.~\ref{sec:proofs}), one can handle
 deviations from $\sigma^\pTwo_\rat$ by ``replanning''. Namely, one
 extends $\pi_\rat$ at $s'$ by computing a new rationality coefficient,
 $\rat'$, such that:
@@ -189,13 +189,13 @@ measure 0, we argue that this is merely a technical concern, as a
 small perturbation to the ERCI instance (i.e. a Smoothed
 Analysis~\cite{SmoothedAnalysis}) on $\sg$ admits decidability.
 
+\mypara{On Completeness}
 Our algorithm restricts itself to considering only recursive entropy
-matching policies, $\{\sched^{\pOne}_\rat\}_\rat$.
-Importantly,
+matching policies, $\{\sched^{\pOne}_\rat\}_\rat$.  Importantly,
 observe that because fixing a policy yields a verifiable point in
 $\solutions$, we can restrict ourselves to the case in which our
-algorithm claims the ERCI instance un-achievable. Surprisingly,
-this is sound and complete (proof provided in Sec~\ref{sec:proofs}).
+algorithm claims the ERCI instance un-achievable. Surprisingly, this
+is sound and complete (proof provided in Sec~\ref{sec:proofs}).
 
 Finally, observe that as a Corollary of the entropy matching family
 $\sched^\pOne_\rat$ being complete, it must be the case that
