@@ -12,7 +12,7 @@ order) \emph{and} avoid crashing.''. A synthesis tool may then create a
 finite state controller which guarantees this specification is met,
 under a particular world model.
 % Declarative Synthesis need not produce variety.  
-Importantly, while there may be many controllers that conform to the
+Importantly, while many controllers may conform to the
 provided specification, many synthesis algorithms provide a
 single, often deterministic, policy.  For instance, in our drone
 example, a synthesized controller may generate only a single path
@@ -21,7 +21,7 @@ through the workspace.
 % On the importance of being varied.
 In some settings, such policies however are undesirable.  First, in
 many tasks, the predictability (or bias) of the policy may be a
-liability.  Example include
+liability.  Examples include
 patrolling~\cite{DBLP:journals/ior/AlpernMP11}, behavior prediction
 and inference~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}, and creating
 controller harnesses for fuzz testing (see motivating
@@ -43,7 +43,7 @@ classical setting, must be satisfied, (ii) \emph{soft constraints} that
 on most executions should hold, and (iii) \emph{randomization
 constraints} that ensure that a synthesized policy does not overly
 commit to a particular action or behavior. 
-The key challenge is that randomization and performance in the form of soft constraints form a natural trade off.
+The key challenge is that randomization and performance, in the form of soft constraints, form a natural trade off.
 
 Unfortunately, control improvisation has so far been limited to
 deterministic domains where uncertainty is resolved
@@ -54,8 +54,7 @@ at all. To overcome this weakness, we develop a theory of control
 improvisation in stochastic games which admit
 arbitrary \emph{combinations} of adversarial and probabilistic
 uncertainty, including unknown or imprecise transition
-probabilities. as the policy is no longer the only source of
-randomization.
+probabilities. 
 
 Technically, we formulate our problem on \emph{simple stochastic
 games}~\cite{DBLP:conf/dimacs/Condon90}, an extension of Markov decision processes that divides states
@@ -63,9 +62,8 @@ between controllable states and uncontrollable (or adversarially
 controlled) states. \emph{Soft constraints} are finite horizon
 temporal properties with a threshold on the worst-case probability of
 that the property holding by the end of the episode. \emph{Hard
-constraints} are soft constraints satisfied with probability 1. In
-contrast to other work on control improvisation, we adopt the notion
-of causal entropy as natural means to formalize \emph{randomness
+constraints} are soft constraints to be satisfied with probability 1. In
+contrast to other work on control improvisation, we adopt causal entropy as a natural means to formalize \emph{randomness
 constraints}.  Causal entropy is a prominent notion in directed
 information theory~\cite{DirectedInfoTheoery} that strongly correlates with robustness in the
 (inverse) reinforcement learning setting~\cite{mceThesis,
@@ -74,7 +72,7 @@ Entropic Reactive Control Improvisation (ERCI) and show that ERCI
 conservatively extends reactive control improvisation~\cite{DBLP:conf/cav/FremontS18} to stochastic
 games. More precisely, while we focus on stochastic games, entropy can
 be used in the non-stochastic setting and yields results analogous to
-the reactive control improvisation. ERCI also conservatively extends  classical policy synthesis in stochastic games, i.e. synthesis in absence of randomness constraints as, e.g., implemented in PRISM-games~\cite{DBLP:journals/sttt/KwiatkowskaPW18}.
+reactive control improvisation. ERCI also extends  classical policy synthesis in stochastic games, i.e. synthesis in absence of randomness constraints as, e.g., implemented in PRISM-games~\cite{DBLP:journals/sttt/KwiatkowskaPW18}.
 
 
 %We argue that soft constraints can naturally be considered as an
@@ -87,14 +85,17 @@ the reactive control improvisation. ERCI also conservatively extends  classical 
 %trade-off between these two entities.
 %
 \mypara{Contributions}
-In summary, this paper contributes ERCI, an algorithmic way to trade 
-performance and randomization in stochastic games. As we motivate in the example below, the support for stochastic games that combine both
-adversarial and probabilistic behavior in an environment allows for
-modeling flexibility, admitting applicability to new domains. To
-support this extension, the paper proposes and shows the benefits
-formulating randomization constraints with causal entropy.  Finally,
-this paper contributes the necessary machinery as well as a
-prototypical implementation.
+In summary, this paper contributes ERCI, an algorithmic way to trade
+performance and randomization in stochastic games. As we motivate in
+the example below, games that combine both adversarial and
+probabilistic behavior in an environment allows for modeling
+flexibility, facilitate applicability to new domains. To support this
+extension, the paper proposes and shows the benefits of formulating
+randomization constraints with causal entropy.  Finally, this work
+contributes the necessary technical machinery and a prototypical
+implementation. Combined, our theoretical and empirical analysis
+suggest that the ERCI framework contributes a tractable and flexible
+modeling formalism.
 
 \mypara{Overview} This paper is structured as follows. We begin
 with a motivating example (Sec.~\ref{sec:motivating}). Then we
