@@ -47,7 +47,7 @@ Points guaranteed by some $\pOneSched$ are called
 \bigcup_{\pOneSched} \solutions[\pOneSched]$.  Importantly, the ERCI problem is satisfiable iff $\langle \scthreshold,
 \randomness \rangle$ is achievable. 
 Thus, to solve ERCI instances, we start by characterizing
-$\solutions$.
+$\solutions$. We start by observing the $\solutions$ is convex (proof in Sec~\ref{sec:proofs}).
 
 
 \begin{proposition}\label{prop:convex}
@@ -69,7 +69,7 @@ The Pareto-front $\pareto{\solutions}$ of $\solutions$ is then the set of non-do
 \end{equation}
 \noindent
 \begin{mdframed}
-Importantly, it holds that the ERCI problem is satisfiable iff there exists a  $x \in \pareto{\solutions}$ such that $\langle \scthreshold, \randomness \rangle \prec x$.    
+Importantly, it holds that the ERCI problem is satisfiable iff there exists a  $x \in \pareto{\solutions}$ such that $\langle \scthreshold, \randomness \rangle \preceq x$.    
 \end{mdframed}
 \begin{example}
 	The set $\solutions$ illustrated in Fig.~\ref{fig:geom:solution} is obtained by taking the union of guaranteed points, and can be characterized by the set of points on the Pareto-front: This is the curved border between the green and white area, in particular the three green dots are on the Pareto-front. Any ERCI instance with $\langle \scthreshold, \randomness \rangle$ in the green area is satisfiable.
@@ -115,9 +115,9 @@ Often, rather that fixing $\scthreshold$ and $\randomness$ a
   constraint or causal entropy measure.  We
   re-parameterize ERCI as follows:
   \begin{equation}
-    \scthreshold_\epsilon \eqdef \epsilon \cdot \scopt
-    \hspace{3em}
-    \randomness_\delta \eqdef  \delta \cdot \rndopt
+    \scthreshold_\epsilon \eqdef \epsilon \cdot (\scopt - \scmin) + \scmin
+    \hspace{1em}
+    \randomness_\delta \eqdef  \delta \cdot (\rndopt - \rndmin) + \rndmin
   \end{equation}
   where $\epsilon, \delta \in [0, 1]$. We call this version of ERCI \emph{regret-based}. Geometrically, after computing $\scopt$ and $\rndopt$, we know that the left triangle in Fig.~\ref{fig:geom:regret} is definitively satisfiable, and the regret-based ERCI asks whether the white circle is also satisfiable (where the point of the white point is given by $\epsilon$ and $\delta$. %As we shall later see, these maximum quantities are
  % directly computed in our proposed algorithm. 

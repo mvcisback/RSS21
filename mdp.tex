@@ -32,13 +32,13 @@ $\rat \in [0, \infty)$, we define a policy,
 	& Q_\rat(s, \act) \eqdef \sum_{s'} P(s,\act,s') \cdot V_\rat(s').
  \end{align}
 
-To ease notation, we denote $x_\rat \colonequals x_{\sched_\rat},
-\scp_\rat \colonequals \scp_{\sched_\rat}, \rndp_\rat \colonequals
+To ease notation, we denote $x_\rat \eqdef x_{\sched_\rat},
+\scp_\rat \eqdef \scp_{\sched_\rat}, \rndp_\rat \eqdef
 \rndp_{\sched_\rat}$. 
 We remark that for $\lambda \rightarrow \infty$, this variant of the Bellman-equations coincide with the standard Bellman equations.
 As previously alluded, the key property
 is that $\sched_\rat$ is the \emph{unique} maximum causal entropy policy
-such that $\Pr(\varphi) = \scp_\rat$~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
+such that $\Pr(\varphi) = \scp_\rat$~\cite{mceThesis}.
 
 Intuitively, as $\rat$ approaches $0$, $\sched_\rat$ approaches the
 uniform distribution over \emph{all available actions}. Note that this
@@ -46,14 +46,14 @@ policy maximizes (causal) entropy, and thus $\rndopt = \rndp_0$.
 Similarly, as $\rat$ approaches $\infty$, $\sched_\rat$ selects (uniformly) from
 actions \emph{that maximize performance}. Thus, $\scopt = \scp_\infty$.
 Furthermore, we obtain from the Bellman-equations:
-\begin{proposition}n
+\begin{proposition}
   $\scp_\rat$ is  smoothly (and strictly) increasing in $\rat$ and $\rndp_\rat$
   is smoothly (and strictly) decreasing in $\rat$.
 \end{proposition}
 Thus, this
 family spans the Pareto-Front, $\pareto{\solutions}$.
 In terms of $\solfuncp$, we 
-can define $\epsilon_\rat \eqdef \nicefrac{\scp_\rat}{\scp_\infty}, \delta_\rat \eqdef \nicefrac{\rndp_\rat}{\rndp_0}$. Then, because
+can define $\epsilon_\rat \eqdef \frac{\scp_\rat - \scp_0}{\scp_\infty} + \scp_0, \delta_\rat \eqdef \frac{\rndp_\rat - \rndp_\infty}{\rndp_0} + \rndp_{\infty}$. Then, because
 $\sched_\rat$ maximizes randomness given a target performance, one derives:
 \begin{equation}
   \solfuncp\left(\delta_\rat\right) = \epsilon_\rat.
@@ -65,11 +65,11 @@ In particular, we construct $\pareto{} = \{ x_\rat \mid \rat \in \{ \rat_1, \rat
 In the remainder of this section, we improve upon randomly selection values for $\rat$.
 
 \begin{remark}
-Given a witness(pair) to satisfiability, it is easy to extract the corresponding improvisor. Let $x_1,x_2$ be a witness-pair to satisfiability, induced by $\sched_{\rat_1}$ and $\sched_{\rat_2}$, then the policy described by  	
+Given a witness(pair) to satisfiability, it is easy to extract the corresponding improvisor. Let $x_1,x_2$ be a witness-pair to satisfiability,  induced by $\sched_{\rat_1}$ and $\sched_{\rat_2}$ such that $\langle\scthreshold, \randomness\rangle\preceq q\cdot x_1 + \bar{q}\cdot x_2$, then the policy described by  	
 \begin{equation}\label{eq:4}
   \sigma^*_\pOne(\act \mid s) \eqdef q\cdot \sched_{\rat_1}(\act \mid s) + \bar{q} \cdot \sched_{\rat_2}(\act  \mid s)
 \end{equation}
-is the improvisor solving the ERCI problem.
+is an improvisor solving the ERCI problem.
 \end{remark}
 
 
@@ -115,7 +115,7 @@ The key ingredient to improve upon arbitrarily selecting $\rat_1, \hdots \rat_i$
 We propose a three staged sequence: (i) Compute $x_\rat$ for the end
 points $\rat \in \{0, \infty\}$.  (ii) Double $\rat$ until $h_\rat \leq
 \randomness$, yielding $\rat_1\ldots \rat_j$, where $\rat_1 = 1$.
-(iii) Binary search for $\rat \in [\rat_{j-1}, \rat{j}]$. We illustrate the idea in Fig.~\ref{fig:geom:doubling}.
+(iii) Binary search for $\rat \in [\rat_{j-1}, \rat_{j}]$. We illustrate the idea in Fig.~\ref{fig:geom:doubling}.
 \begin{mdframed}
   Our approximation scheme yields a semi-decision process which halts
   iff either (a) $\langle \scthreshold, \randomness \rangle$ is
