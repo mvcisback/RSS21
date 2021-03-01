@@ -57,8 +57,8 @@ $\droneEgo$. We illustrate by examining three models. In all models, we capture 
 %the exact details of the test workspace.
 
 \mypara{Nondeterministic Model}
-The simplest approach to modelling is not to make any assumptions about  $\droneEnv$ beyond what already has been established. We consider here that the houses are visited either clock-wise or counter-wise order but that it may switch direction at \emph{any time}. 
-Such a model is too liberal and our assumptions will be too pessimistic, which leads to a bad test set.
+The simplest approach to modeling is not to make any assumptions about  $\droneEnv$ beyond what already has been established. Here, we model that the houses are visited either clock-wise or counter-wise order but that it may switch direction at \emph{any time}. 
+Such a model is too liberal and our assumptions under which we plan the behavior for $\droneEgo$ is too pessimistic, which leads to a bad test set.
 First, if $\droneEnv$ is unrestricted, then $\droneEgo$'s behavior is severely limited. This limitation restricts the variance of its behavior, and it will not test $\droneEnv$'s true behavior. 
 A purely non-deterministic model for $\droneEnv$ thus may not lead to the synthesis of adequate behavior for $\droneEgo$. 
  %Such a model is clearly too pessimistic -- there is no policy that satisfies
@@ -70,7 +70,7 @@ A purely non-deterministic model for $\droneEnv$ thus may not lead to the synthe
 \mypara{Stochastic Model}
 Rather than the pessimistic nondeterministic (or adversarial)  assumption, we may collect data about $\droneEnv$ and construct a stochastic model, e.g., using inverse reinforcement learning~\cite{DBLP:conf/icml/NgR00}.
 Concretely (but simplified), after examining the data, one observes that $\droneEnv$ appears
-to flip a biased coin whenever it reaches a house to decide whether or
+to flip a biased coin with fixed probability $p$ whenever it reaches a house to decide whether or
 not to turn around. 
 This models $\droneEnv$ much more precisely, and allows for more targeted test by $\droneEgo$.
 
@@ -99,16 +99,16 @@ may even depend on aspects of the current state.
 % Bring it all together.
 \mypara{ERCI as a unifying framework}
 The strength of the (entropy-guided) control improvisation framework
-is that we can combine all these aspects into a single (flexible)
+is that we can combine all these aspects into a single and thus flexible 
 computational model. 
-In particular, the models above are captured by a 2-player game, a 1.5-player game (MDP) and a 2.5-player game (stochastic game), respectively.
+In particular, the models above are captured by a 2-player game, a 1.5-player game (MDP) and a 2.5-player game (stochastic game., SG), respectively.
 In all cases, the first player controls the behavior of $\droneEgo$ and this controller is to be synthesized. 
 We contribute an algorithm that synthesizes that controller such that
 it  maximally randomizes for all of the models discussed above. In the
 coming sections, we shall formally define the ERCI problem, highlight
 that there is an implicit trade-off between performance of the soft
-constraint and unpredictability, and provide algorithms to solve ERCI
-in Stochastic Games.
+constraint and unpredictability, and provide an algorithm solving ERCI
+for~SGs.
 
 % Pareto-curve that shows how randomization and performance yield a tradeoff. This means that rather than a-priori selecting threshold for entropy and the probability of not running out of battery, we obtain a variety op options and select the trade-off that is most satisfactory. Consider Fig.~\ref{}.
 

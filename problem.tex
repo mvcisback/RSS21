@@ -112,7 +112,7 @@ with $\sched_{\player} \colon \PlayerPaths[]{} \rightarrow \Distr(\Act)$ such th
 We will denote by $\sched_{\player}(\act~|~\path)$ the distribution of actions given the path, $\path$, induced by policy $\sched_{\player}$.
 %We refer to $\sched_i$, $i \in \{ 1, 2 \}$ as a \emph{Player-i policy}. 
 %We denote the $\pOne$-policy $\pOneSched$ and the $\pTwo$-policy $\pTwoSched$ with $\sched_\pOne$ and $\sched_\pTwo$, respectively.
-To ease notation, we liberally use the notation $\sched \colon \Paths{} \rightarrow \Distr(\Act)$ where this function is given dependent on which player owns the last state.
+To ease notation, we liberally use the notation $\sched \colon \Paths{} \rightarrow \Distr(\Act)$, this function is given dependent on which player owns the last state.
  
 %
 %Applying a policy $\sched$ to an SG $\sg$ yields an \emph{induced Markov chain} $\induced{\sg}{\sched} = \langle S', \iota', P' \rangle$ with state space $S' = \Paths{\sg}$, initial state $\iota' = \iota$, and transition function $P'(\path,\path')$ defined by $P'(\path)(\path \cdot \act s') = \sched(\path)(\act) \cdot P(\last{\path},\act)(s')$ and $P'(\path,\path') = 0$ otherwise. For any upper bound on the length of the paths, the induced MC is finite. 
@@ -124,10 +124,10 @@ To ease notation, we liberally use the notation $\sched \colon \Paths{} \rightar
   \begin{equation*}
     \pOneSched(\alpha~|~\xi) =
     \begin{cases}
-      1 & \text{if } \alpha \in \{ a,b \}, ~\xi = s_0\\
-      \nicefrac{1}{2} & \text{if } \alpha = a,~\xi = s_0\xrightarrow{b}s_2 \xrightarrow{a} s_3\\
-      1 & \text{if } \alpha = b,~\xi = s_0\xrightarrow{a}s_1\xrightarrow{b}s_3\\
-    \end{cases}.
+      1 & \text{if } \alpha \in \{ a,b \}, ~\xi = s_0,\\
+      \nicefrac{1}{2} & \text{if } \alpha = a,~\xi = s_0\xrightarrow{b}s_2 \xrightarrow{a} s_3,\\
+      1 & \text{if } \alpha = b,~\xi = s_0\xrightarrow{a}s_1\xrightarrow{b}s_3.\\
+    \end{cases}
   \end{equation*}
 \end{example}
 
@@ -236,7 +236,7 @@ We say that an instance of the ERCI problem is satisfiable, if an appropriate $\
 \subsection{Preprocessing}
 To ease the technical exposition, without loss of generality, we make
 the following assumptions\footnote{W.l.o.g. due to causal entropy and reachability
-  being computable via bellman backup (e.g. recursively on subgraphs)
+  being computable via Bellman backup (e.g. dynamic programming recursively on subgraphs)
 }: We assume the graph
 structure underlying the SG is finite and acyclic -- and thus all paths
 are finite length. When considering $\tau$-bounded path properties,
