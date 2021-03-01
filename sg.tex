@@ -50,8 +50,8 @@ For both MDP subgames, we can compute (an approximation of) the Pareto front and
 The achievable points for the SG are now given by the intersection of the two points. 
 However, the challenge in this generalization is to select action for $\pOne$-states.
 Therefore, consider the full SG illustrated in Fig.~\ref{fig:sg:simplest} with initial state $s_0$. 
-To determine $\pOneSched(s_0)$, we must plan for whatever action $\pTwo$ selects in $s_2$ (and optimally without calculating all Pareto-fronts a priori). 
-What our algorithm, roughly, does is to assume that in the $\pTwo$-node, $\pTwo$ aims to minimize entropy and we compute the maximal entropy of its successors ($\pOne$-states). Under this assumption, for a required randomness $\delta$ we can compute the required rationality $\rat$ to solve the overall ERCI problem. The $\pOne$-policy memorizes this rationality. Now, whenever $\pTwo$ diverges from minimizing maximal entropy, the idea is that $\pOne$ can play with higher rationality and still ensure the same randomness $\delta$.
+To determine $\pOneSched(s_0)$, we must plan for whatever action $\pTwo$ selects in $s_2$ and optimally without calculating all Pareto-fronts a priori. 
+What our algorithm, roughly, does is to assume that in the $\pTwo$-node, $\pTwo$ aims to minimize entropy and we compute the maximal entropy of its successors ($\pOne$-states). Under this assumption, for a required randomness $\delta$ we can compute the required rationality $\rat$ to solve the overall ERCI problem. The $\pOne$-policy memorizes this rationality. Now, whenever $\pTwo$ diverges from minimizing maximal entropy, the idea is that $\pOne$ can play with higher rationality and still ensure the same randomness $\delta$. We call the increase in rationality \emph{replanning}.
 By traversing the graph top-down using this idea (and memoizing the visited state-rationality pairs $s,\rat$), we can explore how we can optimize performance while always matching the required randomness.  In the remainder of this section, we formalize and analyze this algorithmic idea.
 
 \mypara{Environment Policies}
@@ -78,7 +78,7 @@ In particular, in every state,  $\pTwoSched$ may thus aim to disprove either obj
 First, assume $\rat$ is also a priori fixed.  
 Again, via dynamic programming, we can compute the
 $\pTwo$ policy that minimizes the maximal causal entropy, denoted $\sched_\rat^\pTwo$.
-In particular, we use the following update of eq.~\ref{} to the SG case:
+In particular, we use the following update of \eqref{eq:mdp:v} to the SG case:
  \begin{align}
    & V_\rat(s) \eqdef  \begin{cases}
      \lambda  \cdot \indicator{s = \target} & \text{if }s \in \{ \target, \sink \},\\
@@ -106,7 +106,7 @@ Together, for fixed $\rat$, we can compute the scheduler of the $\pTwo$-schedule
 %We shall refer to resulting (partial) schedule as: $\pi_\rat \eqdef \langle
 %\pi^\pOne_\rat[\sched_\rat^\pTwo] , \sched_\rat^\pTwo \rangle$.
 
-\mypara{Recursively Matching Randomness}
+\mypara{Replanning}
 Of course, even if $\rat$ is fixed, $\pTwoSched$ need not be
 $\sched^\pTwo_\rat$. Nevertheless,  by selecting the worst
 entropy MDP, $\pi_\rat$ establishes an achievable randomness for the
@@ -141,53 +141,72 @@ Front, we obtain a synthesis algorithm for SGs!
 
 \mypara{Approximate Pareto Fronts}
 Of course, by varying $\rat$, one can only construct approximate
-Pareto Fronts. We now
-adapt the above algorithm to the case where one has access to
-$\kappa$-close Pareto Front under-approximations,
-$\hat{f}_\solutions^{s'}$, where $\kappa$ bounds the $\infty$-norm
-error. In particular, observe that if $\epsilon_\rat(s)$ is known
-within $\kappa$, convex combinations of these intervals cannot
+Pareto fronts $\pareto{} \subseteq \pareto{\solutions}$, where we denote the downward closure of $\pareto{}$ as $\hat{\solutions} \subseteq \solutions$.
+ %let $\hat{f}_\solutions^{s'}$ denote the characterising function.
+    We now
+adapt the above algorithm to the case where $\hat{\solutions}$ is a $\kappa$-close approximation of $\solutions$, where $\kappa$ bounds the $\infty$-norm
+error. In particular, for such an approximation, the performance from state  $s$ for fixed rationality $\rat$, $\epsilon_\rat(s)$, is bounded up to  $\kappa$. 
+Convex combinations of these intervals cannot
 increase the error beyond $\kappa$, i.e.,
 \begin{equation}
   q\cdot[x, x + \kappa] + \bar{q}\cdot[y, y + \kappa] = [z, z + \kappa],
 \end{equation}
-where $z = q\cdot x + \bar{q}\cdot y$. Thus, since $\pi_\rat$ and
-$P(s, a)$ are independent of this Pareto Front (and manipulate
+where $z = q\cdot x + \bar{q}\cdot y$. \sj{Sentences from here are vague}Thus, since $\pi_\rat$ and
+$P(s, a)$ are independent of this Pareto front (and manipulate
 performance via convex combinations) the error can only accumulate on
 the Pareto Fronts for $s \in S_\pTwo$. Notice then that so long as,
 $\kappa\cdot\tau$ is enough resolution to answer $\scp_\rat <
 \scthreshold$, one obtains a semi-decision procedure as in the MDP
-case.
-
+case.\sj{We have not talked about $\scthreshold$ in this section at all...}
+We propose the following high-level algorithm:
 \begin{mdframed}
-  We then propose the following high-level algorithm:
 \begin{enumerate}
 \item Let $0 < \kappa < 1$ be some arbitrary initial tolerance.
-\item Recursively compute $\kappa$-close Pareto Fronts for each state
-in $s'$ using causal entropy matching.
-\item If $\scthreshold$ is within $\kappa\cdot \tau$ distance to $\hat{\pareto{\solutions}}$,
+\item Recursively compute $\kappa$-close Pareto fronts for each successor state using replanning.
+\item If $\scthreshold$ is within $\kappa\cdot \tau$ distance to (but outside of) $\hat{\pareto{\solutions}}$,
   halve $\kappa$ and repeat.
 \end{enumerate}  
 \end{mdframed}
-\mypara{Run-time and Halting}
-In practice, this algorithm can be significantly improved by adaptive
+\sj{Symmary has new symbols, and what si $\tau$ doing there?}
+\mypara{Termination and Run Time}
+First, the algorithm halts almost surely, that is: 
+the algorithm halts if $\langle \scthreshold, \randomness \rangle$ is
+not on $\pareto{\solutions}$ (or if we happen to exactly hit $\langle \scthreshold, \randomness\rangle$ by selecting some rationality $\rat$).
+As the Pareto Front has
+measure 0, we argue that not halting is thus merely a technical concern, as a
+small perturbation to the ERCI instance (i.e. a \emph{smoothed
+analysis}~\cite{SmoothedAnalysis}) on $\sg$ admits decidability. 
+The same observation hold also for the MDP case.
+
+While for practical run time, the algorithm can be significantly improved by adaptive
 tolerances, lazily computing the Pareto Fronts, and only computing
-Pareto Fronts for non-deterministic $\pTwo$ states. Nevertheless,
-already this na\"ive algorithm gives a sense of the run-time
-bottlenecks. Namely, if $\kappa^*$ tolerance is required to terminate,
-then the $\kappa$ search introduces $O(\log(\nicefrac{1}{\kappa^*}))$
-overhead. Furthermore, by computing $O(|\sg|)$ Pareto fronts, from the
-leaves, one ensures that the complexity grows linearly with the graph
+Pareto Fronts for $\pTwo$ states.
+We give an output-sensitive analysis of the run time (assuming it does halt) in the naive formulation.
+ If $\kappa^*$ tolerance is required to terminate,
+then the $\kappa$ search introduces $\mathcal{O}(\log(\nicefrac{1}{\kappa^*}))$
+iterations. Furthermore, by computing $\mathcal{O}(|\sg|)$ Pareto fronts, one ensures that the complexity grows linearly with the graph
 size - although the multiplicative constant depends on the number of
-rationality coefficients explored per Pareto-front. We found that most
+rationality coefficients explored per Pareto front. We found that most
 of the rationality coefficients explored were shared, which in
-practice seems to amortize the cost per state. Finally, as in the
-MDP-case, the resulting algorithm is only a semi-decision procedure,
-being decidable if $\langle \scthreshold, \randomness \rangle$ is
-bounded away from the root Pareto Front. As the Pareto Front has
-measure 0, we argue that this is merely a technical concern, as a
-small perturbation to the ERCI instance (i.e. a Smoothed
-Analysis~\cite{SmoothedAnalysis}) on $\sg$ admits decidability.
+practice seems to amortize the cost per state. 
+
+%In practice, this algorithm can be significantly improved by adaptive
+%tolerances, lazily computing the Pareto Fronts, and only computing
+%Pareto Fronts for $\pTwo$ states. Nevertheless,
+%already this na\"ive algorithm gives a sense of the run-time
+%bottlenecks. Namely, if $\kappa^*$ tolerance is required to terminate,
+%then the $\kappa$ search introduces $O(\log(\nicefrac{1}{\kappa^*}))$
+%iterations. Furthermore, by computing $O(|\sg|)$ Pareto fronts, from the
+%leaves, one ensures that the complexity grows linearly with the graph
+%size - although the multiplicative constant depends on the number of
+%rationality coefficients explored per Pareto front. We found that most
+%of the rationality coefficients explored were shared, which in
+%practice seems to amortize the cost per state. Finally, as in the
+%MDP-case, the algorithm halts if $\langle \scthreshold, \randomness \rangle$ is
+%bounded away from the root Pareto Front. As the Pareto Front has
+%measure 0, we argue that this is merely a technical concern, as a
+%small perturbation to the ERCI instance (i.e. a Smoothed
+%Analysis~\cite{SmoothedAnalysis}) on $\sg$ admits decidability.
 
 \mypara{On Completeness}
 Our algorithm restricts itself to considering only recursive entropy

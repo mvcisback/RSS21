@@ -28,7 +28,7 @@ $\rat \in [0, \infty)$, we define a policy,
    & V_\rat(s) \eqdef  \begin{cases}
      \lambda  \cdot \indicator{s = \target} & \text{if }s \in \{ \target, \sink \},\\
      \smoothmax_{\act \in \EnAct(s)}{  Q_\rat(s,\act) } & \text{otherwise.}
-   \end{cases}\\ 
+   \end{cases}\label{eq:mdp:v}\\ 
 	& Q_\rat(s, \act) \eqdef \sum_{s'} P(s,\act,s') \cdot V_\rat(s').
  \end{align}
 
