@@ -341,7 +341,7 @@
 \definecolor{textcolor}{rgb}{0.150000,0.150000,0.150000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=0.283002in,y=2.104167in,,bottom,rotate=90.000000]{\color{textcolor}\sffamily\fontsize{10.000000}{12.000000}\selectfont BDD nodes ($\approx$ 2 × game states)}%
+\pgftext[x=0.283002in,y=2.104167in,,bottom,rotate=90.000000]{\color{textcolor}\sffamily\fontsize{10.000000}{12.000000}\selectfont BDD nodes ($\approx$ 2 $\times$ game states)}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfpathrectangle{\pgfqpoint{0.965972in}{0.580556in}}{\pgfqpoint{4.884028in}{3.047222in}}%
