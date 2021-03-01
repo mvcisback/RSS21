@@ -46,9 +46,9 @@ policy maximizes (causal) entropy, and thus $\rndopt = \rndp_0$.
 Similarly, as $\rat$ approaches $\infty$, $\sched_\rat$ selects (uniformly) from
 actions \emph{that maximize performance}. Thus, $\scopt = \scp_\infty$.
 Furthermore, we obtain from the Bellman-equations:
-\begin{proposition}
-  $\scp_\rat$ is smoothly and (strictly) monotonically increasing in $\rat$ and $\rndp_\rat$
-  is smoothly (strictly) monotonically decreasing in $\rat$.
+\begin{proposition}n
+  $\scp_\rat$ is  smoothly (and strictly) increasing in $\rat$ and $\rndp_\rat$
+  is smoothly (and strictly) decreasing in $\rat$.
 \end{proposition}
 Thus, this
 family spans the Pareto-Front, $\pareto{\solutions}$.
@@ -58,7 +58,6 @@ $\sched_\rat$ maximizes randomness given a target performance, one derives:
 \begin{equation}
   \solfuncp\left(\delta_\rat\right) = \epsilon_\rat.
 \end{equation}
-
 
 The key idea now is to instantiate the approximation scheme for the Pareto-front by varying $\rat$.\footnote{Assuming $\scopt, \rndopt \neq 0$ (which would
 otherwise yield trivial $\solutions$ and $\pareto{\solutions}$)}.
