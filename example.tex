@@ -31,8 +31,7 @@ wishes to exam how $\droneEnv$ responds to delivering packages to the
 red houses in the presence of $\droneEgo$. Namely, the
 agency wishes to have $\droneEgo$ also deliver packages while avoiding
 $\droneEnv$. Importantly,
-to properly exercise $\droneEnv$, $\droneEgo$ should show a \emph{variety} of behaviors meeting  specification, and the behaviors should not be biased to any behavior beyond the given specification.  
-\sj{I did not understand sentence in the comments}
+to properly exercise $\droneEnv$, $\droneEgo$ should show a \emph{variety} of behaviors meeting  specification, and the behaviors should not be biased to any behavior beyond the given specification.
 % Ideally, this $\droneEgo$'s policy should be as
 %un-biased as possible to exercise $\droneEnv$ on a variety of
 %scenarios, and ideally capture and sensor, software, or hardware
@@ -81,7 +80,7 @@ This models $\droneEnv$ much more precisely, and allows for more targeted test b
 
 \mypara{Nondeterministic and Stochastic Model} However, a natural criticism for stochastic
 models is the dependence on \emph{fixed} probabilities. 
-Obtaining such probabilities with confidence requires many tests which defeat the purpose of our test setup, and making point-estimates from little data may not create faithful models of the actual behavior..
+Obtaining such probabilities with confidence requires many tests which defeat the purpose of our test setup, and making point-estimates from little data may not create faithful models of the actual behavior.
 % In our
 %example, we may have observed $\droneEnv$'s behavior and extracted
 %(point-)estimate probabilities, but these probabilities may still have
@@ -105,12 +104,11 @@ computational model.
 In particular, the models above are captured by a 2-player game, a 1.5-player game (MDP) and a 2.5-player game (stochastic game), respectively.
 In all cases, the first player controls the behavior of $\droneEgo$ and this controller is to be synthesized. 
 We contribute an algorithm that synthesizes that controller such that
-it  maximally randomizes for all of the model discussed above. In the
+it  maximally randomizes for all of the models discussed above. In the
 coming sections, we shall formally define the ERCI problem, highlight
 that there is an implicit trade-off between performance of the soft
 constraint and unpredictability, and provide algorithms to solve ERCI
-in Stochastic Games which admit arbitrarily combining nondeterminsitistic and
-probabilistic uncertainty.
+in Stochastic Games.
 
 % Pareto-curve that shows how randomization and performance yield a tradeoff. This means that rather than a-priori selecting threshold for entropy and the probability of not running out of battery, we obtain a variety op options and select the trade-off that is most satisfactory. Consider Fig.~\ref{}.
 
