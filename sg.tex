@@ -141,33 +141,39 @@ Front, we obtain a synthesis algorithm for SGs!
 
 \mypara{Approximate Pareto Fronts}
 Of course, by varying $\rat$, one can only construct approximate
-Pareto fronts $\pareto{} \subseteq \pareto{\solutions}$, where we denote the downward closure of $\pareto{}$ as $\hat{\solutions} \subseteq \solutions$.
- %let $\hat{f}_\solutions^{s'}$ denote the characterising function.
-    We now
-adapt the above algorithm to the case where $\hat{\solutions}$ is a $\kappa$-close approximation of $\solutions$, where $\kappa$ bounds the $\infty$-norm
-error. In particular, for such an approximation, the performance from state  $s$ for fixed rationality $\rat$, $\epsilon_\rat(s)$, is bounded up to  $\kappa$. 
-Convex combinations of these intervals cannot
-increase the error beyond $\kappa$, i.e.,
-\begin{equation}
-  q\cdot[x, x + \kappa] + \bar{q}\cdot[y, y + \kappa] = [z, z + \kappa],
-\end{equation}
-where $z = q\cdot x + \bar{q}\cdot y$. \sj{Sentences from here are vague}Thus, since $\pi_\rat$ and
-$P(s, a)$ are independent of this Pareto front (and manipulate
-performance via convex combinations) the error can only accumulate on
-the Pareto Fronts for $s \in S_\pTwo$. Notice then that so long as,
-$\kappa\cdot\tau$\sj{what is $\tau$ doing here} is enough resolution to answer $\scp_\rat <
-\scthreshold$, one obtains a semi-decision procedure as in the MDP
-case.\sj{We have not talked about $\scthreshold$ in this section at all...}
-We propose the following high-level algorithm:
+Pareto fronts $\hat{\pareto{}} \subseteq \pareto{\solutions}$, where we denote the downward closure of $\hat{\pareto{}}$ as $\hat{\solutions} \subseteq \solutions$.
+% let $\hat{f}_\solutions^{s'}$ denote the characterising function.
+We propose the following high-level algorithm to
+adapt the above algorithm to the case where
+$\hat{\solutions}$ is a $\kappa$-close approximation of $\solutions$,
+where $\kappa$ bounds the $\infty$-norm error, and in particular, the
+performance from state $s$ for fixed rationality,
+$\epsilon_\rat(s)$, is bounded up to $\kappa$.
 \begin{mdframed}
 \begin{enumerate}
+\item Let $\tau$ denote the length of the longest path in $\sg$.
 \item Let $0 < \kappa < 1$ be some arbitrary initial tolerance.
 \item Recursively compute $\kappa$-close Pareto fronts for each successor state using replanning.
-\item If $\scthreshold$ is within $\kappa\cdot \tau$ distance to (but outside of) $\hat{\pareto{\solutions}}$,
+\item If $\scthreshold$ is within $\kappa\cdot \tau$ distance to (but outside of) $\hat{\pareto{}}$,
   halve $\kappa$ and repeat.
 \end{enumerate}  
 \end{mdframed}
-\sj{Symmary has new symbols, and what si $\tau$ doing there?}
+The correctness of this algorithm relies on the following critical
+facts: (1) Each rationality coefficient induces an entropy based on
+the subgraph (and is independent of the current Pareto
+approximation). (2) Thus, when querying points on
+$\pareto{\solutions}$, error can only accumulate for $\scp$. (3) Next,
+observe that $\scp$ is computed using convex combinations of entropy
+matched points on Pareto approximations. (4) Convex combinations of an error interval cannot
+increase the error, i.e.,
+\begin{equation}
+  q\cdot[x, x + \kappa] + \bar{q}\cdot[y, y + \kappa] = [z, z + \kappa],
+\end{equation}
+where $z = q\cdot x + \bar{q}\cdot y$.
+Thus, so long as $\kappa\cdot\tau$ is enough resolution to answer $\scp_\rat <
+\scthreshold$, one obtains a semi-decision procedure as in the MDP
+case.
+
 \mypara{Termination and Run Time}
 First, the algorithm halts almost surely, that is: 
 the algorithm halts if $\langle \scthreshold, \randomness \rangle$ is

@@ -96,10 +96,12 @@ achieves $\langle \scthreshold, \randomness \rangle$.
   \begin{equation}
     \begin{split}
       \randomness &= \rndmin + \rndopt\cdot (\delta - \rndmin)\\
-      &= \rndmin + \rndopt \cdot \Big (\solfuncp^{-1}\left(\frac{\scthreshold - \scmin}{\scopt}\right) - \rndmin\Big) 
+      &= \rndmin + \rndopt \cdot \Big (\solfuncp^{-1}\left(\frac{\scthreshold - \scmin}{\scopt}\right) - \rndmin\Big) \\
+      \leq 
     \end{split}.
   \end{equation}
 \end{proof}
+
 Thus, one can view ERCI as a conservative extension of RCI to stochastic games.
 
 %%% Local Variables:
