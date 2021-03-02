@@ -79,29 +79,29 @@ $\pOneSched(s_0)$, we must plan for whatever action $\pTwo$ selects in
 $s_2$. The Pareto front in $s_0$ non-trivially depends on the Pareto
 curves for $s_2$ and $s_1$. Algorithmically, we want to avoid
 computing the (complete) Pareto fronts as much as possible. To do so,
-we initially restrict our attention to policies induced by some
+we restrict our attention to policies induced by some
 rationality $\rat$ (as in the MDP case). Conceptually, $\rat$ then enables
-$\pOne$ to associate ``comparable'' points on the two Pareto fronts, and
+$\pOne$ to associate ``comparable'' points between sibling Pareto fronts, and
 thus reason locally.
 
-More precisely, our algorithm (temporarily) assumes that in the $\pTwo$-node,
-$\pTwo$ aims to minimize the maximal entropy against a finite family
-of $\pOne$ policies induced by some rationality $\rat$.
-Under this assumption, the SG collapses to an MDP. To compute the maximal causal
-entropy of a node, we can recursively consider its successors
-($\pOne$-states). As the SG is a DAG, this recursion terminates with
-the trivial terminal nodes.  For a required randomness $\delta$, we
-determine the required rationality $\rat$ to solve the overall ERCI
-against the entropy minimizing adversary. The $\pOne$-policy memorizes this
-rationality as part of its state.
-Now, whenever $\pTwo$ diverges from minimizing maximal entropy, the idea is that
-$\pOne$ can play with higher rationality and still ensure the same
-randomness $\delta$. We call the increase in rationality (and the
-associated computations) \emph{replanning}.  By traversing the graph
-top-down using this idea (and memoizing the visited state-rationality
-pairs $s,\rat$), we can explore how we can optimize performance while
-always matching the required randomness.  In the remainder of this
-section, we formalize and analyze this algorithmic idea.
+More precisely, our algorithm (temporarily) assumes that in the
+$\pTwo$-node, $\pTwo$ aims to minimize the maximal entropy of $\pOne$
+policies induced by some rationality $\rat$.  Under this assumption,
+the SG collapses to an MDP. To compute the maximal causal entropy of a
+node, we can recursively consider its successors ($\pOne$-states). As
+the SG is a DAG, this recursion terminates with the trivial terminal
+nodes.  For a required randomness $\delta$, we determine the required
+rationality $\rat$ to solve the overall ERCI against the entropy
+minimizing adversary. The $\pOne$-policy memorizes this rationality as
+part of its state.  Now, whenever $\pTwo$ diverges from minimizing
+maximal entropy, the idea is that $\pOne$ can play with higher
+rationality and still ensure the same randomness $\delta$. We call the
+increase in rationality (and the associated computations)
+\emph{replanning}.  By traversing the graph top-down using this idea
+(and memoizing the visited state-rationality pairs $s,\rat$), we can
+explore how we can optimize performance while always matching the
+required randomness.  In the remainder of this section, we formalize
+and analyze this algorithmic idea.
 
 \color{black}
 \mypara{Environment Policies}
