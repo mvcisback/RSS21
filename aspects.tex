@@ -1,10 +1,10 @@
 \section{ERCI as multi-objective optimization}\label{sec:convex}
-There is a natural trade off
+There is a natural trade-off
 between probability of generating paths in $\varphi$ (from here
 onwards: \emph{the performance}) and causal entropy induced by a
-policy (\emph{the randomization}).  In particular,
+policy (\emph{the randomization}).  In particular, with all other ingredients fixed, 
 we are interested in understanding the combinations of $\scthreshold$
-and $\randomness$ that allow to solve the (core) ERCI problem. To this
+and $\randomness$ that yield a solvable instance of the (core) ERCI problem. To this
 end, we cast ERCI as an instance of a multi-objective optimization problem, and
 study its Pareto front. Some ideas are inspired by variants of multi-objective analysis of MDPs with multiple soft constraints, e.g.~\cite{DBLP:conf/stacs/ChatterjeeMH06,DBLP:conf/tacas/EtessamiKVY07}.
 
@@ -92,7 +92,7 @@ Due to convexity, we may speed up the search for satisfiability: If there exist 
 
 \begin{example}
 \label{ex:approximation}
-	Consider Fig.~\ref{fig:geom:iterative}. We have found three points on the Pareto-curve, and already have a good impression of the trade off between randomization and performance. In particular, the green area is definitively a subset of $\solutions$: It exploits the downward closure and the convexity of $\solutions$. The red (dotted) part contain the points on the Pareto curve in their downward closure, thus they cannot be part of the Pareto curve themselves.
+	Consider Fig.~\ref{fig:geom:iterative}. We have found three points on the Pareto-curve, and already have a good impression of the trade-off between randomization and performance. In particular, the green area is definitively a subset of $\solutions$: It exploits the downward closure and the convexity of $\solutions$. The red (dotted) part contain the points on the Pareto curve in their downward closure, thus they cannot be part of the Pareto curve themselves.
 	Furthermore, the topmost point on the Pareto curve was obtained by maximizing performance (and optimizing randomization only as a secondary objective). Thus, by construction, the bricked area at the top is not satisfiable. Analogously, the bricked area at the right reflects non-achievable randomization. 
 \end{example}
 
