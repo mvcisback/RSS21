@@ -61,15 +61,15 @@ $\sched_\rat$ maximizes randomness given a target performance, one derives:
 
 The key idea now is to instantiate the approximation scheme for the Pareto-front by varying $\rat$.\footnote{Assuming $\scopt, \rndopt \neq 0$ (which would
 otherwise yield trivial $\solutions$ and $\pareto{\solutions}$)}.
-In particular, we construct $\pareto{} = \{ x_\rat \mid \rat \in \{ \rat_1, \rat_2, \hdots \} \}$ until $\pareto{}$ contains a witness to either realizability or unrealizability. 
+In particular, we construct $\pareto{} = \{ x_\rat \mid \rat \in \{ \rat_1, \rat_2, \hdots \} \}$ until $\pareto{}$ contains a witness to either realizability or unrealizability of the ERCI instance. 
 In the remainder of this section, we improve upon randomly selecting values for $\rat$.
 
 \begin{remark}
-Given a witness(pair) to realizability, it is easy to extract the corresponding improvisor. Let $x_1,x_2$ be a witness-pair to realizability,  induced by $\sched_{\rat_1}$ and $\sched_{\rat_2}$ such that $\langle\scthreshold, \randomness\rangle\preceq q\cdot x_1 + \bar{q}\cdot x_2$, then the policy described by  	
+Given a witness(pair) to realizability, it is easy to extract the corresponding improviser. Let $x_1,x_2$ be a witness-pair to realizability,  induced by $\sched_{\rat_1}$ and $\sched_{\rat_2}$ such that $\langle\scthreshold, \randomness\rangle\preceq w\cdot x_1 + (1-w)\cdot x_2$, then the policy described by  	
 \begin{equation}\label{eq:4}
-  \sigma^*_\pOne(\act \mid s) \eqdef q\cdot \sched_{\rat_1}(\act \mid s) + \bar{q} \cdot \sched_{\rat_2}(\act  \mid s)
+  \sigma^*_\pOne(\act \mid s) \eqdef w\cdot \sched_{\rat_1}(\act \mid s) + (1-w) \cdot \sched_{\rat_2}(\act  \mid s)
 \end{equation}
-is an improvisor solving the ERCI problem.
+is an improviser solving the ERCI problem.
 \end{remark}
 
 
