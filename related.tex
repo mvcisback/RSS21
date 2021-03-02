@@ -128,18 +128,35 @@ Finally, notions of lexicographic multi-objective synthesis~\cite{DBLP:conf/cav/
 These algorithms have been put in a robotics context in~\cite{DBLP:journals/ijrr/LacerdaFPH19}.
 Finding policies that optimize reward objectives is well-studied in the field of reinforcement learning, and has been extended to generate Pareto-fronts for multiple objectives~\cite{DBLP:conf/icml/NatarajanT05,DBLP:conf/adprl/ParisiPSBR14}.
 
-Randomization has been considered in different contexts. Entropy in MDPs is optimized in \cite{DBLP:journals/tac/SavasOCKT20}. 
-\textcolor{red}{Marcell, do you have more on (causal) sentropy?}\sj{todo}
-Beyond Markov models, the (uniform) randomization over languages in finite automata \cite{DBLP:journals/siamcomp/HickeyC83,DBLP:conf/soda/KannanSM95} or over propositional formulae \cite{DBLP:journals/tcs/JerrumVV86,DBLP:journals/iandc/BellareGP00,DBLP:conf/dac/ChakrabortyMV14} has received quite some attention. Neither of those approaches support the notion of soft constraints or the related tradeoffs.
+Next, our core ERCI instance can be seen as a multi-objective path problem~\cite{DBLP:conf/icra/AmigoniG05,DBLP:journals/eswa/NazarahariKD19,DBLP:conf/icml/XuTMRSM20}.
+The literature on multi-object path finding differs prominently from ERCI in two aspects: they do not trade-off
+randomization and performance, and they do not trade-off declarative
+and formal constraints with the accompanying formal guarentees, but
+are more search-based.
 
-Path-finding has long been considered a multi-objective problem itself~\cite{DBLP:conf/icra/AmigoniG05,DBLP:journals/eswa/NazarahariKD19,DBLP:conf/icml/XuTMRSM20}.
-These works differ prominently in two aspects: they do not trade-off randomization and performance, and they do not trade-off declarative and formal constraints with the accompanying formal guarentees, but are more search-based. 
-
-Patrolling POIs and perimeters has received plenty of attention, e.g.,~\cite{DBLP:conf/icra/AgmonKK08,DBLP:conf/icra/AmigoniBG09,DBLP:conf/iros/PortugalPRC14}.  
+Another related domain is the problem of (randomly) patrolling a perimeters and
+points of interest~\cite{DBLP:conf/icra/AgmonKK08,DBLP:conf/icra/AmigoniBG09,DBLP:conf/iros/PortugalPRC14}.
 Closest to our work are  formalisms rooted in game-theory,  such as  \emph{Stackelberg games}~\cite{simaan1973stackelberg,DBLP:conf/atal/ParuchuriPTOK07}. Stackelberg games have been extending to Stackelberg planning~\cite{DBLP:conf/aaai/SpeicherS00K18} in which a tradeoff between the cost for the defender and the attacker can be investigated.
 Most related are the zero-sum~\emph{patrolling games} introduced in~\cite{DBLP:journals/ior/AlpernMP11}, which has led to numerous practical solutions~\cite{DBLP:books/daglib/0040483}. Patrolling games are explicitly games between an intruder and a defender, and there is no stochastic environment.  Adding additional objectives makes solving these problems harder~\cite{DBLP:conf/atal/Klaska0R20} and in general, the obtained policies are no longer applicable. To overcome this, a specific set of fixed objectives has been added to these games recently~\cite{DBLP:conf/atal/Klaska0R20}. 
  The large common aspect in all of this work is that optimal strategies do randomize. As in the synthesis work above, this is a consequence of the objectives rather than an objective in itself. 
  In comparison, we provide a general framework and in particular support stochastic environments.
+
+Finally, entropy as an optimization objective for MDPs with fixed
+rewards has been well studied~\cite{DBLP:journals/tac/SavasOCKT20},
+particularly in the context of regularizing (robustifying) inverse and
+reinforcement learning~\cite{mceThesis, DBLP:conf/icml/GeistSP19}. The
+primary distinction from our work (in the MDP setting) is the
+unspecified (performance/entropy) trade-off. Nevertheless, as
+previously discussed, the specification varient of this literature
+served as the basis for our MDP
+subroutine~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.  Beyond Markov
+models, the (uniform) randomization over languages in finite automata
+\cite{DBLP:journals/siamcomp/HickeyC83,DBLP:conf/soda/KannanSM95} or
+over propositional formulae
+\cite{DBLP:journals/tcs/JerrumVV86,DBLP:journals/iandc/BellareGP00,DBLP:conf/dac/ChakrabortyMV14}
+has received quite some attention, however neither of those approaches
+support the notion of soft constraints or the related tradeoffs.
+
  
 %%% Local Variables:
 %%% mode: latex
