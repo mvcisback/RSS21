@@ -167,7 +167,7 @@ Let $\rv{X}_{1:i} \eqdef \rv{X}_1, \hdots, \rv{X}_i$ and $\rv{Y}_{1:i} \eqdef
 \rv{Y}_1,\hdots,\rv{Y}_i$ denote two sequences of random variables. The
 probability of $ \rv{X}_{1:i}$ causally conditioned on $\rv{Y}_{1:i}$ is:
 \begin{equation}
-  \causalprob{\rv{X}_{1:i}}{\rv{Y}_{1:i}} \eqdef \prod \Pr(\rv{X}_j \mid \rv{X}_{1:j-1}\rv{Y}_{1:j}).
+  \causalprob{\rv{X}_{1:i}}{\rv{Y}_{1:i}} \eqdef \prod_{j=1}^i \Pr(\rv{X}_j \mid \rv{X}_{1:j-1}\rv{Y}_{1:j}).
 \end{equation}
 The causal entropy of $\rv{X}_{1:i}$ given $\rv{Y}_{1:i}$ is then defined as,
 \begin{equation}
@@ -175,17 +175,17 @@ The causal entropy of $\rv{X}_{1:i}$ given $\rv{Y}_{1:i}$ is then defined as,
 \end{equation}
 Using the chain rule, one can relate causal entropy to (non-causal) entropy, $H(\rv{X} | \rv{Y}) \eqdef \expOver{\rv{X}}{-\log(\Pr(\rv{X}~|~\rv{Y}))}$ via:
 \begin{equation}
-  H(\rv{X}_{1:i}\mid\mid \rv{Y}_{1:i}) = \sum_{t=1}^i H(\rv{X}_i \mid \rv{Y}_{1:i}, X_{1:i-1})
+  H(\rv{X}_{1:i}\mid\mid \rv{Y}_{1:i}) = \sum_{t=1}^i H(\rv{X}_t \mid \rv{Y}_{1:t}, X_{1:t-1})
 \end{equation}
 This relation shows that:
-(1) Causal entropy is always lower bounded by non-causal entropy (and
+(1)~Causal entropy is always lower bounded by non-causal entropy (and
 thus non-negative). 
-(2) Causal entropy can computed ``bottom up'', from the sinks to the root.
-(3) Causal and non-causal conditioning can be mixed,
+(2)~Causal entropy can computed ``bottom up'', from the sinks to the root.
+(3)~Causal and non-causal conditioning can be mixed,
 
 \vspace{-1.1em}
 \begin{equation}
-  H(\rv{X}_{1:i}\mid\mid \rv{Y}_{1:i} \mid Z) \eqdef \sum_{t=1}^i H(\rv{X}_i \mid \rv{Y}_{1:i}, X_{1:i-1}, Z).
+  H(\rv{X}_{1:i}\mid\mid \rv{Y}_{1:i} \mid Z) \eqdef \sum_{t=1}^i H(\rv{X}_t \mid \rv{Y}_{1:t}, X_{1:t-1}, Z).
 \end{equation}
     
 Intuitively, and contrary to non-causal entropy, causal entropy does \emph{not}
