@@ -86,7 +86,7 @@ In particular, we use the following update of \eqref{eq:mdp:v} to the SG case:
  \begin{align}
    & V_\rat(s) \eqdef  \begin{cases}
      \lambda  \cdot \indicator{s = \target} & \text{if }s \in \{ \target, \sink \},\\
-     \smoothmax_{\act \in \EnAct(s)}{  Q_\rat(s,\act) } & \text{if } s \in S_\pOne. \\
+     \smoothmax_{\act \in \EnAct(s)}{  Q_\rat(s,\act) } & \text{if } s \in S_\pOne, \\
      \min_{\act \in \EnAct(s)}{  Q_\rat(s,\act) } &  \text{if } s \in S_\pTwo.
    \end{cases}
  \end{align}
