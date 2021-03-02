@@ -60,16 +60,31 @@ stochastic games.
 \end{figure}
 
 \mypara{Intuition}
-Before we discuss the algorithm in full detail, we consider two simple cases with a single $\pTwo$-state \footnote{To ensure we satisfy our our assumption of games being alternating between both players, we can insert dummy states.} and multiple $\pOne$-states.
-First, we consider a SG with an initial $\pTwo$-state, $s_2$, that can transition to two independent MDPs (a sub-game with only $\pOne$-states) as illustrated in the dashed box in Fig.~\ref{fig:sg:simplest}.
-Here, after $\pTwo$ takes an initial action, the remainder of the action choices are made by $\pOne$. Put differently, $\pTwo$ can force $\pOne$ to play in either of two MDPs that start in states $s_3$ and $s_4$, respectively.
-For both MDPs, we can compute (an approximation of) the Pareto front and the corresponding sets of achievable points as described in Sec.~\ref{sec:mdps}. 
-The achievable points for state $s_2$ are now given by the intersection of the two  sets.
-%However, the challenge in this generalization is to select action for $\pOne$-states.
-Now, consider the full SG illustrated in Fig.~\ref{fig:sg:simplest} (initial state $s_0$). 
-To determine $\pOneSched(s_0)$, we must plan for whatever action $\pTwo$ selects in $s_2$. The Pareto front in $s_0$ non-trivially depends on the Pareto curves for $s_2$ and $s_1$. Algorithmically, we want to avoid computing the (complete) Pareto fronts as much as possible.
- 
-Roughly, our algorithm initially assumes that in the $\pTwo$-node,
+Before we discuss the algorithm in full detail, we consider two simple
+cases with a single $\pTwo$-state \footnote{To ensure we satisfy our
+our assumption of games being alternating between both players, we can
+insert dummy states.} and multiple $\pOne$-states.  First, we consider
+a SG with an initial $\pTwo$-state, $s_2$, that can transition to two
+independent MDPs (a sub-game with only $\pOne$-states) as illustrated
+in the dashed box in Fig.~\ref{fig:sg:simplest}.  Here, $\pTwo$ can
+force $\pOne$ to play in either of two MDPs that start in states $s_3$
+and $s_4$, respectively.  For both MDPs, we can compute (an
+approximation of) the Pareto front and the corresponding sets of
+achievable points as described in Sec.~\ref{sec:mdps}.  The achievable
+points for state $s_2$ are now given by the intersection of the two
+sets.  %However, the challenge in this generalization is to select
+action for $\pOne$-states.  Now, consider the full SG illustrated in
+Fig.~\ref{fig:sg:simplest} (initial state $s_0$).  To determine
+$\pOneSched(s_0)$, we must plan for whatever action $\pTwo$ selects in
+$s_2$. The Pareto front in $s_0$ non-trivially depends on the Pareto
+curves for $s_2$ and $s_1$. Algorithmically, we want to avoid
+computing the (complete) Pareto fronts as much as possible. To do so,
+we initially restrict our attention to policies induced by some
+rationality $\rat$ (as in the MDP case). Conceptually, $\rat$ then enables
+$\pOne$ to associate ``comparable'' points on the two Pareto fronts, and
+thus reason locally.
+
+More precisely, our algorithm (temporarily) assumes that in the $\pTwo$-node,
 $\pTwo$ aims to minimize the maximal entropy against a finite family
 of $\pOne$ policies induced by some rationality $\rat$.
 Under this assumption, the SG collapses to an MDP. To compute the maximal causal
