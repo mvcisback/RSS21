@@ -25,7 +25,7 @@ liability.  Examples include
 patrolling~\cite{DBLP:journals/ior/AlpernMP11}, behavior prediction
 and inference~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}, and creating
 controller harnesses for fuzz testing (see motivating
-example). Second, synthesis algorithms work on \emph{idealized}
+example in Sec.~\ref{sec:motivating}). Second, synthesis algorithms work on \emph{idealized}
 models, and thus any policy that overcommits to any given model quirk
 may in practice yield poor performance. In such settings,
 randomization is known to make policies more robust against worst-case
@@ -44,7 +44,7 @@ on most executions, and (iii) \emph{randomization
 constraints} that ensure that a synthesized policy does not overcommit to a particular action or behavior. 
 The key challenge when solving control improvisation is that randomization and performance, in the form of soft constraints, constitute a natural trade-off.
 
-Unfortunately, control improvisation has so far been limited to
+So far, control improvisation has  only be studied in 
 nondeterministic domains where uncertainty is resolved
 adversarially. This assumption is often too restrictive and leads
 (together with the soft/hard constraints) to conservative policies or

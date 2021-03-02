@@ -8,11 +8,11 @@ $\pTwo$-states. $\iota \in S_\pOne$ is the \emph{initial state}, $\Act$ is a
 finite set of \emph{actions}, and $P\colon S \times \Act \rightarrow
 \Distr(S)$ is the \emph{transition function}. For simplicity of
 exposition, we assume w.l.o.g. that controlled and uncontrolled
-states alternate. Thus, $P$ is defined by two partial transition functions:
+states alternate. Thus, $P$ is defined by two \emph{partial} transition functions:
 $P_\pOne\colon S_\pOne \times \Act \rightarrow \Distr(S_\pTwo)$,
 $P_\pTwo\colon S_\pTwo \times \Act \rightarrow \Distr(S_\pOne)$. We
-identify the available actions\footnote{We explicitly allow to model
-unavailable actions, e.g., we can model that a door can only opened
+identify the available actions\footnote{We use a partial function as we explicitly allow modeling 
+unavailable actions, e.g., we can model that a door can only be opened
 when close enough to the door.} as $\EnAct(s) \eqdef \{ \act \mid
 P(s,\act) \neq \bot \}$. States without available actions, i.e.,
 states with $\EnAct(s) = \emptyset$ are called \emph{terminal states}.
@@ -103,7 +103,7 @@ based on their last state: $\POnePaths[]{} = \{ \path \in
 
 
 \begin{example}
-  In Fig.~\ref{fig:toysg}, there are two paths that end in $s_3$, $s_0 \xrightarrow{a} s_1 \xrightarrow{b} s_3$ and $s_0 \xrightarrow{b} s_2 \xrightarrow{a} s_3$, both of length $1$. Both paths are in $\POnePaths[]{}$, as $s_3 \in S_\pOne$.
+  In Fig.~\ref{fig:toysg}, there are two paths that end in $s_3$, $s_0 \xrightarrow{a} s_1 \xrightarrow{b} s_3$ and $s_0 \xrightarrow{b} s_2 \xrightarrow{a} s_3$, both of length $2$. Both paths are in $\POnePaths[]{}$, as $s_3 \in S_\pOne$.
 \end{example}
 %\paragraph{Policies.} 
 Whenever some state $s$ is reached, the corresponding player draws an action from $\EnAct(s)$. As standard, we capture this with the notion of a scheduler\footnote{Also known as \emph{strategy} or \emph{policy}.}.
@@ -229,7 +229,7 @@ Given a SG $\sg$, $\tau$-bounded path properties $\hard$ and $\soft$, and thresh
 \end{compactenum}
 where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 \end{mdframed}
-We say that an instance of the ERCI problem is satisfiable, if an appropriate $\pOneSched$ exists, and the problem is unsatisfiable otherwise.
+We say that an instance of the ERCI problem is realizable, if an appropriate $\pOneSched$ exists, and the problem is unrealizable otherwise.
 
 
 

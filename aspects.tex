@@ -44,7 +44,7 @@ We notice the gap between both areas: While the performance and randomization ma
 
 Points guaranteed by some $\pOneSched$ are called
 \emph{achievable}. Thus, the achievable points are: $ \solutions =
-\bigcup_{\pOneSched} \solutions[\pOneSched]$.  Importantly, the ERCI problem is satisfiable iff $\langle \scthreshold,
+\bigcup_{\pOneSched} \solutions[\pOneSched]$.  Importantly, the ERCI problem is realizable iff $\langle \scthreshold,
 \randomness \rangle$ is achievable. 
 Thus, to solve ERCI instances, we start by characterizing
 $\solutions$. We start by observing the $\solutions$ is convex (proof in Sec~\ref{sec:proofs}).
@@ -72,7 +72,7 @@ The Pareto-front $\pareto{\solutions}$ of $\solutions$ is then the set of non-do
 Importantly, it holds that the ERCI problem is satisfiable iff there exists a  $x \in \pareto{\solutions}$ such that $\langle \scthreshold, \randomness \rangle \preceq x$.    
 \end{mdframed}
 \begin{example}
-	The set $\solutions$ illustrated in Fig.~\ref{fig:geom:solution} is obtained by taking the union of guaranteed points, and can be characterized by the set of points on the Pareto-front: This is the curved border between the green and white area, in particular the three green dots are on the Pareto-front. Any ERCI instance with $\langle \scthreshold, \randomness \rangle$ in the green area is satisfiable.
+	The set $\solutions$ illustrated in Fig.~\ref{fig:geom:solution} is obtained by taking the union of guaranteed points, and can be characterized by the set of points on the Pareto-front: This is the curved border between the green and white area, in particular the three green dots are on the Pareto-front. Any ERCI instance with $\langle \scthreshold, \randomness \rangle$ in the green area is realizable.
 \end{example}
 
 
@@ -83,17 +83,17 @@ scheme for ERCI instances: For any subset $\pareto{} \subseteq
 \begin{enumerate}
 \item If there exists an $x \in \pareto{}$ such that
 $\langle \scthreshold, \randomness \rangle \preceq x$, then the ERCI
-Problem must be satisfiable, $x$ is a witness to satisfiability.
+Problem must be realizable, $x$ is a witness to satisfiability.
 \item If there exists an $x \in \pareto{}$
 such that $x \prec \langle \scthreshold, \randomness \rangle$ then the
-ERCI problem is not satisfiable, and $x$ is a witness to unsatisfiability.
+ERCI problem is not realizable, and $x$ is a witness to unsatisfiability.
 \end{enumerate}
 Due to convexity, we may speed up the search for satisfiability: If there exist $x_1, x_2 \in \pareto{}$ such that $\langle \scthreshold, \randomness \rangle \prec \big(w \cdot x_1 + (1-w) \cdot x_2\big)$, we call $x_1,x_2$ a witness-pair.
 
 \begin{example}
 \label{ex:approximation}
 	Consider Fig.~\ref{fig:geom:iterative}. We have found three points on the Pareto-curve, and already have a good impression of the trade-off between randomization and performance. In particular, the green area is definitively a subset of $\solutions$: It exploits the downward closure and the convexity of $\solutions$. The red (dotted) part contain the points on the Pareto curve in their downward closure, thus they cannot be part of the Pareto curve themselves.
-	Furthermore, the topmost point on the Pareto curve was obtained by maximizing performance (and optimizing randomization only as a secondary objective). Thus, by construction, the bricked area at the top is not satisfiable. Analogously, the bricked area at the right reflects non-achievable randomization. 
+	Furthermore, the topmost point on the Pareto curve was obtained by maximizing performance (and optimizing randomization only as a secondary objective). Thus, by construction, the bricked area at the top is not realizable. Analogously, the bricked area at the right reflects non-achievable randomization. 
 \end{example}
 
 Thus a key algorithmic question in ERCI is how to efficiently explore
@@ -119,7 +119,7 @@ Often, rather that fixing $\scthreshold$ and $\randomness$ a
     \hspace{1em}
     \randomness_\delta \eqdef  \delta \cdot (\rndopt - \rndmin) + \rndmin
   \end{equation}
-  where $\epsilon, \delta \in [0, 1]$. We call this version of ERCI \emph{regret-based}. Geometrically, after computing $\scopt$ and $\rndopt$, we know that the left triangle in Fig.~\ref{fig:geom:regret} is definitively satisfiable, and the regret-based ERCI asks whether the white circle is also satisfiable (where the point of the white point is given by $\epsilon$ and $\delta$. %As we shall later see, these maximum quantities are
+  where $\epsilon, \delta \in [0, 1]$. We call this version of ERCI \emph{regret-based}. Geometrically, after computing $\scopt$ and $\rndopt$, we know that the left triangle in Fig.~\ref{fig:geom:regret} is definitively realizable, and the regret-based ERCI asks whether the white circle is also realizable (where the point of the white point is given by $\epsilon$ and $\delta$. %As we shall later see, these maximum quantities are
  % directly computed in our proposed algorithm. 
 %\end{remark}
 

@@ -43,7 +43,7 @@ following constraints on $\droneEgo$:
 \begin{enumerate}
 \item (\emph{hard constraint}) Ensure that the two drones \emph{never} collide.
 \item (\emph{soft constraint}) With probability at least $.8$, visit all four houses within 10 minutes.
-\item (\emph{randomness constraint}) Perform this task as unpredictability as possible.
+\item (\emph{randomness constraint}) Perform this task as unpredictably as possible.
 \end{enumerate}
 What  remains is to synthesize a controller given the constraints
 \emph{and} the world model. At this point, it is worth examining more
@@ -57,9 +57,9 @@ $\droneEgo$. We illustrate by examining three models. In all models, we capture 
 %the exact details of the test workspace.
 
 \mypara{Nondeterministic Model}
-The simplest approach to modeling is not to make any assumptions about  $\droneEnv$ beyond what already has been established. Here, we model that the houses are visited either clock-wise or counter-wise order but that it may switch direction at \emph{any time}. 
+The simplest approach to modeling is not to make any assumptions about  $\droneEnv$ beyond what already has been established. Here, we model that the houses are visited either in clockwise or counter-clockwise order but that it may switch direction at \emph{any time}. 
 Such a model is too liberal and our assumptions under which we plan the behavior for $\droneEgo$ is too pessimistic, which leads to a bad test set.
-First, if $\droneEnv$ is unrestricted, then $\droneEgo$'s behavior is severely limited. This limitation restricts the variance of its behavior, and it will not test $\droneEnv$'s true behavior. 
+First, if $\droneEnv$ is unrestricted, then $\droneEgo$'s behavior is severely limited, as it must behave conservatively to avoid collisions under all possible motions by $\droneEnv$ (even very unlikely motions). This limitation restricts the variance of its behavior, and it will not test $\droneEnv$'s true behavior. 
 A purely non-deterministic model for $\droneEnv$ thus may not lead to the synthesis of adequate behavior for $\droneEgo$. 
  %Such a model is clearly too pessimistic -- there is no policy that satisfies
 %our constraints -- and frankly unrealistic within the context.
@@ -101,10 +101,10 @@ may even depend on aspects of the current state.
 The strength of the (entropy-guided) control improvisation framework
 is that we can combine all these aspects into a single and thus flexible 
 computational model. 
-In particular, the models above are captured by a 2-player game, a 1.5-player game (MDP) and a 2.5-player game (stochastic gamegit , SG), respectively.
+In particular, the models above are captured by a 2-player game, a 1.5-player game (MDP) and a 2.5-player game (stochastic game, SG), respectively.
 In all cases, the first player controls the behavior of $\droneEgo$ and this controller is to be synthesized. 
-We contribute an algorithm that synthesizes that controller such that
-it  maximally randomizes for all of the models discussed above. In the
+We contribute an algorithm that synthesizes a controller  that
+ maximally randomizes in all of the formalisms discussed above. In the
 coming sections, we shall formally define the ERCI problem, highlight
 that there is an implicit trade-off between performance of the soft
 constraint and unpredictability, and provide an algorithm solving ERCI
