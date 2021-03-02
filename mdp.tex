@@ -116,6 +116,14 @@ We propose a three staged sequence: (i) Compute $x_\rat$ for the end
 points $\rat \in \{0, \infty\}$.  (ii) Double $\rat$ until $h_\rat \leq
 \randomness$, yielding $\rat_1\ldots \rat_j$, where $\rat_1 = 1$.
 (iii) Binary search for $\rat \in [\rat_{j-1}, \rat_{j}]$. We illustrate the idea in Fig.~\ref{fig:geom:doubling}.
+
+The algorithm terminates almost surely, that is: 
+the algorithm halts if $\langle \scthreshold, \randomness \rangle$ is
+not on $\pareto{\solutions}$ (or if we happen to exactly hit $\langle \scthreshold, \randomness\rangle$ by selecting some rationality $\rat$).
+As the Pareto Front has
+measure 0, we argue that not halting is thus merely a technical concern, as a
+small perturbation to the ERCI instance (i.e. a \emph{smoothed
+analysis}~\cite{SmoothedAnalysis}) on $\sg$ admits decidability. 
 \begin{mdframed}
   Our approximation scheme yields a semi-decision process which halts
   iff either (a) $\langle \scthreshold, \randomness \rangle$ is

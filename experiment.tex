@@ -26,9 +26,14 @@
 
 \mypara{Setup}
 To experimentally validate the feasibility of our ERCI algorithm for
-SGs, we benchmarked the time to approximate\footnote{At most $\kappa =
-1e-2$ error.} the Pareto Front on a parameterized variant of our
-delivery drone motivating example. Specifically, our experiments used
+SGs, we implemented our algorithm in Python.
+Inspired by the recent work on compressing game graphs for specification
+inference~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}, each SG was represented
+as a Binary Decision Diagram (BDD)~\cite{DBLP:journals/csur/Bryant92} using the
+\texttt{dd} and \texttt{py-aiger} python packages~\cite{dd, pyAiger}. 
+
+We investigate the motivating example.
+Specifically, our experiments used
 a $k\times k$ grid discretization of the workspace (cf.\ Fig.~\ref{fig:motivating}), for $k \in
 \{4,5,6,7\}$ where the four target houses lie in
 $\{\lfloor\nicefrac{k}{3}\rfloor, \lfloor\nicefrac{2k}{3}\rfloor
@@ -44,25 +49,27 @@ alternation between $\pOne$ and $\pTwo$ to be a single logical time
 step, and (non-uniformly) instantiate problem instances with horizons
 ranging from $10$ to $35$, i.e., paths ranged from length $20$ to
 $80$.
-
 \footnotetext{Note that counter-intuitively, only using soft
 constraints generally results in harder instances as the game graphs
 are larger.}
 
-Finally, we implemented a prototype ERCI synthesis algorithm in Python.
-Inspired by the recent work on compressing game graphs for specification
-inference~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}, each SG was represented
-as a Binary Decision Diagram (BDD)~\cite{DBLP:journals/csur/Bryant92} using the
-dd and py-aiger python packages~\cite{dd, pyAiger}. As demonstrated in Fig.~\ref{fig:exp_times},
-this introduced negligible overhead, while dramatically decreasing the size
-of the game graph.\footnotemark 
 
 
-\footnotetext{For example, the $(k=7,\text{horizon}=40)$ case is
-encoded using a 505,100 node BDD ($|\sg| = 243,365$ nodes). Compared,
-to the direct encoding $|\sg| = |S|\cdot \tau \cdot |\text{monitor state}| = (7\times 7)^2 \cdot (2 \cdot 40) \cdot (2^4\cdot 2) \approx 6,000,000$.}
+%Finally, we implemented a prototype ERCI synthesis algorithm in Python.
+%Inspired by the recent work on compressing game graphs for specification
+%inference~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}, each SG was represented
+%as a Binary Decision Diagram (BDD)~\cite{DBLP:journals/csur/Bryant92} using the
+%dd and py-aiger python packages~\cite{dd, pyAiger}. As demonstrated in Fig.~\ref{fig:exp_times},
+%this introduced negligible overhead, while dramatically decreasing the size
+%of the game graph.\footnotemark 
 
-\mypara{Results} Consistent with our complexity analysis, the
+\mypara{Results} 
+First and foremost, we succeed to synthesize controllers in the mentioned setup.
+The controller randomizes its behavior while meeting the specification, which is not surprising as the algorithm yields a correct-by-construction policy.
+\footnote{Please consult the supplementary material where we include a video with various traces generated}.
+
+We consider the practical run time of our algorithm. 
+Consistent with our complexity analysis, the
 empirical time to estimate the Pareto Front seemed to increase linearly
 with our game graph encoding~(Fig~\ref{fig:exp_times}). Moreover,
 because our encoding seem to linearly track with the horizon for all
@@ -71,6 +78,18 @@ within our parameterization. When combined with the potential to
 parallelize across the rationality coefficients, these results suggest
 that practical optimizations to our ERCI algorithm may admit usage on
 other more complicated benchmarks.
+
+\sj{The same fig is referenced twice}
+
+
+As demonstrated in Fig.~\ref{fig:exp_times},
+the use of BDDs dramatically decreases the size
+of the game graph with negligible overhead. \footnotemark 
+
+\footnotetext{For example, the $(k=7,\text{horizon}=40)$ case is
+encoded using a 505,100 node BDD ($|\sg| = 243,365$ nodes). Compared,
+to the direct encoding $|\sg| = |S|\cdot \tau \cdot |\text{monitor state}| = (7\times 7)^2 \cdot (2 \cdot 40) \cdot (2^4\cdot 2) \approx 6,000,000$.}
+
 
 
 

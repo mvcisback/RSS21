@@ -164,7 +164,7 @@ Pareto fronts $\hat{\pareto{}} \subseteq \pareto{\solutions}$, where we denote t
 We propose the following high-level algorithm to
 adapt the above algorithm to the case where
 $\hat{\solutions}$ is a $\kappa$-close approximation of $\solutions$,
-where $\kappa$ bounds the $\infty$-norm error, and in particular, the
+for $\kappa$ bounding the $\infty$-norm error. In particular, the
 performance from state $s$ for fixed rationality,
 $\epsilon_\rat(s)$, is bounded up to $\kappa$.
 \begin{mdframed}
@@ -176,7 +176,7 @@ $\epsilon_\rat(s)$, is bounded up to $\kappa$.
   halve $\kappa$ and repeat.
 \end{enumerate}  
 \end{mdframed}
-The correctness of this algorithm relies on the following critical
+The soundness of this algorithm relies on the following critical
 facts: (1) Each rationality coefficient induces an entropy based on
 the subgraph (and is independent of the current Pareto
 approximation). (2) Thus, when querying points on
@@ -193,15 +193,7 @@ Thus, so long as $\kappa\cdot\tau$ is enough resolution to answer $\scp_\rat <
 case.
 
 \mypara{Termination and Run Time}
-First, the algorithm halts almost surely, that is: 
-the algorithm halts if $\langle \scthreshold, \randomness \rangle$ is
-not on $\pareto{\solutions}$ (or if we happen to exactly hit $\langle \scthreshold, \randomness\rangle$ by selecting some rationality $\rat$).
-As the Pareto Front has
-measure 0, we argue that not halting is thus merely a technical concern, as a
-small perturbation to the ERCI instance (i.e. a \emph{smoothed
-analysis}~\cite{SmoothedAnalysis}) on $\sg$ admits decidability. 
-The same observation hold also for the MDP case.
-
+First, as in the MDP case, the algorithm terminates almost surely.
 While for practical run time, the algorithm can be significantly improved by adaptive
 tolerances, lazily computing the Pareto Fronts, and only computing
 Pareto Fronts for $\pTwo$ states.
@@ -236,7 +228,7 @@ practice seems to amortize the cost per state.
 Our algorithm restricts itself to considering only recursive entropy
 matching policies, $\{\sched^{\pOne}_\rat\}_\rat$.  Importantly,
 observe that because fixing a policy yields a verifiable point in
-$\solutions$, any witness for satisfiability we find is trivially sound. We can restrict ourselves to the case in which our
+$\solutions$, any witness for satisfiability we find is trivially sound. For completeness, we can restrict ourselves to the case in which our
 algorithm claims the ERCI instance unsatisfiable. Surprisingly, the class of policies we consider suffices, and the algorithm 
 is thus sound and (whenever halting) complete (proof provided in Sec~\ref{sec:proofs}).
 
