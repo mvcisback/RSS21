@@ -63,7 +63,7 @@ Next, because $\solutions$ is downward closed, it
 suffices to study the ``maximal'' or non-dominated points.  Precisely,
 we say that a point $x$ is \emph{dominated} by $x'$ if $x \prec
 x'$, i.e., if $x \preceq x' \wedge x \neq x'$.
-The Pareto-front $\pareto{\solutions}$ of $\solutions$ is then the set of non-dominated guaranteed points,
+The Pareto front $\pareto{\solutions}$ of $\solutions$ is then the set of non-dominated achievable  points,
 \begin{equation}
   \pareto{\solutions} \eqdef \{ x \in \solutions \mid \forall x' \in \solutions, x \not\prec x'  \}.  
 \end{equation}
@@ -72,12 +72,12 @@ The Pareto-front $\pareto{\solutions}$ of $\solutions$ is then the set of non-do
 Importantly, it holds that the ERCI problem is satisfiable iff there exists a  $x \in \pareto{\solutions}$ such that $\langle \scthreshold, \randomness \rangle \preceq x$.    
 \end{mdframed}
 \begin{example}
-	The set $\solutions$ illustrated in Fig.~\ref{fig:geom:solution} is obtained by taking the union of guaranteed points, and can be characterized by the set of points on the Pareto-front: This is the curved border between the green and white area, in particular the three green dots are on the Pareto-front. Any ERCI instance with $\langle \scthreshold, \randomness \rangle$ in the green area is realizable.
+	The set $\solutions$ illustrated in Fig.~\ref{fig:geom:solution} is obtained by taking the union of guaranteed points, and can be characterized by the set of points on the Pareto front: This is the curved border between the green and white area, in particular the three green dots are on the Pareto front. Any ERCI instance with $\langle \scthreshold, \randomness \rangle$ in the green area is realizable.
 \end{example}
 
 
 \noindent
-Approximating the Pareto-front gives a natural approximation
+Approximating the Pareto front gives a natural approximation
 scheme for ERCI instances: For any subset $\pareto{} \subseteq
 \pareto{\solutions}$,
 \begin{enumerate}
