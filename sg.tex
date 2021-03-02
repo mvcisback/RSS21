@@ -19,8 +19,7 @@ stochastic games.
 \begin{tikzpicture}
     \node[sstate] (a1) {$s_0$}; 
     
-	\node[astate,below=0.6cm of a1,xshift=3em] (a2) {$s_1$};
-	\node[astate,below=0.6cm of a2] (a3) {$s_5$};
+	\node[sstate,below=0.6cm of a1,xshift=3em] (a2) {$s_1$};
 	
 	\node[astate,below=0.6cm of a1,xshift=-3em] (a0) {$s_2$};
 	\node[sstate,below=0.6cm of a0,xshift=-3em] (s1) {$s_3$};
@@ -45,15 +44,20 @@ stochastic games.
 \sj{Update figure}
 
 \mypara{Intuition}
-Before we discuss the algorithm in full detail, we consider two simple cases with a single $\pTwo$-state: First, the simplest class of true 2-player SGs, with an initial $\pTwo$-state and two independent MDPs with only $\pOne$-states, as illustrated in the dashed Fig.~\ref{fig:sg:simplest} and assuming that $s_2$ is the initial state.
-For both MDP subgames, we can compute (an approximation of) the Pareto front and the corresponding sets of achievable solutions as described in Section~\ref{sec:mdps}. 
-The achievable points for the SG are now given by the intersection of the two points. 
-However, the challenge in this generalization is to select action for $\pOne$-states.
-Therefore, consider the full SG illustrated in Fig.~\ref{fig:sg:simplest} with initial state $s_0$. 
-To determine $\pOneSched(s_0)$, we must plan for whatever action $\pTwo$ selects in $s_2$ and optimally without calculating all Pareto-fronts a priori. 
-What our algorithm, roughly, does is to assume that in the $\pTwo$-node, $\pTwo$ aims to minimize entropy and we compute the maximal entropy of its successors ($\pOne$-states). Under this assumption, for a required randomness $\delta$ we can compute the required rationality $\rat$ to solve the overall ERCI problem. The $\pOne$-policy memorizes this rationality. Now, whenever $\pTwo$ diverges from minimizing maximal entropy, the idea is that $\pOne$ can play with higher rationality and still ensure the same randomness $\delta$. We call the increase in rationality \emph{replanning}.
+Before we discuss the algorithm in full detail, we consider two simple cases with a single $\pTwo$-state \footnote{To ensure we satisfy our our assumption of games being alternating between both players, we can insert dummy states.} and multiple $\pOne$-states: with an initial $\pTwo$-state and two independent MDPs with only $\pOne$-states, \color{red} as illustrated in the dashed Fig.~\ref{fig:sg:simplest} and assuming that $s_2$ is the initial state.
+
+\color{black}
+Here, after $\pTwo$ takes an initial action, the remainder of the action choices are made by $\pOne$. Put differently, $\pTwo$ can force $\pOne$ to play in either of two MDPs that start in states $s_3$ and $s_4$, respectively.
+For both MDPs, we can compute (an approximation of) the Pareto front and the corresponding sets of achievable points as described in Sec.~\ref{sec:mdps}. 
+The achievable points for state $s_2$ are now given by the intersection of the two sets.
+%However, the challenge in this generalization is to select action for $\pOne$-states.
+Now, consider the full SG illustrated in Fig.~\ref{fig:sg:simplest} with initial state $s_0$. 
+To determine $\pOneSched(s_0)$, we must plan for whatever action $\pTwo$ selects in $s_2$. The Pareto-curve in $s_0$ non-trivially depends on the Pareto curves for $s_2$ and $s_1$. Algorithmically, we want to avoid computing the (complete) Pareto-fronts as much as possible.
+ 
+What our algorithm, roughly, does is to assume that in the $\pTwo$-node, $\pTwo$ aims to minimize the maximal entropy. Under this assumption, the SG collapses to an MDP. To compute the maximal entropy of a node, we can recursively consider its successors ($\pOne$-states). As the SG is a DAG, this recursion terminates with the trivial terminal nodes. Once we have fixed the maximal entropy achievable in a node, we consider the initial state. For a required randomness $\delta$, we determine the required rationality $\rat$ to solve the overall ERCI problem. The $\pOne$-policy memorizes this rationality. Now, whenever $\pTwo$ diverges from minimizing maximal entropy, the idea is that $\pOne$ can play with higher rationality and still ensure the same randomness $\delta$. We call the increase in rationality (and the associated computations)  \emph{replanning}.
 By traversing the graph top-down using this idea (and memoizing the visited state-rationality pairs $s,\rat$), we can explore how we can optimize performance while always matching the required randomness.  In the remainder of this section, we formalize and analyze this algorithmic idea.
 
+\color{black}
 \mypara{Environment Policies}
 We make some observations about the $\pTwo$-policies. 
 For the purpose of ERCI, we can assume an adversarial policy that aims to disprove that we can meet the performance \emph{and} randomization requirement. 
@@ -82,7 +86,7 @@ In particular, we use the following update of \eqref{eq:mdp:v} to the SG case:
  \begin{align}
    & V_\rat(s) \eqdef  \begin{cases}
      \lambda  \cdot \indicator{s = \target} & \text{if }s \in \{ \target, \sink \},\\
-     \smoothmax_{\act \in \EnAct(s)}{  Q_\rat(s,\act) } & \text{if } s \in S_\pOne. \\
+     \smoothmax_{\act \in \EnAct(s)}{  Q_\rat(s,\act) } & \text{if } s \in S_\pOne, \\
      \min_{\act \in \EnAct(s)}{  Q_\rat(s,\act) } &  \text{if } s \in S_\pTwo.
    \end{cases}
  \end{align}
