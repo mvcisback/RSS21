@@ -60,7 +60,7 @@ stochastic games.
 \end{figure}
 
 \mypara{Intuition}
-Before we discuss the algorithm in full detail, we consider two simple cases with a single $\pTwo$-state \footnote{To ensure we satisfy our our assumption of games being alternating between both players, we can insert dummy states.} and multiple $\pOne$-states: with an initial $\pTwo$-state and two independent MDPs with only $\pOne$-states, as illustrated in the dashed Fig.~\ref{fig:sg:simplest} and assuming that $s_2$ is the initial state.
+Before we discuss the algorithm in full detail, we consider two simple cases with a single $\pTwo$-state \footnote{To ensure we satisfy our our assumption of games being alternating between both players, we can insert dummy states.} and multiple $\pOne$-states: with an initial $\pTwo$-state and two independent MDPs with only $\pOne$-states, as illustrated in the dashed box in Fig.~\ref{fig:sg:simplest} (assuming that $s_2$ is the initial state).
 Here, after $\pTwo$ takes an initial action, the remainder of the action choices are made by $\pOne$. Put differently, $\pTwo$ can force $\pOne$ to play in either of two MDPs that start in states $s_3$ and $s_4$, respectively.
 For both MDPs, we can compute (an approximation of) the Pareto front and the corresponding sets of achievable points as described in Sec.~\ref{sec:mdps}. 
 The achievable points for state $s_2$ are now given by the intersection of the two sets.
