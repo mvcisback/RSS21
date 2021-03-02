@@ -11,7 +11,7 @@ key ingredient to find points on the Pareto-curve is to rephrase the trade-off b
 performance as a degree in rationality $\rat$ of the
 policy. Intuitively, a rationality of $\rat = \infty$ means that we
 focus completely on the performance criterion, and rationality $\rat =
-0$. We can then reuse ideas from maximum entropy inference from
+0$ that we take every action with uniform probability. We can then reuse ideas from maximum entropy inference from
 specifications~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
 
 \subsection{Rationality}
@@ -22,9 +22,9 @@ an expected reward (here performance, $\scp$) is given by a
 smooth variant of the Bellman equations~\cite{mceThesis}. Namely, let
 $\smoothmax{}$ denote the log-sum-exp operator, i.e., $\smoothmax(X)
 \eqdef \log \left( \sum_{x\in X} e^x \right)$. For each rationality
-$\rat \in [0, \infty)$, we define a policy,
+$\rat \in [0, \infty)$, we define a policy $\sched_\rat$ -- using $s = \last{\path}$ -- as follows:
  \begin{align}
-   &\sched_\rat(s\mid \act) \eqdef \exp( Q_\rat(s,\act) - V_\rat(s))  \\
+   &\sched_\rat(\act \mid s) \eqdef \exp( Q_\rat(s,\act) - V_\rat(s))  \\
    & V_\rat(s) \eqdef  \begin{cases}
      \lambda  \cdot \indicator{s = \target} & \text{if }s \in \{ \target, \sink \},\\
      \smoothmax_{\act \in \EnAct(s)}{  Q_\rat(s,\act) } & \text{otherwise.}
@@ -35,8 +35,8 @@ $\rat \in [0, \infty)$, we define a policy,
 To ease notation, we denote $x_\rat \eqdef x_{\sched_\rat},
 \scp_\rat \eqdef \scp_{\sched_\rat}, \rndp_\rat \eqdef
 \rndp_{\sched_\rat}$. 
-We remark that for $\lambda \rightarrow \infty$, this variant of the Bellman-equations coincide with the standard Bellman equations~\cite{DBLP:books/wi/Puterman94}.
-As previously alluded, the key property
+We remark that for $\lambda \rightarrow \infty$, this variant of the Bellman equations coincides with the standard Bellman equations~\cite{DBLP:books/wi/Puterman94}.
+As previously alluded at the start of the subsection, the key property
 is that $\sched_\rat$ is the \emph{unique} maximum causal entropy policy
 such that $\Pr(\varphi) = \scp_\rat$~\cite{mceThesis}.
 
@@ -45,9 +45,9 @@ uniform distribution over \emph{all available actions}. Note that this
 policy maximizes (causal) entropy, and thus $\rndopt = \rndp_0$.
 Similarly, as $\rat$ approaches $\infty$, $\sched_\rat$ selects (uniformly) from
 actions \emph{that maximize performance}. Thus, $\scopt = \scp_\infty$.
-Furthermore, we obtain from the Bellman-equations:
+Furthermore, we obtain from the Bellman equations:
 \begin{proposition}
-  $\scp_\rat$ is  smoothly (and strictly) increasing in $\rat$ and $\rndp_\rat$
+  $\scp_\rat$ is  continuously (and strictly) increasing in $\rat$ and $\rndp_\rat$
   is smoothly (and strictly) decreasing in $\rat$.
 \end{proposition}
 Thus, this
@@ -61,11 +61,11 @@ $\sched_\rat$ maximizes randomness given a target performance, one derives:
 
 The key idea now is to instantiate the approximation scheme for the Pareto-front by varying $\rat$.\footnote{Assuming $\scopt, \rndopt \neq 0$ (which would
 otherwise yield trivial $\solutions$ and $\pareto{\solutions}$)}.
-In particular, we construct $\pareto{} = \{ x_\rat \mid \rat \in \{ \rat_1, \rat_2, \hdots \} \}$ until $\pareto{}$ contains a witness to either satisfiability or unsatisfiability. 
-In the remainder of this section, we improve upon randomly selection values for $\rat$.
+In particular, we construct $\pareto{} = \{ x_\rat \mid \rat \in \{ \rat_1, \rat_2, \hdots \} \}$ until $\pareto{}$ contains a witness to either realizability or unrealizability. 
+In the remainder of this section, we improve upon randomly selecting values for $\rat$.
 
 \begin{remark}
-Given a witness(pair) to satisfiability, it is easy to extract the corresponding improvisor. Let $x_1,x_2$ be a witness-pair to satisfiability,  induced by $\sched_{\rat_1}$ and $\sched_{\rat_2}$ such that $\langle\scthreshold, \randomness\rangle\preceq q\cdot x_1 + \bar{q}\cdot x_2$, then the policy described by  	
+Given a witness(pair) to realizability, it is easy to extract the corresponding improvisor. Let $x_1,x_2$ be a witness-pair to realizability,  induced by $\sched_{\rat_1}$ and $\sched_{\rat_2}$ such that $\langle\scthreshold, \randomness\rangle\preceq q\cdot x_1 + \bar{q}\cdot x_2$, then the policy described by  	
 \begin{equation}\label{eq:4}
   \sigma^*_\pOne(\act \mid s) \eqdef q\cdot \sched_{\rat_1}(\act \mid s) + \bar{q} \cdot \sched_{\rat_2}(\act  \mid s)
 \end{equation}
