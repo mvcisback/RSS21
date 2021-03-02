@@ -113,8 +113,8 @@ The key ingredient to improve upon arbitrarily selecting $\rat_1, \hdots \rat_i$
 %The final algorithmic question for
 %MDPs is then: what order should one evaluate rationality coefficients.
 We propose a three staged sequence: (i) Compute $x_\rat$ for the end
-points $\rat \in \{0, \infty\}$.  (ii) Double $\rat$ until $h_\rat \leq
-\randomness$, yielding $\rat_1\ldots \rat_j$, where $\rat_1 = 1$.
+points $\rat \in \{0, \infty\}$.  (ii) Double $\rat$ (starting at $\lambda=1$) until $h_\rat \leq
+\randomness$, yielding $\rat_1\ldots \rat_j$.
 (iii) Binary search for $\rat \in [\rat_{j-1}, \rat_{j}]$. We illustrate the idea in Fig.~\ref{fig:geom:doubling}.
 
 The algorithm terminates almost surely, that is: 
@@ -131,16 +131,16 @@ analysis}~\cite{SmoothedAnalysis}) on $\sg$ admits decidability.
   $\langle \scthreshold, \randomness \rangle$ is dominated by
   $x_{\rat_i}$.
 \end{mdframed}
-Next, observe that given a maximum resolution, $\kappa$,\sj{What is $\kappa$} in
-rationality, this approximation scheme becomes linear in the MDP size
-and logarithmic in the final rationality coefficient $\rat_*$ and the
-resolution $\kappa$, i.e., the run-time is,
+Next, observe that if we terminate the binary search when the search
+region is smaller than $\Delta$, this approximation scheme becomes linear in the MDP size
+and logarithmic in the final rationality, $\rat_*$, and the
+resolution, $\Delta$, i.e., the run-time is,
 \begin{equation}
-  O\bigg(\hspace{-1.4em}\underbrace{|\sg|}_{\text{Evaluate Point $x_\rat$}}\hspace{-1.4em}\cdot\overbrace{\log(\rat_*)}^{\text{Doubling Phase}}\cdot\underbrace{\log(\nicefrac{1}{\kappa})}_{\text{Binary Search}}\bigg)
+  O\bigg(\hspace{-1.4em}\underbrace{|\sg|}_{\text{Evaluate Point $x_\rat$}}\hspace{-1.4em}\cdot\overbrace{\log(\rat_*)}^{\text{Doubling Phase}}\cdot\underbrace{\log(\nicefrac{1}{\Delta})}_{\text{Binary Search}}\bigg)
 \end{equation}
 Finally, before generalizing to stochastic games, we observe that in
-practice, $\sched_{100} \approx \sched_\infty$, and one can often take
-$\rat_* \leq 100$.
+practice, $\rat = 100$ yields a nearly optimal policy, and thus one
+can often assume $\rat_* \leq 100$ in our run-time analysis.
 
 %%% Local Variables:
 %%% mode: latex
