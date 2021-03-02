@@ -9,13 +9,12 @@ changing~\cite{DBLP:conf/cdc/GeM18} and imitating power usage in
 households~\cite{DBLP:conf/iotdi/AkkayaFVDLS16}. However, in those
 both settings, the randomness constraint is phrased as an upper-bound
 on the probability of indefinitely-long paths. Consequently, those
-randomness constraints are trivially satisfied and the obtained
-policies are deterministic.  In comparison, we consider the synthesis
+randomness constraints are trivially satisfied.  In comparison, we consider the synthesis
 of policies that necessarily randomize in presence of stochastic
 behavior in the environment. The closest prior work is to ours
 is Reactive Control Improvisation (RCI) for (deterministic) 2-player games~\cite{DBLP:conf/cav/FremontS18}. As in ERCI, RCI features
  three kinds of constraints; hard, soft, and randomness. As in ERCI,
-RCI can be preprocessed resulting in the follow core problem.
+RCI can be preprocessed resulting in the following core problem.
 \begin{mdframed}[nobreak=true]
   \textbf{The Core RCI Problem}: Given an finite acyclic
   (deterministic) SG $\sg$, with sink states, $\target$ and $\sink$,
@@ -37,7 +36,7 @@ SGs.\footnote{However, this does not mean that the algorithm to compute
 a solution carries over to the general case}  We observe that then,
 the only difference between ERCI and RCI is that we use causal entropy
 rather than an upper bound on the probability of a path to enforce
-randomness.  The follow example motivates the choice of causal entropy
+randomness.  The next example motivates the choice of causal entropy
 to formalize randomness in SGs.
 \begin{figure}
 \begin{tikzpicture}
@@ -88,7 +87,7 @@ to formalize randomness in SGs.
   that a feasible RCI instance (applied to an SG) must have
   $\ppthreshold \geq \nicefrac{1}{n}$. At the same time, every path in
   the SG already has probability at most $\nicefrac{1}{n}$, and thus,
-  every schedulder that satisfies the randomness constraint for
+  every scheduler that satisfies the randomness constraint for
   $\delta = 1$ satisfies it for any
   $\ppthreshold \geq \nicefrac{1}{n}$. Thus, for this MDP, the RCI formulation fails to 
   enforce any randomization in the $\pOne$-policy. By contrast, a
@@ -109,7 +108,7 @@ to formalize randomness in SGs.
 % exist a sufficient number of paths, randomizing (uniformly) over those
 % paths leads to a solution.
 
-On the other hand, for deterministic SGs, the set of feasbile ERCI and
+On the other hand, for deterministic SGs, the set of realizable ERCI and
 RCI instances coincide! (Proof in Sec.~\ref{sec:proofs}).
 \begin{proposition}\label{prop:conservative}
   For any deterministic SG 
@@ -126,7 +125,7 @@ The original results sparked interest in different extension to MDPs and the typ
 The algorithms have also been extended towards stochastic games~\cite{DBLP:conf/mfcs/ChenFKSW13,DBLP:journals/sttt/KwiatkowskaPW18}.
 Finally, notions of lexicographic multi-objective synthesis~\cite{DBLP:conf/cav/ChatterjeeKWW20} -- in which one optimizes a secondary criterion among all policies that are optimal with respect to a first criterion bare some resemblance with the algorithm we consider. 
 The aforementioned algorithms have been put in a robotics context in~\cite{DBLP:journals/ijrr/LacerdaFPH19}.
-Finding policies that optimize reward objectives is well-studied in the field of reinforcement learning, and has been extended to generate Pareto-fronts for multiple objectives~\cite{DBLP:conf/icml/NatarajanT05,DBLP:conf/adprl/ParisiPSBR14}.
+Finding policies that optimize reward objectives is well-studied in the field of reinforcement learning, and has been extended to generate Pareto fronts for multiple objectives~\cite{DBLP:conf/icml/NatarajanT05,DBLP:conf/adprl/ParisiPSBR14}.
 
 Next, our core ERCI instance can be seen as a multi-objective path problem~\cite{DBLP:conf/icra/AmigoniG05,DBLP:journals/eswa/NazarahariKD19,DBLP:conf/icml/XuTMRSM20}.
 The literature on multi-object path finding differs prominently from ERCI in two aspects: they do not trade-off
