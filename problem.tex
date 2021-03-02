@@ -236,14 +236,11 @@ We say that an instance of the ERCI problem is realizable, if an appropriate $\p
 \subsection{Preprocessing}
 To ease the technical exposition, without loss of generality, we make
 the following assumptions:
-%\footnote{W.l.o.g.\ due to causal entropy and reachability
-%  being computable via Bellman backup (e.g.\ dynamic programming recursively on subgraphs)
-%}: 
 We assume the graph
 structure underlying the SG is finite and acyclic -- and thus all paths
-are finite length. When considering $\tau$-bounded path properties,
-this assumption is naturally realized by a $\tau$-step unrolling the
-SG's graph\footnotemark, i.e., augmenting the state space with a counter from $0$ to $\tau$.
+are finite length. When considering $\tau$-bounded path properties (monitorable by finite automata),
+this assumption is naturally realized by a $\tau$-step unrolling of a
+monitor augmented SG \footnotemark, i.e., augmenting the state space with a counter from $0$ to $\tau$ and the current property monitor state.
 
 \footnotetext{
 One may then represent this unrolled graph as a binary
