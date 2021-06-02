@@ -1,4 +1,6 @@
 \section{ERCI as multi-objective optimization}\label{sec:convex}
+
+\input{geometric}
 There is a natural trade-off
 between probability of generating paths in $\varphi$ (from here
 onwards: \emph{the performance}) and causal entropy induced by a
@@ -8,7 +10,6 @@ and $\randomness$ that yield a solvable instance of the (core) ERCI problem. To 
 end, we cast ERCI as an instance of a multi-objective optimization problem, and
 study its Pareto front. Some ideas are inspired by variants of multi-objective analysis of MDPs with multiple soft constraints, e.g.~\cite{DBLP:conf/stacs/ChatterjeeMH06,DBLP:conf/tacas/EtessamiKVY07}.
 
-\input{geometric}
 It is convenient to consider this front geometrically.
 To begin, given a fixed ERCI instance, a scheduler $\sched$
 \emph{induces} a point $x_\sched$:
@@ -122,6 +123,19 @@ Often, rather that fixing $\scthreshold$ and $\randomness$ a
   where $\epsilon, \delta \in [0, 1]$. We call this version of ERCI \emph{regret-based}. Geometrically, after computing $\scopt$ and $\rndopt$, we know that the left triangle in Fig.~\ref{fig:geom:regret} is definitively realizable, and the regret-based ERCI asks whether the white circle is also realizable (where the point of the white point is given by $\epsilon$ and $\delta$. %As we shall later see, these maximum quantities are
  % directly computed in our proposed algorithm. 
 %\end{remark}
+\noindent 
+Together, we obtain the following (core) ERCI problem.
+\begin{mdframed}[backgroundcolor=blue!5,nobreak=true]
+\textbf{The Core ERCI Problem}:
+Given an finite acyclic SG $\sg$, with sink states, $\target$ and $\sink$, and thresholds $\epsilon, \delta \in [0,1]$,  find a $\pOne$-policy $\pOneSched$  such that for every $\pTwo$-policy $\pTwoSched$:
+\begin{enumerate}
+\item (\emph{soft constraint)}
+  $\Pr(\last{\xi} = \target \mid \sched) \geq \scthreshold_\epsilon$
+\item (\emph{randomness constraint}) $H(\sigma) \geq \randomness_\delta$
+\end{enumerate}
+where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
+\end{mdframed}
+
 
 Finally, it is helpful to think about the Pareto front as a function of randomization in this reparameterization.  We define a characteristic function which given a target
 performance ratio, $\epsilon$, yields the optimal randomness ratio,

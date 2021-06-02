@@ -263,19 +263,6 @@ $\sink$, based on membership in $\soft$, i.e.,
   \end{split}.
 \end{equation}
 
-\noindent 
-Together, we obtain the following (core) ERCI problem.
-\begin{mdframed}[nobreak=true]
-\textbf{The Core ERCI Problem}:
-Given an finite acyclic SG $\sg$, with sink states, $\target$ and $\sink$, and thresholds $\scthreshold \in (0,1)$ and $\randomness \in [0,\infty)$,  find a $\pOne$-policy $\pOneSched$  such that for every $\pTwo$-policy $\pTwoSched$
-\begin{enumerate}
-\item (\emph{soft constraint)}
-  $\Pr(\last{\xi} = \target \mid \sched) \geq \scthreshold$
-\item (\emph{randomness constraint}) $H(\sigma) \geq \randomness$
-\end{enumerate}
-where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
-\end{mdframed}
-
 \begin{example}
 	In Fig.~\ref{fig:minimal:mdp} we show a (deterministic) MDP and we plot for all schedulers the induced probability to reach $\target$ and the induced causal entropy, in Fig.~\ref{fig:minimal:soft} and \ref{fig:minimal:entropy}, respectively. 
 	We see that taking action $a$ with increasing probability yields obviously to a larger probability to reach $\target$, whereas taking action $a$ and $b$ uniformly at random is optimal for the entropy. 
@@ -324,7 +311,6 @@ where  $\sched = \langle \pOneSched, \pTwoSched \rangle$.
 
 \caption{Minimal ERCI problem with $\varphi = ( \last{\xi} = \target )$}
 \end{figure}
-
 
 %%% Local Variables:
 %%% mode: latex
