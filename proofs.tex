@@ -16,8 +16,8 @@
     \begin{split}
       H_\tau(\sigma)
       \geq &~q \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSched)~+\\
-      &~\bar{q}  \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSchedPrime)
-      =~q\cdot\rndp + \bar{q}\cdot \rndp'.
+      &~\bar{q}  \cdot H( \rv{A}^{\pOne}_{1:\tau'} \mid\mid \rv{S}_{1:\tau} \mid \pi=\pOneSchedPrime)\\
+      =&~q\cdot\rndp + \bar{q}\cdot \rndp'.
     \end{split}
   \end{equation}
   Thus, any convex combination of guaranteed points is guaranteed by
@@ -29,32 +29,58 @@
 Below, we shall
 assume that our algorithm claims the ERCI is un-achievable, but there
 exists another policy not in $\{\sched^{\pOne}_\rat\}_\rat$, that
-achieves $\langle \scthreshold, \randomness \rangle$.
+achieves $\langle \scthreshold, \randomness \rangle$. Before our proof,
+we introduce the following lemma and corollary.
 
+\begin{lemma}
+  Let $\{\sched_\rat\}_\rat$ be the family of entropy matching policies
+  with corresponding $x_\rat = \langle \scp_\rat, \rndp_\rat\rangle$,
+  \begin{equation}
+  \rat < \rat' \implies (\scp_{\rat} \leq \scp_{\rat'}) \wedge (\rndp_\rat \geq \rndp_{\rat'}).
+  \end{equation}
+\end{lemma}
+\begin{corollary}\label{cor:termination}
+  Assume $\rndp_0 \geq \randomness$ and
+  let $\rat^*$ be the smallest rationality coefficient such that $\randomness = \rndp_\rat$.
+  The following two statements are equivalent.
+  \begin{equation}
+       \exists \sched_\pOne^* \in \{\sched^{\pOne}_\rat\}_\rat~.~  \langle \scthreshold, \randomness \rangle \preceq x_{\sched_{\pOne}^*}.
+  \end{equation}
+  \begin{equation}
+    \langle \scthreshold, \randomness \rangle \preceq x_{\rat^*}.
+  \end{equation}
+\end{corollary}
 \begin{proof}[Proof Sketch of SG Completeness]
   First, observe that on games with only sink nodes, completeness
-  follows directly. Now suppose the entropy matching family is
+  follows directly.
+  Now suppose the entropy matching family is
   complete on all sub-graphs of $\sg$ and for the sake of
   contradiction that, assume that,
   \begin{align}
     &\forall \sched_\pOne \in \{\sched^{\pOne}_\rat\}_\rat~.~ x_{\sched_{\pOne}} \prec \langle \scthreshold, \randomness \rangle\label{eq:reject}\\
-    &\exists \sched_\pOne^* \notin \{\sched^{\pOne}_\rat\}_\rat~.~  \langle \scthreshold, \randomness \rangle \prec x_{\sched_{\pOne}^*}\label{eq:incomplete}.
+    &\exists \sched_\pOne^* \notin \{\sched^{\pOne}_\rat\}_\rat~.~  \langle \scthreshold, \randomness \rangle \preceq x_{\sched_{\pOne}^*}\label{eq:incomplete}.
   \end{align}
-  Let $\sched_\pTwo^*$ denote the min-randomness $\pTwo$-policy given
-  $\sched_\pOne^*$. On the MDP, $\sg[\sched_\pTwo^*]$, we know that
-  that the soft-bellman backup family is complete, and thus there must
-  exist some $\rat$ such that the partial policy $\pi_\rat$ matches
-  the worst-case entropy of $\sched_\pOne^*$, i.e.,
-  $\rndp_\rat = \rndp_{\sched_\pOne^*}$. Furthermore, because
-  $\pi_\rat$ \emph{uniquely} maximizes causal entropy for its
-  performance on $\sg[\sched_\pTwo^*]$, $\sched_\pOne^*$ must exactly
-  match $\pi_\rat$ on $\sg[\sched_\pTwo^*]$. Thus, these policies must
-  differ on some non-minimum entropy sub-graph. By the inductive
-  hypothesis, we know that the entropy matching family is complete on
-  these subgraphs, and thus if $\sched_\pOne^*$ achieves a given worst
-  case performance on this sub graph, there must be an entropy
-  matching that does so as well, contradicting
-  assumptions~\eqref{eq:reject} and \eqref{eq:incomplete}.  Thus,
+  Next, as in Corollary~\ref{cor:termination}, let $\rat^*$ be the smallest
+  rationality such that $\randomness = \rndp_\rat$. Such a rationality must
+  exist, otherwise the ERCI instance is trivially infeasible since the
+  entropy matching family contains the minimizers and maximizers of entropy.
+
+
+  Next, let
+  $\sched_\pTwo^*$ denote the min-randomness $\pTwo$-policy given
+  $\sched_{\rat^*}$. By~\eqref{eq:reject}, this policy must have
+  insufficient performance.
+  % On the MDP, $\sg[\sched_\pTwo^*]$, we know that
+  % that the soft-bellman backup family is complete, and thus there must
+  % exist some $\rat$ such that the partial policy $\pi_\rat$ matches
+  % the worst-case entropy of $\sched_\pOne^*$, i.e.,
+  % $\rndp_\rat = \rndp_{\sched_\pOne^*}$.
+  Furthermore, observe that  (1) $\sched_\rat$ indexes the pareto front for MDPs and (2) $\rndp_{\rat^*} = \randomness$. Therefore, it must be
+  the case that:
+  \begin{equation}
+    \scp_{\langle \sched_{\pOne}^*, \sched_{\pTwo}^* \rangle} \leq \scp_{\langle \sched_{\rat^*}, \sched_{\pTwo}^* \rangle} < \scthreshold.
+  \end{equation}
+  This however leads to a contradiction to \eqref{eq:incomplete}.  Thus,
   entropy matching must be complete.
 \end{proof}
 
@@ -96,8 +122,7 @@ achieves $\langle \scthreshold, \randomness \rangle$.
   \begin{equation}
     \begin{split}
       \randomness &= \rndmin + \rndopt\cdot (\delta - \rndmin)\\
-      &= \rndmin + \rndopt \cdot \Big (\solfuncp^{-1}\left(\frac{\scthreshold - \scmin}{\scopt}\right) - \rndmin\Big) \\
-      \leq 
+      &= \rndmin + \rndopt \cdot \Big (\solfuncp^{-1}\left(\frac{\scthreshold - \scmin}{\scopt}\right) - \rndmin\Big)
     \end{split}.
   \end{equation}
 \end{proof}
