@@ -57,17 +57,16 @@
     \hspace{3em} \wedge \hspace{3em}
     \scp_{\langle \sched_\pOne^*, \sched_\pTwo^\rat\rangle} \geq \scthreshold
   \end{equation}
-  However, because $\sched_\rat$ indexes the Pareto front for MDPs,
-  one must be tight. Further, because of uniqueness of MaxEnt policies
-  for non-trivial ERCI instances in MDPs, one equality
-  in~\eqref{eq:pareto_bound_for_rat}, implies both are tight! Thus,
+  Because the MaxEnt family are the maximizers of entropy (given and $\scp$),
+  it must be the case that:
   \begin{equation}
-    \begin{split}
-      &\rndp_{\langle \sched_\pOne^\rat \sched_\pTwo^\rat \rangle} = \randomness = \rndp_{\langle \sched_\pOne^*, \sched_\pTwo^\rat \rangle}\\
-      &\scp_{\langle \sched_\pOne^\rat \sched_\pTwo^\rat\rangle} = \scthreshold = \scp_{\langle \sched_\pOne^*, \sched_\pTwo^\rat\rangle}  
-    \end{split}
+    \randomness = \rndp_{\langle \sched_\pOne^\rat \sched_\pTwo^\rat \rangle} \geq  \rndp_{\langle \sched_\pOne^*, \sched_\pTwo^\rat \rangle}\geq \randomness,
   \end{equation}
-  Thus, due to uniqueness of MaxEnt MDPs $\sched_\pOne^\rat$ and
+  and thus,
+  \begin{equation}
+    \rndp_{\langle \sched_\pOne^\rat \sched_\pTwo^\rat \rangle} =  \rndp_{\langle \sched_\pOne^*, \sched_\pTwo^\rat \rangle}.
+  \end{equation}
+  Further, due to uniqueness of MaxEnt MDPs, $\sched_\pOne^\rat$ and
   $\sched_\pOne^*$ must exactly match on $\sg[\sched_\pTwo^\rat]$ and
   must differ on some other subgraph.  Applying the inductive
   hypothesis, we know that the entropy matching family is complete on
