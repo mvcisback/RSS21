@@ -5,24 +5,24 @@ We present an algorithm for the control improvisation problem for
 MDPs, which in the next section, will serve as a subroutine for an algorithm
 on SGs. To start, recall that an MDP is a stochastic game with no action choices for the environment, i.e., the environment is purely stochastic. 
 We want to instantiate the approximation scheme from the previous section. In particular, that means that we need to find points on the Pareto curve $\pareto{\solutions}$ and thus incrementally build up $\pareto{} \subseteq \pareto{\solutions}$. 
-
-The
-key ingredient to find points on the Pareto-curve is to rephrase the trade-off between randomization and
-performance as a degree in rationality $\rat$ of the
-policy. Intuitively, a rationality of $\rat = \infty$ means that we
-focus completely on the performance criterion, and rationality $\rat =
-0$ that we take every action with uniform probability. We can then reuse ideas from maximum entropy inference from
-specifications~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.
-
+ 
 \subsection{Rationality}
-
-\noindent
-In context of MDPs, the maximum causal entropy policy consistent with
-an expected reward (here performance, $\scp$) is given by a
-smooth variant of the Bellman equations~\cite{mceThesis}. Namely, let
-$\smoothmax{}$ denote the log-sum-exp operator, i.e., $\smoothmax(X)
-\eqdef \log \left( \sum_{x\in X} e^x \right)$. For each rationality
-$\rat \in [0, \infty)$, we define a policy $\sched_\rat$ -- using $s = \last{\path}$ -- as follows:
+The key idea for finding points on the Pareto-curve is to rephrase the
+trade-off between randomization and performance as a degree in
+rationality $\rat$ of the policy.  Formally, the rationality
+corresponds to the following scalarizion of our multi-objective
+problem~\cite{DBLP:journals/corr/abs-1805-00909},
+\begin{equation}
+  \label{eq:scalarization}
+  J_\rat(\sched) \eqdef \Big\langle 1, \rat\Big\rangle \cdot \Big\langle\rndp_\sched, \scp_\sched\Big\rangle.
+\end{equation}
+In context of MDPs, the \textbf{unique} policy that
+optimizes~\eqref{eq:scalarization} is given by a smooth variant of the
+Bellman equations~\cite{mceThesis, DBLP:conf/cav/Vazquez-Chanlatte20}. Namely, let $\smoothmax{}$ denote
+the log-sum-exp operator, i.e.,
+$\smoothmax(X) \eqdef \log \left( \sum_{x\in X} e^x \right)$. For each
+rationality $\rat \in [0, \infty)$, we define a policy $\sched_\rat$
+-- using $s = \last{\path}$ -- as follows:
  \begin{align}
    &\sched_\rat(\act \mid s) \eqdef \exp( Q_\rat(s,\act) - V_\rat(s))  \\
    & V_\rat(s) \eqdef  \begin{cases}
@@ -35,26 +35,33 @@ $\rat \in [0, \infty)$, we define a policy $\sched_\rat$ -- using $s = \last{\pa
 To ease notation, we denote $x_\rat \eqdef x_{\sched_\rat},
 \scp_\rat \eqdef \scp_{\sched_\rat}, \rndp_\rat \eqdef
 \rndp_{\sched_\rat}$. 
-We remark that for $\lambda \rightarrow \infty$, this variant of the Bellman equations coincides with the standard Bellman equations~\cite{DBLP:books/wi/Puterman94}.
-As previously alluded at the start of the subsection, the key property
-is that $\sched_\rat$ is the \emph{unique} maximum causal entropy policy
-such that $\Pr(\varphi) = \scp_\rat$~\cite{mceThesis}.
+ % As previously alluded at the start of the subsection, the key property
+% is that $\sched_\rat$ is the \emph{unique} maximum causal entropy policy
+% such that $\Pr(\varphi) = \scp_\rat$~\cite{mceThesis}.
 
 Intuitively, as $\rat$ approaches $0$, $\sched_\rat$ approaches the
 uniform distribution over \emph{all available actions}. Note that this
-policy maximizes (causal) entropy, and thus $\rndopt = \rndp_0$.
-Similarly, as $\rat$ approaches $\infty$, $\sched_\rat$ selects (uniformly) from
-actions \emph{that maximize performance}. Thus, $\scopt = \scp_\infty$.
-Furthermore, we obtain from the Bellman equations:
+policy maximizes (causal) entropy, and thus $\rndopt = \rndp_0$.  For
+$\lambda \rightarrow \infty$, this variant of the Bellman equations
+coincides with the standard Bellman
+equations~\cite{DBLP:books/wi/Puterman94}, where $\sched_\rat$ selects
+(uniformly) from actions \emph{that maximize performance}.
+Furthermore, the monotonicity and smoothness of the above Bellman
+equations yields the following proposition.
 \begin{proposition}
   $\scp_\rat$ is  continuously (and strictly) increasing in $\rat$ and $\rndp_\rat$
   is smoothly (and strictly) decreasing in $\rat$.
 \end{proposition}
-Thus, this
-family spans the Pareto front, $\pareto{\solutions}$.
-In terms of $\solfuncp$, we 
-can define $\epsilon_\rat \eqdef \frac{\scp_\rat - \scp_0}{\scp_\infty} + \scp_0, \delta_\rat \eqdef \frac{\rndp_\rat - \rndp_\infty}{\rndp_0} + \rndp_{\infty}$. Then, because
-$\sched_\rat$ maximizes randomness given a target performance, one derives:
+In terms of $\solfuncp$, we can define:
+\begin{equation}
+  \epsilon_\rat \eqdef \frac{\scp_\rat - \scp_0}{\scp_\infty} + \scp_0
+  \hspace{1em}
+\delta_\rat \eqdef \frac{\rndp_\rat - \rndp_\infty}{\rndp_0} +
+\rndp_{\infty}. 
+\end{equation}
+
+Then, because $\sched_\rat$ maximizes randomness
+given a target performance, one derives:
 \begin{equation}
   \solfuncp\left(\delta_\rat\right) = \epsilon_\rat.
 \end{equation}
@@ -63,14 +70,6 @@ The key idea now is to instantiate the approximation scheme for the Pareto front
 otherwise yield trivial $\solutions$ and $\pareto{\solutions}$)}.
 In particular, we construct $\pareto{} = \{ x_\rat \mid \rat \in \{ \rat_1, \rat_2, \hdots \} \}$ until $\pareto{}$ contains a witness to either realizability or unrealizability of the ERCI instance. 
 In the remainder of this section, we improve upon randomly selecting values for $\rat$.
-
-\begin{remark}
-Given a witness(pair) to realizability, it is easy to extract the corresponding improviser. Let $x_1,x_2$ be a witness-pair to realizability,  induced by $\sched_{\rat_1}$ and $\sched_{\rat_2}$ such that $\langle\scthreshold, \randomness\rangle\preceq w\cdot x_1 + (1-w)\cdot x_2$, then the policy described by  	
-\begin{equation}\label{eq:4}
-  \sigma^*_\pOne(\act \mid s) \eqdef w\cdot \sched_{\rat_1}(\act \mid s) + (1-w) \cdot \sched_{\rat_2}(\act  \mid s)
-\end{equation}
-is an improviser solving the ERCI problem.
-\end{remark}
 
 
 

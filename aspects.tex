@@ -169,6 +169,15 @@ such that $x \prec \langle \scthreshold, \randomness \rangle$ then the
 ERCI problem is not realizable, and $x$ is a witness to unrealizability.
 \end{enumerate}
 Due to convexity, we may speed up the search for realizability: If there exist $x_1, x_2 \in \pareto{}$ such that $\langle \scthreshold, \randomness \rangle \prec \big(w \cdot x_1 + (1-w) \cdot x_2\big)$, we call $x_1,x_2$ a witness-pair.
+\begin{remark}
+Given a witness(pair) to realizability, it is easy to extract the corresponding improviser. Let $x_1,x_2$ be a witness-pair to realizability,  induced by $\sched_{\rat_1}$ and $\sched_{\rat_2}$ such that $\langle\scthreshold, \randomness\rangle\preceq w\cdot x_1 + (1-w)\cdot x_2$, then the policy described by  	
+\begin{equation}\label{eq:4}
+  \sigma^*_\pOne(\act \mid s) \eqdef w\cdot \sched_{\rat_1}(\act \mid s) + (1-w) \cdot \sched_{\rat_2}(\act  \mid s)
+\end{equation}
+is an improviser solving the ERCI problem.
+\end{remark}
+
+\todo[inline]{add a discussion about optimization direction and refuting region.}
 
 \begin{example}
 \label{ex:approximation}
