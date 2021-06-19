@@ -59,57 +59,64 @@ stochastic games.
 \label{fig:sg:simplest}
 \end{figure}
 
-\mypara{Intuition}
-Before we discuss the algorithm in full detail, we consider two simple
-cases with a single $\pTwo$-state \footnote{To ensure we satisfy our
-our assumption of games being alternating between both players, we can
-insert dummy states.} and multiple $\pOne$-states.  First, we consider
-a SG with an initial $\pTwo$-state, $s_2$, that can transition to two
-independent MDPs (a sub-game with only $\pOne$-states) as illustrated
-in the dashed box in Fig.~\ref{fig:sg:simplest}.  Here, $\pTwo$ can
-force $\pOne$ to play in either of two MDPs that start in states $s_3$
-and $s_4$, respectively.  For both MDPs, we can compute (an
-approximation of) the Pareto front and the corresponding sets of
-achievable points as described in Sec.~\ref{sec:mdps}.  The achievable
-points for state $s_2$ are now given by the intersection of the two
-sets.  %However, the challenge in this generalization is to select
-action for $\pOne$-states.  Now, consider the full SG illustrated in
-Fig.~\ref{fig:sg:simplest} (initial state $s_0$).  To determine
-$\pOneSched(s_0)$, we must plan for whatever action $\pTwo$ selects in
-$s_2$. The Pareto front in $s_0$ non-trivially depends on the Pareto
-curves for $s_2$ and $s_1$. Algorithmically, we want to avoid
-computing the (complete) Pareto fronts as much as possible. To do so,
-we restrict our attention to policies induced by some
-rationality $\rat$ (as in the MDP case). Conceptually, $\rat$ then enables
-$\pOne$ to associate ``comparable'' points between sibling Pareto fronts, and
-thus reason locally.
+\mypara{Algorithmic Idea}
+% Before we discuss the algorithm in full detail, we consider two simple
+% cases with a single $\pTwo$-state \footnote{To ensure we satisfy our
+% our assumption of games being alternating between both players, we can
+% insert dummy states.} and multiple $\pOne$-states.  First, we consider
+% a SG with an initial $\pTwo$-state, $s_2$, that can transition to two
+% independent MDPs (a sub-game with only $\pOne$-states) as illustrated
+% in the dashed box in Fig.~\ref{fig:sg:simplest}.  Here, $\pTwo$ can
+% force $\pOne$ to play in either of two MDPs that start in states $s_3$
+% and $s_4$, respectively.  For both MDPs, we can compute (an
+% approximation of) the Pareto front and the corresponding sets of
+% achievable points as described in Sec.~\ref{sec:mdps}.  The achievable
+% points for state $s_2$ are now given by the intersection of the two
+% sets.
+% % However, the challenge in this generalization is to select
+% % action for $\pOne$-states.
+% Now, consider the full SG illustrated in Fig.~\ref{fig:sg:simplest}
+% (initial state $s_0$).  To determine $\pOneSched(s_0)$, we must plan
+% for whatever action $\pTwo$ selects in $s_2$. Thus, the Pareto front for
+% $s_0$ non-trivially depends on the Pareto curves for $s_2$ and
+% $s_1$. 
+% Algorithmically, we want to avoid computing the (complete)
+% Pareto fronts as much as possible. To do so, we restrict our attention
+% to policies induced by some rationality $\rat$ (as in the MDP case).
+% Later we prove this restriction is w.l.o.g. Conceptually,
+% $\rat$ then enables $\pOne$ to associate ``comparable'' points between
+% sibling Pareto fronts, and thus reason locally.
+Our algorithm operates by picking an optimization direction
+$\langle \rat, 1 \rangle$ and \emph{temporarily} assuming that $\pTwo$ aims
+to minimize the maximal causal entropy of $\pOne$. Applying this assumption recursively, one collapses the SG to an MDP.
 
-More precisely, our algorithm (temporarily) assumes that in the
-$\pTwo$-node, $\pTwo$ aims to minimize the maximal entropy of $\pOne$
-policies induced by some rationality $\rat$.  Under this assumption,
-the SG collapses to an MDP. To compute the maximal causal entropy of a
-node, we can recursively consider its successors ($\pOne$-states). As
-the SG is a DAG, this recursion terminates with the trivial terminal
-nodes.  For a required randomness $\delta$, we determine the required
-rationality $\rat$ to solve the overall ERCI against the entropy
-minimizing adversary. The $\pOne$-policy memorizes this rationality as
-part of its state.  Now, whenever $\pTwo$ diverges from minimizing
-maximal entropy, the idea is that $\pOne$ can play with higher
-rationality and still ensure the same randomness $\delta$. We call the
-increase in rationality (and the associated computations)
-\emph{replanning}.  By traversing the graph top-down using this idea
-(and memoizing the visited state-rationality pairs $s,\rat$), we can
-explore how we can optimize performance while always matching the
-required randomness.  In the remainder of this section, we formalize
-and analyze this algorithmic idea.
+Now suppose, we can finds a $\pOne$-policy that optimizes for
+direction $\langle \rat, 1\rangle$ with sufficient randomness and
+performance against its minimum entropy response.  Next, observe that
+because optimal performance decreases given randomness, whenever
+$\pTwo$ diverges from minimizing maximal entropy, it must be possible
+to increase the rationality $\rat$ of the policy, thus increasing the
+performances, while still ensuring the same randomness!
 
-\color{black}
-\mypara{Environment Policies}
-We make some observations about the $\pTwo$-policies. 
-For the purpose of ERCI, we can assume an adversarial policy that aims to disprove that we can meet the performance \emph{and} randomization requirement. 
-To do so, it suffices to violate either performance \emph{or} randomization. 
-Furthermore, if there is a violating $\pTwo$-policy, there is a deterministic $\pTwo$-policy that proves this. 
-In particular, in every state,  $\pTwoSched$ may thus aim to disprove either objective by choosing the appropriate action, and there is no incentive to randomize.
+We call the increase in rationality (and the associated computations)
+\emph{replanning} and the induced family of policies \emph{entropy
+  matching}.  By traversing the graph from the sinks to the source,
+approximating Pareto Fronts along the way, we can explore how we can
+optimize performance while always matching the required randomness.
+In the remainder of this section, we formalize and analyze this
+algorithmic idea and prove soundness and completeness of entropy
+matching.
+
+\mypara{Environment Policies} Let us begin by making two observations
+about the $\pTwo$-policies.  First, for ERCI, we can assume an
+adversary that aims to foil $\pOne$ achieving both the
+performance \emph{and} randomization requirement.  To do so, it
+suffices to violate either performance \emph{or} randomization.
+Second, if there is a violating $\pTwo$-policy, there is a
+deterministic $\pTwo$-policy that proves this.  In particular, in
+every state, $\pTwoSched$ choose to disprove either objective by
+choosing the appropriate action, and there is no incentive to
+randomize.
 %Finally, these responses can be computed via a standard dynamic programming (topologically from terminal states to the initial state) operation. 
 
 %First and foremost, observe that to render an ERCI instance
