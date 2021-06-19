@@ -13,51 +13,7 @@ stochastic games.
 %policies indexes the Pareto Front for SGs!
 
 
-\begin{figure}
-\centering
-\scalebox{0.8}{
-\begin{tikzpicture}
-    \node[sstate] (a1) {$s_0$}; 
-    
-	\node[sstate,below=0.6cm of a1,xshift=5em] (a2) {$s_1$};
-	
-	\node[astate,below=0.6cm of a1,xshift=-5em] (a0) {$s_2$};
-	\node[sstate,below=0.6cm of a0,xshift=-3em] (s1) {$s_3$};
-	\node[sstate,below=0.6cm  of a0,xshift=3em] (s2) {$s_4$};
-	
-	\node[below=0.1cm of s1, inner sep=0.3pt] (x1) {};
-	
-	\node[below=0.1cm of s2, inner sep=0.3pt] (x2) {};
-		\node[below=0.1cm of a2, inner sep=0.3pt] (x3) {};
-	
-	\draw[->] (a0) -- node[actnode] {}
-					  node[pos=0.4,elab,right] {$a$}  (s1);
-	\draw[->] (a0) -- node[actnode] {}
-					  node[pos=0.4,elab,left] {$b$}  (s2);
-					  
-	\draw[->] (a1) -- node[actnode] {}
-					  node[pos=0.4,elab,right] {$a$}  (a0);
-	\draw[->] (a1) -- node[actnode] {}
-					  node[pos=0.4,elab,left] {$b$}  (a2);
-				  
-	
-	\draw[dashed] (x1) -- +(1,-1) -- +(-1,-1) coordinate  (fa) -- (x1);
-	\draw[dashed] (x2) -- +(1,-1) coordinate (fb) -- +(-1,-1)  -- (x2);
-	
-	\draw[dashed] (x3) -- +(1,-1) -- +(-1,-1)  -- (x3);
-	
-	\node[below=3mm of x1] {{\tiny MDP}};
-	\node[below=3mm of x2] {{\tiny MDP}};
-	\node[below=3mm of x3] {{\tiny MDP}};
-	
-	\node[fit=(a0)(x1)(x2)(fa)(fb), inner sep = 6pt, dotted,draw] {};
-	
-	
-\end{tikzpicture}
-}
-\caption{Simple SG to illustrate intuition}
-\label{fig:sg:simplest}
-\end{figure}
+\todo[inline]{Add bellman backup direction and pareto front replanning viz to Fig 5.}
 
 \mypara{Algorithmic Idea}
 % Before we discuss the algorithm in full detail, we consider two simple
@@ -107,16 +63,16 @@ In the remainder of this section, we formalize and analyze this
 algorithmic idea and prove soundness and completeness of entropy
 matching.
 
+
 \mypara{Environment Policies} Let us begin by making two observations
 about the $\pTwo$-policies.  First, for ERCI, we can assume an
-adversary that aims to foil $\pOne$ achieving both the
-performance \emph{and} randomization requirement.  To do so, it
-suffices to violate either performance \emph{or} randomization.
-Second, if there is a violating $\pTwo$-policy, there is a
-deterministic $\pTwo$-policy that proves this.  In particular, in
-every state, $\pTwoSched$ choose to disprove either objective by
-choosing the appropriate action, and there is no incentive to
-randomize.
+adversary that aims to foil $\pOne$ achieving both the performance
+\emph{and} randomization requirement.  To do so, it suffices to
+violate either performance \emph{or} randomization.  Second, if there
+is a violating $\pTwo$-policy, there is a deterministic $\pTwo$-policy
+that proves this.  In particular, at every state, $\pTwoSched$ may
+choose to violate either constraint via the appropriate
+action with no incentive to randomize.
 %Finally, these responses can be computed via a standard dynamic programming (topologically from terminal states to the initial state) operation. 
 
 %First and foremost, observe that to render an ERCI instance
@@ -130,26 +86,36 @@ randomize.
 %notice that given a fixed $\pOneSched$, the worst-case $\pTwoSched$
 %response can be computed via dynamic programming in topological order
 %from the leafs to the root of $\sg$.
+\begin{figure}[h]
+\centering
+\scalebox{0.8}{
+\input{sg_vis.tex}
+}
+\caption{Simple SG to illustrate intuition}
+\label{fig:sg:simplest}
+\end{figure}
 
-\mypara{Counter-policies}
-First, assume $\rat$ is also a priori fixed.  
-Again, via dynamic programming, we can compute the
-$\pTwo$ policy that minimizes the maximal causal entropy, denoted $\sched_\rat^\pTwo$.
-In particular, we use the following update of \eqref{eq:mdp:v} to the SG case:
- \begin{align}
-   & V_\rat(s) \eqdef  \begin{cases}
-     \lambda  \cdot \indicator{s = \target} & \text{if }s \in \{ \target, \sink \},\\
-     \smoothmax_{\act \in \EnAct(s)}{  Q_\rat(s,\act) } & \text{if } s \in S_\pOne, \\
-     \min_{\act \in \EnAct(s)}{  Q_\rat(s,\act) } &  \text{if } s \in S_\pTwo.
-   \end{cases}
- \end{align}
-
-Second, suppose $\pTwoSched$ was fixed, than the SG reduces to 
-a MDP that we denote $\sg[\pTwoSched]$.
-For every $\rat$, the policy in the SG that corresponds to the policy $\sched_\lambda$ in $\sg[\pTwoSched]$ is denoted $\sched^\pOne_\rat[\pTwoSched]$.
-The latter (set\footnote{These policies are no longer unique because some parts of the SG may be unreachable under $\pTwoSched$} of) policies can be thought of as the counter-policies that $\pOne$ uses to maximize entropy against a fixed $\pTwoSched$. 
-Together, for fixed $\rat$, we can compute the scheduler of the $\pTwo$-scheduler that minimizes maximal entropy and its counterstrategy as: $\pi_\rat \eqdef \langle
-\sched^\pOne_\rat[\sched_\rat^\pTwo] , \sched_\rat^\pTwo \rangle$.
+\mypara{Minimum Entropy Sub-graphs} Next, we formalize the
+environment's entropy minimizing counter-policy.  First, assume $\rat$
+is a priori fixed.  Next, note that the minimum entropy
+counter-strategy to $\rat$, call $\sched_\pTwo^\rat$, and the
+corresponding $\pOne$ partial\footnotemark policy,
+$\sched_\pOne^\rat$, can be computed from the sinks to root as
+follows. 1. There are no actions at a sink, so
+$\sched^\rat = \langle \sched_\pOne^\rat, \sched_\pTwo^\rat\rangle$ is
+trivial. 2. At a $\pTwo$-node, suppose $\sched^\rat$ is known for the
+sub-graphs accessed by each action. By assumption, $\sched_\pTwo^\rat$
+will pick the entropy minimizing action (with ties broken by
+performance). 3. At a $\pOne$-node, suppose $\sched_\pTwo^\rat$ is
+fixed, reducing the SG to a MDP, with corresponding policy
+$\sched_\pOne^\rat$.
+\begin{remark}
+  Importantly, because of the uniqueness of $\sched_\pOne^\rat$ on
+  MDPs, $\pOne$'s policy remains unchanged on all subgraphs accessed
+  by its actions. Thus $\sched_\pTwo^\rat$ remains unchanged.
+\end{remark}
+\footnotetext{These policies are no longer unique because some
+  parts of the SG may be unreachable under $\sched_\pTwo^\rat$}
 %
 %On the other hand, suppose $\pTwoSched$ was known, reducing the SG to
 %a MDP. As discussed in the previous section, for the MDP case, it
@@ -166,13 +132,13 @@ Together, for fixed $\rat$, we can compute the scheduler of the $\pTwo$-schedule
 \mypara{Replanning}
 Of course, even if $\rat$ is fixed, $\pTwoSched$ need not be
 $\sched^\pTwo_\rat$. Nevertheless,  by selecting the worst
-entropy MDP, $\pi_\rat$ establishes an achievable randomness for the
-sub-game rooted at each state, call $\delta_\rat(s)$. Now suppose,
+entropy MDP, $\sched_\rat$ establishes an achievable randomness for the
+sub-game rooted at each state, call $\rndp_\rat(s)$. Now suppose,
 $\pTwo$ deviates from $\sched_\rat^\pTwo$ at state $s$. Note that, so
 long as $\pOneSched$  yield randomness less than
-$\delta_\rat(s)$ at the new successor-state, the worst-case randomness will not decrease.
+$\rndp_\rat(s)$ at the new successor-state, the worst-case randomness will not decrease.
 This begs the question ``what maximum performance can $\pOne$ guarantee at $s' \in
-\Succ(s)$ given randomness $\delta_\rat(s)$?'' This question can be investigated on a sub-game, and eventually, must be answered on an MDP. 
+\Succ(s)$ given randomness $\rndp_\rat(s)$?'' This question can be investigated on a sub-game, and eventually, must be answered on an MDP. 
 \begin{mdframed}
   The key observation is that each state $s'$ is the root of a sub
   game, $\sg[s]$, with a corresponding Pareto Front,
