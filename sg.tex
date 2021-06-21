@@ -53,7 +53,7 @@ action with no incentive to randomize.
 Our algorithm operates by picking an optimization direction
 $\langle \rat, 1 \rangle$ and \emph{temporarily} assuming that $\pTwo$
 aims to minimize the guaranteed randomness.  Now suppose that against
-this specific $\pTwo$-policy, optimizing in the
+this specific $\pTwo$-policy, $\sched^\rat_\pTwo$, optimizing in the
 $\langle \rat, 1\rangle$ direction achieves sufficient randomness and
 performance, but $\pTwo$ uses some other policy. Because $\pOne$ can
 trade randomness for performance, whenever $\pTwo$ diverges from
@@ -61,7 +61,8 @@ minimizing maximal entropy, it must be possible to increase the
 rationality $\rat$ of the policy, thus increasing the performance,
 while still ensuring the same randomness. We call the increase in
 rationality (and the associated computations) \emph{replanning} and
-the induced family of policies \emph{entropy matching}.
+the corresponding family of policies, $\{\sched^\rat_\pOne\}_\rat$,
+\emph{entropy matching}.
 
 \mypara{Soundness and Completeness}
 Importantly, observe that because
@@ -74,15 +75,15 @@ complete (proof provided in Sec~\ref{sec:proofs}). That is all
 guaranteed points are witnessed by an entropy matching policy!
 
 Further, observe that as a corollary of the entropy matching family
-$\{\sched^{\pOne}_\rat\}_\rat$ being complete, it must be the case that
-$\solfuncp(\rndp_\rat)$ inherits continuity and (strict) monotonicity
-from the MDP case. Namely, at each $\pTwo$ state, the achievable
-points $\solutions$ are necessarily the intersection of the achievable
-points of the subgraphs. By induction, (with the MDP base case), we
-obtain continuity and strict monotonicity.
+being complete, it must be the case that $\solfuncp(\rndp_\rat)$
+inherits continuity and (strict) monotonicity from the MDP
+case. Namely, at each $\pTwo$ state, the achievable points
+$\solutions$ are necessarily the intersection of the achievable points
+of the subgraphs. By induction, (with the MDP base case), we obtain
+continuity and strict monotonicity.
 
 \mypara{Memoizing Pareto Fronts}
-To perform the above computations efficiently, we adopt geometric
+To perform the above computations efficiently, we adopt a geometric
 perspective. Namely, observe that each node indexes a sub-graph, which
 has a corresponding Pareto front for trading performance for
 randomness. Further, note that the Pareto front at an $\pTwo$ node is

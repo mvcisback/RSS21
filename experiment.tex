@@ -39,7 +39,7 @@ a $k\times k$ grid discretization of the workspace (cf.\ Fig.~\ref{fig:motivatin
 $\{\lfloor\nicefrac{k}{3}\rfloor, \lfloor\nicefrac{2k}{3}\rfloor
 \}^2$, and the drones $\droneEgo$ and $\droneEnv$ are initially at in the bottom left corner and top right house resp. Furthermore, for simplicity, we embedded the avoid crash
 condition as part of the soft constraint, rather than a hard
-constraint\footnotemark. We took~$\pOne$'s actions to be deterministic
+constraint\footnotemark. We took~$\pOne$'s dynamics to be deterministic
 and modeled $\pTwo$ as visiting each house in either clock-wise or
 counter-wise order, where the orientation can switch with
 (a potentially state dependent) probability $p \in [\nicefrac{1}{100},
@@ -63,7 +63,7 @@ are larger.}
 %of the game graph.\footnotemark 
 
 \mypara{Results}
-First and foremost, we succeed in synthesize controllers in the
+First and foremost, we succeed in synthesizing controllers in the
 mentioned setup.  The controller randomizes its behavior while meeting
 the specification, which is not surprising as the algorithm yields a
 correct-by-construction policy.\footnote{Please consult the

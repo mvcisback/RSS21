@@ -2,12 +2,16 @@
 \label{sec:mdps}
 
 We present an algorithm for the control improvisation problem for
-MDPs, which in the next section, will serve as a subroutine for an algorithm
-on SGs. To start, recall that an MDP is a stochastic game with no action choices for the environment, i.e., the environment is purely stochastic. 
-We want to instantiate the approximation scheme from the previous section. In particular, that means that we need to find points on the Pareto curve $\pareto{\solutions}$ and thus incrementally build up $\pareto{} \subseteq \pareto{\solutions}$. 
- 
+MDPs, which in the next section, will serve as a subroutine for an
+algorithm on SGs. Our goal shall be to instantiate the approximation
+scheme from the previous section. In particular, we seek
+to find points on the Pareto curve $\pareto{\solutions}$ and
+incrementally build up $\pareto{} \subseteq \pareto{\solutions}$.
 \subsection{Rationality}
-The key idea for finding points on the Pareto-curve is to rephrase the
+To start, recall that an MDP is a stochastic game with no action
+choices for the environment, i.e., the environment is purely
+stochastic and the only degree of freedom is $\pOne$'s policy.  The
+key idea for finding points on the Pareto-curve is to rephrase the
 trade-off between randomization and performance as a degree in
 rationality $\rat$ of the policy.  Formally, the rationality
 corresponds to the following scalarizion of our multi-objective
@@ -16,7 +20,7 @@ problem~\cite{DBLP:journals/corr/abs-1805-00909},
   \label{eq:scalarization}
   J_\rat(\sched) \eqdef \Big\langle 1, \rat\Big\rangle \cdot \Big\langle\rndp_\sched, \scp_\sched\Big\rangle.
 \end{equation}
-In context of MDPs, the \textbf{unique} policy that
+In context of MDPs, the \textbf{unique} ($\pOne$-)policy that
 optimizes~\eqref{eq:scalarization} is given by a smooth variant of the
 Bellman equations~\cite{mceThesis, DBLP:conf/cav/Vazquez-Chanlatte20}. Namely, let $\smoothmax{}$ denote
 the log-sum-exp operator, i.e.,
@@ -31,17 +35,15 @@ rationality $\rat \in [0, \infty)$, we define a policy $\sched_\rat$
    \end{cases}\label{eq:mdp:v}\\ 
 	& Q_\rat(s, \act) \eqdef \sum_{s'} P(s,\act,s') \cdot V_\rat(s').
  \end{align}
-
 To ease notation, we denote $x_\rat \eqdef x_{\sched_\rat},
 \scp_\rat \eqdef \scp_{\sched_\rat}, \rndp_\rat \eqdef
 \rndp_{\sched_\rat}$. 
  % As previously alluded at the start of the subsection, the key property
 % is that $\sched_\rat$ is the \emph{unique} maximum causal entropy policy
 % such that $\Pr(\varphi) = \scp_\rat$~\cite{mceThesis}.
-
-Intuitively, as $\rat$ approaches $0$, $\sched_\rat$ approaches the
+Intuitively, as $\rat \rightarrow 0$, $\sched_\rat$ approaches the
 uniform distribution over \emph{all available actions}. Note that this
-policy maximizes (causal) entropy, and thus $\rndopt = \rndp_0$.  For
+policy maximizes (causal) entropy, and thus $\rndopt = \rndp_0$.  As
 $\lambda \rightarrow \infty$, this variant of the Bellman equations
 coincides with the standard Bellman
 equations~\cite{DBLP:books/wi/Puterman94}, where $\sched_\rat$ selects

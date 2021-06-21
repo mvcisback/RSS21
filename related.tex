@@ -29,15 +29,30 @@ RCI can be preprocessed resulting in the following core problem.
    \end{enumerate}
    where $\sched = \langle \pOneSched, \pTwoSched \rangle$.
  \end{mdframed}
-While RCI is only applied to deterministic SGs in
-\cite{DBLP:conf/cav/FremontS18}, there is nothing in the definition
-that prevents its application to the general class of
-SGs.\footnote{However, this does not mean that the algorithm to compute
-a solution carries over to the general case}  We observe that then,
-the only difference between ERCI and RCI is that we use causal entropy
-rather than an upper bound on the probability of a path to enforce
-randomness.  The next example motivates the choice of causal entropy
-to formalize randomness in SGs.
+ While RCI is only applied to deterministic SGs in
+ \cite{DBLP:conf/cav/FremontS18}, there is nothing in the definition
+ that prevents its application to the general class of
+ SGs.\footnote{However, this does not mean that the algorithm to
+   compute a solution carries over to the general case} We observe
+ that then, the only difference between ERCI and RCI is that we use
+ causal entropy rather than an upper bound on the probability of a
+ path to enforce randomness.  Below we address two problems with
+ bounding the maximum probability of a trace.
+
+ First, RCI fails to account for causality when measuring
+ randomness. In deterministic systems, for which RCI was conceived,
+ this distinction is unnecessary, but stochastic systems must deal
+ with counter-factuals. In practice, RCI encodes an agent model that
+ is systematically overly optimistic regarding the outcomes of
+ dynamics transitions~\cite{DBLP:journals/corr/abs-1805-00909}. This
+ results in policies with worse performance given a fixed randomness
+ target.  In the context of our motivating drone example, applying RCI
+ thus results in a policy that is both quantitatively and
+ qualitatively less random than the ERCI.
+
+ Second, RCI fails to enforce randomization if there exists *any* path
+ with sufficiently high probability. The next (pathological) example
+ illustrates.
 \begin{figure}
 \begin{tikzpicture}
         \node[sstate, initial, initial text=] (s0) {$s_0$};
@@ -108,14 +123,22 @@ to formalize randomness in SGs.
 % exist a sufficient number of paths, randomizing (uniformly) over those
 % paths leads to a solution.
 
-On the other hand, for deterministic SGs, the set of realizable ERCI and
-RCI instances coincide! (Proof in Sec.~\ref{sec:proofs}).
+On the other hand, one can observe that in reality, proposed
+algorithms for solving RCI equally distribute probability mass across
+the maximum number of paths guarantee-able by
+$\pOne$~\cite{DBLP:conf/cav/FremontS18}. We remark that because (1)
+causal entropy reduces to non-causal entropy in deterministic
+dynamics and (2) uniform distributions maximize entropy, our proposed
+entropy matching family exactly agrees with existing RCI algorithms on
+deterministic SGs. Thus, we observe the following proposition.
 \begin{proposition}\label{prop:conservative}
-  For any deterministic SG 
-  and threshold $\scthreshold$ as in the (core) ERCI problem , there exists an $\pOne$-policy solving
-  the (core) RCI problem with threshold $\ppthreshold$ iff there exists a
-  $\pOne$-policy solving the ERCI problem with threshold
-  $\randomness = f(\ppthreshold)$ for an adequate (computable) $f$.
+  There exists a computable function,
+  \[f : (\ppthreshold, \sg) \mapsto \randomness,\] such that, for any
+  deterministic SG, $\sg$, and performance threshold $\scthreshold$,
+  there exists an $\pOne$-policy solving the RCI problem with
+  threshold $\ppthreshold$ iff there exists a $\pOne$-policy solving
+  the ERCI problem with threshold
+  $\randomness = f(\ppthreshold, \sg)$.
 \end{proposition}
 
 \subsection{Additional Related Work}
