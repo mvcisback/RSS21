@@ -8,7 +8,7 @@
   respectively. Consider the new policy, $\pi$, defined by employing
   $\pOneSched$ with probability $q$ and $\pOneSchedPrime$ with
   probability $\bar{q} \eqdef 1 - q$.  Because each policy
-  \emph{guarantees} its corresponding performance, this new policy as
+  \emph{guarantees} its corresponding performance, this new policy has
   performance at least $q\cdot \scp + \bar{q}\cdot \scp'$.  Similarly,
   by viewing $\pi$ as a random variable and applying chain rule
   yields,
@@ -42,7 +42,7 @@
     &\exists \sched_\pOne^* \notin \{\sched_{\pOne}^\rat\}_\rat~.~  \langle \scthreshold, \randomness \rangle \preceq x_{\sched_{\pOne}^*}\label{eq:incomplete}.
   \end{align}
   Note that because the entropy matching family contains the maximizers and minimizers
-  of entropy, and because increasing rationality monotonically decreases entropy,
+  of entropy ($\rat = \infty$ and $\rat = 0$ resp.), and because increasing rationality monotonically decreases entropy,
   there must exist some rationality, $\rat$, such that $\sched_\pOne^\rat$ has:
   \begin{equation}
     \rndp_{\sched_\pOne^\rat} = \randomness = \rndp_{\sched_\pOne^*},
@@ -72,8 +72,7 @@
   hypothesis, we know that the entropy matching family is complete on
   these subgraphs, and thus if $\sched_\pOne^*$ achieves a given
   $\langle\scthreshold, \randomness\rangle$ on this sub graph, there
-  must be an entropy matching that does so as well.  However, by an
-  exchange argument, this implies that:
+  must be an entropy matching that does so as well. Thus,
   \begin{equation}
     x_{\sched_{\pOne}^*} \preceq x_{\sched_{\rat^*}},
   \end{equation}
