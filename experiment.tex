@@ -1,7 +1,7 @@
 \begin{figure*}
-    \begin{subfigure}{0.5\textwidth}
+    \begin{subfigure}{0.47\textwidth}
   \centering
-  \scalebox{0.58}{
+  \scalebox{0.50}{
     \input{imgs/pareto_solve_time.pgf}
     }
     \caption{
@@ -11,7 +11,7 @@
     }
   \end{subfigure}
   \hfill
-    \begin{subfigure}{0.5\textwidth}
+    \begin{subfigure}{0.47\textwidth}
     \centering \scalebox{0.53}{
       \input{imgs/bdd_size_by_horizon.pgf}
     }
@@ -24,13 +24,14 @@
   \caption{Plots to illustrate scalability} 
 \end{figure*}
 
-\mypara{Setup}
-To experimentally validate the feasibility of our ERCI algorithm for
-SGs, we implemented our algorithm in Python.
-Inspired by the recent work on compressing game graphs for specification
-inference~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}, each SG was represented
-as a Binary Decision Diagram (BDD)~\cite{DBLP:journals/csur/Bryant92} using the
-\texttt{dd} and \texttt{py-aiger} python packages~\cite{dd, pyAiger}. 
+\mypara{Setup} To experimentally validate the feasibility of our ERCI
+algorithm for SGs, we implemented~\cite{RSS21code} our algorithm in
+Python.  Inspired by the recent work on compressing
+game graphs for specification
+inference~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}, each SG was
+represented as a Binary Decision Diagram
+(BDD)~\cite{DBLP:journals/csur/Bryant92} using the \texttt{dd} and
+\texttt{py-aiger} python packages~\cite{dd, pyAiger}.
 
 We investigate the motivating example.
 Specifically, our experiments used
@@ -62,13 +63,10 @@ are larger.}
 %this introduced negligible overhead, while dramatically decreasing the size
 %of the game graph.\footnotemark 
 
-\mypara{Results}
-First and foremost, we succeed in synthesizing controllers in the
-mentioned setup.  The controller randomizes its behavior while meeting
-the specification, which is not surprising as the algorithm yields a
-correct-by-construction policy.\footnote{Please consult the
-supplementary material where we include a video with various traces
-generated.}
+\mypara{Results} First and foremost, we succeed in synthesizing
+controllers in the mentioned setup.  The controller randomizes its
+behavior while meeting the specification, which is not surprising as
+the algorithm yields a correct-by-construction policy.
 
 Next, we consider the practical run time of our algorithm.  As
 Fig~\ref{fig:exp_times} demonstrates, the empirical time to estimate
