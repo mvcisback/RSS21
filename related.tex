@@ -17,7 +17,7 @@ is Reactive Control Improvisation (RCI) for (deterministic) 2-player games~\cite
 RCI can be preprocessed resulting in the following core problem.
 \begin{mdframed}[nobreak=true]
   \textbf{The Core RCI Problem}: Given an finite acyclic
-  (deterministic) SG $\sg$, with sink states, $\target$ and $\sink$,
+  (deterministic) SG $\sg$, with terminal states, $\target$ and $\sink$,
   and thresholds $\scthreshold \in (0,1)$ and
   $\randomness \in [0,\infty)$, find a $\pOne$-policy $\pOneSched$
   such that for every $\pTwo$-policy $\pTwoSched$
@@ -133,7 +133,7 @@ matching family exactly agrees with existing RCI algorithms on
 deterministic SGs. Thus, we observe the following proposition.
 \begin{proposition}\label{prop:conservative}
   There exists a computable function,
-  \[f : (\ppthreshold, \sg) \mapsto \randomness,\] such that, for any
+  \[f \colon (\ppthreshold, \sg) \mapsto \randomness,\] such that, for any
   deterministic SG, $\sg$, and performance threshold $\scthreshold$,
   there exists an $\pOne$-policy solving the RCI problem with
   threshold $\ppthreshold$ iff there exists a $\pOne$-policy solving
