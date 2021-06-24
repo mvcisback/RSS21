@@ -186,7 +186,10 @@ is an improviser solving the ERCI problem.
 	Furthermore, the topmost point on the Pareto front was obtained by maximizing performance (and optimizing randomization only as a secondary objective). Thus, by construction, the bricked area at the top is not realizable. Analogously, the bricked area at the right reflects non-achievable randomization. 
 \end{example}
 
-\todo[inline]{add a discussion about optimization direction and refuting region.}
+\begin{remark}\label{rem:scalarwitnesses}
+We notice that the multi-objective optimization perspective allows us to extend the set of witnesses for unrealizability. In particular, every point of the Pareto-curve can be described as optimizing some scalarization of the objectives. Geometrically, it optimizes along a particular direction. Whenever we know that a Pareto-optimal point $x = \langle \scp, \rndp \rangle$ optimizes a weighted objective with weights $w = \langle w_1, w_2 \rangle$, then $x$ and $w$ \emph{together} are a witness for unrealizability for $\langle \scthreshold, \randomness \rangle$ whenever $w_1 \cdot \scp + w_2 \cdot \rndp < w_1 \cdot \scthreshold + w_2 \cdot \randomness$. 
+\todo[inline]{Do we want to visualise this? I think it is mostly just a remark...}
+\end{remark}
 
 Thus a key algorithmic question in ERCI is how to efficiently explore
 and approximate the Pareto front $\pareto{\solutions}$. As first steps, we find the two special points induced by (1) optimizing performance and only then randomization (the topmost green point in the figures) and (2) optimizing randomization and only then performance (the rightmost green point). 
