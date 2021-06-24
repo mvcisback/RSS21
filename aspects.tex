@@ -192,7 +192,12 @@ We notice that the multi-objective optimization perspective allows us to extend 
 \end{remark}
 
 Thus a key algorithmic question in ERCI is how to efficiently explore
-and approximate the Pareto front $\pareto{\solutions}$. As first steps, we find the two special points induced by (1) optimizing performance and only then randomization (the topmost green point in the figures) and (2) optimizing randomization and only then performance (the rightmost green point). 
+ the Pareto front $\pareto{\solutions}$. 
+ 
+ \subsection{Regret-Based ERCI}
+ To algorithmically explore the Pareto-curve, we re-parameterize the ERCI problem. 
+ 
+ First, we therefore find  the two special points induced by (1) optimizing performance and only then randomization (the topmost green point in the figures) and (2) optimizing randomization and only then performance (the rightmost green point). 
 As we have seen, these restrict the domain in which we can actually trade performance for randomness. 
 We define 
 $\rndopt \eqdef \max \{ \rndp \mid \exists \scp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $, i.e., the largest randomness that can be guaranteed by any $\pOne$-policy. 
@@ -203,25 +208,26 @@ $\scmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \
 Likewise, we define  the analogous $\rndmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$.
 We thus obtain two points on the Pareto front: $\langle \scmin, \rndopt \rangle$ and $\langle \scopt, \rndmin \rangle$, and intuitively, we can trade between these two points following the Pareto front.
 
+
 %\begin{remark}[Regret Based ERCI]
-\subsection{Regret Based ERCI}
-Often, rather that fixing $\scthreshold$ and $\randomness$ a
-  priori, one seeks to guarantee some percentage of the independently achievable soft
-  constraint and causal entropy measure.  We
+Now, rather that fixing $\scthreshold$ and $\randomness$ a
+  priori, we seek to guarantee some percentage of the independently achievable soft
+  constraint and causal entropy measure.
+ We
   re-parameterize ERCI as follows:
   \begin{equation}
     \scthreshold_\epsilon \eqdef \epsilon \cdot (\scopt - \scmin) + \scmin
     \hspace{1em}
     \randomness_\delta \eqdef  \delta \cdot (\rndopt - \rndmin) + \rndmin
   \end{equation}
-  where $\epsilon, \delta \in [0, 1]$. We call this version of ERCI \emph{regret-based}. Geometrically, after computing $\scopt$ and $\rndopt$, we know that the left triangle in Fig.~\ref{fig:geom:regret} is definitively realizable, and the regret-based ERCI asks whether the white circle is also realizable (where the point of the white point is given by $\epsilon$ and $\delta$. %As we shall later see, these maximum quantities are
+  where $\epsilon, \delta \in [0, 1]$. We call this version of ERCI \emph{regret-based}. We remark that the reparameterization is not only beneficial from a usability point-of-view, but it also eases our exposition.  Geometrically, after computing $\scopt$ and $\rndopt$, we know that the left triangle in Fig.~\ref{fig:geom:regret} is definitively realizable, and the regret-based ERCI asks whether the white circle is also realizable (where the point of the white point is given by $\epsilon$ and $\delta$. %As we shall later see, these maximum quantities are
  % directly computed in our proposed algorithm. 
 %\end{remark}
 \noindent 
 Together, we obtain the following (core) ERCI problem.
 \begin{mdframed}[backgroundcolor=blue!5,nobreak=true]
 \textbf{The Core ERCI Problem}:
-Given an finite acyclic SG $\sg$, with terminal states, $\target$ and $\sink$, and thresholds $\epsilon, \delta \in [0,1]$,  find a $\pOne$-policy $\pOneSched$  such that for every $\pTwo$-policy $\pTwoSched$:
+Given an finite acyclic SG~$\sg$, with terminal states, $\target$ and $\sink$, and thresholds $\epsilon, \delta \in [0,1]$,  find a $\pOne$-policy $\pOneSched$ s.t.~for every $\pTwo$-policy~$\pTwoSched$:
 \begin{enumerate}
 \item (\emph{soft constraint)}
   $\Pr(\last{\xi} = \target \mid \sched) \geq \scthreshold_\epsilon$
