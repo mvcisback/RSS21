@@ -8,7 +8,7 @@
    version="1.1"
    id="svg211"
    inkscape:version="1.1 (c4e8f9ed74, 2021-05-24)"
-   sodipodi:docname="what_is_improv_1.svg"
+   sodipodi:docname="what_is_improv_1_2.svg"
    inkscape:export-filename="/home/mvc/spotlight/reveal.js/imgs/high_level_synth.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
@@ -437,6 +437,17 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-2.8364875,-1.1482938)">
+    <text
+       xml:space="preserve"
+       style="font-size:15.5434px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;stroke-width:0.388586;opacity:1"
+       x="155.65422"
+       y="16.886032"
+       id="text8904-4"><tspan
+         sodipodi:role="line"
+         id="tspan8902-3"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.6576px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke-width:0.388586"
+         x="155.65422"
+         y="16.886032">Improviser</tspan></text>
     <path
        d="M 68.070507,116.23193 H 21.10243 c -3.143752,0 -5.695003,-3.57088 -5.695003,-7.97108 V 28.589026 c 0.0069,-4.400196 2.551251,-7.971084 5.695003,-7.971084 h 46.968077 c 3.143755,0 5.695003,3.570888 5.695003,7.971084 v 79.681584 c -0.0069,4.39044 -2.551248,7.96132 -5.695003,7.96132 z m 2.844018,-87.642904 c 0,-2.195218 -1.275624,-3.980665 -2.844018,-3.980665 H 21.10243 c -1.56839,0 -2.844014,1.785447 -2.844014,3.980665 v 79.681584 c 0,2.20497 1.275624,3.98066 2.844014,3.98066 h 46.968077 c 1.575363,0 2.844018,-1.78545 2.844018,-3.98066 z"
        id="path5910"
@@ -668,6 +679,54 @@
          style="font-weight:bold;fill:#efff43;fill-opacity:0.988483;stroke:#000000;stroke-width:0.211532;stroke-opacity:1"
          x="187.07021"
          y="53.601559">1/3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8.46122px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;opacity:1;fill:#b0d9ed;fill-opacity:0.988483;stroke:#000000;stroke-width:0.211532;stroke-opacity:1"
+       x="138.06113"
+       y="51.748123"
+       id="text96996-94-9"
+       transform="rotate(-0.50307688)"><tspan
+         sodipodi:role="line"
+         id="tspan96994-3-4"
+         style="font-weight:bold;fill:#b0d9ed;fill-opacity:0.988483;stroke:#000000;stroke-width:0.211532;stroke-opacity:1"
+         x="138.06113"
+         y="51.748123">3/5</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8.46122px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;fill:#b0d9ed;fill-opacity:0.988483;stroke:#000000;stroke-width:0.211532;stroke-opacity:1;opacity:1"
+       x="178.3839"
+       y="101.32384"
+       id="text96996-94-9-1"
+       transform="rotate(-0.50307688)"><tspan
+         sodipodi:role="line"
+         id="tspan96994-3-4-5"
+         style="font-weight:bold;fill:#b0d9ed;fill-opacity:0.988483;stroke:#000000;stroke-width:0.211532;stroke-opacity:1"
+         x="178.3839"
+         y="101.32384">1/8</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8.46122px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;fill:#b0d9ed;fill-opacity:0.988483;stroke:#000000;stroke-width:0.211532;stroke-opacity:1;opacity:1"
+       x="171.1144"
+       y="88.288826"
+       id="text96996-94-9-1-5"
+       transform="rotate(-0.50307688)"><tspan
+         sodipodi:role="line"
+         id="tspan96994-3-4-5-4"
+         style="font-weight:bold;fill:#b0d9ed;fill-opacity:0.988483;stroke:#000000;stroke-width:0.211532;stroke-opacity:1"
+         x="171.1144"
+         y="88.288826">7/8</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8.46122px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;opacity:1;fill:#b0d9ed;fill-opacity:0.988483;stroke:#000000;stroke-width:0.211532;stroke-opacity:1"
+       x="119.94918"
+       y="72.974525"
+       id="text96996-94-9-6"
+       transform="rotate(-0.50307688)"><tspan
+         sodipodi:role="line"
+         id="tspan96994-3-4-1"
+         style="font-weight:bold;fill:#b0d9ed;fill-opacity:0.988483;stroke:#000000;stroke-width:0.211532;stroke-opacity:1"
+         x="119.94918"
+         y="72.974525">2/5</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:8.46122px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;opacity:0.617952;fill:#b0d9ed;fill-opacity:0.988483;stroke:#000000;stroke-width:0.211532;stroke-opacity:1"

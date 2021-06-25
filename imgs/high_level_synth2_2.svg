@@ -27,15 +27,15 @@
      inkscape:document-units="mm"
      showgrid="false"
      units="px"
-     inkscape:zoom="0.94867184"
-     inkscape:cx="444.83243"
-     inkscape:cy="351.54411"
+     inkscape:zoom="1.8973437"
+     inkscape:cx="408.4658"
+     inkscape:cy="259.57343"
      inkscape:window-width="3440"
      inkscape:window-height="1394"
      inkscape:window-x="0"
      inkscape:window-y="22"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer12"
+     inkscape:current-layer="layer1"
      fit-margin-top="40"
      fit-margin-left="40"
      fit-margin-right="40"
@@ -272,14 +272,14 @@
     <text
        xml:space="preserve"
        style="font-size:10.5833px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;stroke-width:0.264583"
-       x="39.730396"
-       y="90.253677"
+       x="40.006908"
+       y="87.759583"
        id="text8904"><tspan
          sodipodi:role="line"
          id="tspan8902"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.9375px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke-width:0.264583"
-         x="39.730396"
-         y="90.253677">World Model</tspan></text>
+         x="40.006908"
+         y="87.759583">World Model</tspan></text>
     <g
        id="g24943" />
   </g>
@@ -291,47 +291,47 @@
      style="opacity:0.34590658">
     <g
        id="g24950"
-       transform="matrix(1.1871779,0,0,1.1871779,-10.926441,-7.1870837)">
+       transform="matrix(1.1871779,0,0,1.1871779,-7.3381607,-5.2391293)">
       <path
          d="M 53.273921,63.326284 H 28.073677 c -1.686748,0 -3.055596,-1.915922 -3.055596,-4.276803 V 16.302373 c 0.0037,-2.36088 1.368848,-4.276804 3.055596,-4.276804 h 25.200244 c 1.68675,0 3.055596,1.915924 3.055596,4.276804 v 42.752345 c -0.0037,2.355644 -1.368846,4.271566 -3.055596,4.271566 z M 54.79985,16.302373 c 0,-1.177822 -0.684423,-2.135785 -1.525929,-2.135785 H 28.073677 c -0.841504,0 -1.525927,0.957963 -1.525927,2.135785 v 42.752345 c 0,1.183053 0.684423,2.135783 1.525927,2.135783 h 25.200244 c 0.845245,0 1.525929,-0.957964 1.525929,-2.135783 z"
          id="path5910"
-         style="fill:#ffffff;fill-opacity:0.65987593;stroke:#ffffff;stroke-width:0.0442472;stroke-opacity:1"
+         style="fill:#ffffff;fill-opacity:0.659876;stroke:#ffffff;stroke-width:0.0442472;stroke-opacity:1"
          sodipodi:nodetypes="ssscssscssssssssss" />
       <text
          xml:space="preserve"
-         style="font-size:4.4761px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:0.82320321;stroke-width:0.111903"
+         style="font-size:4.4761px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:0.823203;stroke-width:0.111903"
          x="40.80986"
          y="27.269575"
          id="text32281"><tspan
            sodipodi:role="line"
            id="tspan32279"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.35708px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:0.82320321;stroke-width:0.111903"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.35708px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:0.823203;stroke-width:0.111903"
            x="40.80986"
            y="27.269575">Hard Constraint</tspan></text>
       <text
          xml:space="preserve"
-         style="font-size:4.4761px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:0.82320321;stroke-width:0.111903"
+         style="font-size:4.4761px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:0.823203;stroke-width:0.111903"
          x="40.620678"
          y="38.562275"
          id="text32281-1"><tspan
            sodipodi:role="line"
            id="tspan32279-8"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.35708px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:0.82320321;stroke-width:0.111903"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.35708px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:0.823203;stroke-width:0.111903"
            x="40.620678"
            y="38.562275">Soft Constraint</tspan></text>
       <text
          xml:space="preserve"
-         style="font-size:4.4761px;line-height:0.65;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:0.82320321;stroke-width:0.111903"
+         style="font-size:4.4761px;line-height:0.65;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:0.823203;stroke-width:0.111903"
          x="40.974346"
          y="50.109749"
          id="text32281-1-3"><tspan
            sodipodi:role="line"
            id="tspan32279-8-6"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.35708px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:0.82320321;stroke-width:0.111903"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.35708px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:0.823203;stroke-width:0.111903"
            x="40.974346"
            y="50.109749">Randomness</tspan><tspan
            sodipodi:role="line"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.35708px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:0.82320321;stroke-width:0.111903"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.35708px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:0.823203;stroke-width:0.111903"
            x="40.974346"
            y="53.019215"
            id="tspan9684"> Constraint</tspan></text>
