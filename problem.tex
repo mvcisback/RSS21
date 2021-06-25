@@ -138,7 +138,7 @@ More precisely, we define the probability $\Pr(\path \mid \sched)$ recursively a
 \begin{equation}
   \begin{split}
     \Pr(s \mid \sched) &\eqdef 1\\
-    \Pr(\path~|~\sigma) \eqdef \Pr(\path'\mid\sched)\cdot \sched(&\act\mid\path') \cdot P(\last{\path'},\act)(s')
+    \Pr(\path~|~\sigma) &\eqdef \Pr(\path'\mid\sched)\cdot \sched(\act\mid\path') \cdot P(\last{\path'},\act)(s')
   \end{split}
 \end{equation}
 where $\path =  \path' \xrightarrow{\act} s'$.
