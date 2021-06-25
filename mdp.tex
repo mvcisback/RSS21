@@ -28,12 +28,12 @@ $\smoothmax(X) \eqdef \log \left( \sum_{x\in X} e^x \right)$. For each
 rationality $\rat \in [0, \infty)$, we define a policy $\sched_\rat$
 -- using $s = \last{\path}$ -- as follows:
  \begin{align}
-   &\sched_\rat(\act \mid s) \eqdef \exp( Q_\rat(s,\act) - V_\rat(s))  \\
+   &\sched_\rat(\act \mid s) \eqdef \exp( Q_\rat(s,\act) - V_\rat(s))  \label{eq:mdp:first}\\
    & V_\rat(s) \eqdef  \begin{cases}
      \lambda  \cdot \indicator{s = \target} & \text{if }s \in \{ \target, \sink \},\\
      \smoothmax_{\act \in \EnAct(s)}{  Q_\rat(s,\act) } & \text{otherwise.}
    \end{cases}\label{eq:mdp:v}\\ 
-	& Q_\rat(s, \act) \eqdef \sum_{s'} P(s,\act,s') \cdot V_\rat(s').
+	& Q_\rat(s, \act) \eqdef \sum_{s'} P(s,\act,s') \cdot V_\rat(s').\label{eq:mdp:last}
  \end{align}
 To ease notation, we denote $x_\rat \eqdef x_{\sched_\rat},
 \scp_\rat \eqdef \scp_{\sched_\rat}, \rndp_\rat \eqdef

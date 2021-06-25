@@ -14,17 +14,26 @@ stochastic games.
 
 
 \mypara{Environment Policies} We begin with three observations about
-the $\pTwo$-policies.  First, for ERCI, we can assume an adversary
+the $\pTwo$-policies.  First, for ERCI, we can assume an adversary for $\pTwo$ 
 that aims to foil $\pOne$ achieving both the performance \emph{and}
-randomization requirement.  To do so, it suffices to violate either
+randomization requirement. We call such a $\pTwo$-policy \emph{violating.} For a policy to be violating,  suffices to violate, against every $\pOne$-policy independently, either
 performance \emph{or} randomization.  Second, if there is a violating
 $\pTwo$-policy, there is a deterministic $\pTwo$-policy that proves
 this.  In particular, at every state, $\pTwoSched$ may choose to
 violate either constraint via the appropriate action with no incentive
 to randomize. Third, fixing an environment policy reduces $\sg$ to a
-Markov Decision process, call $\sg[\pTwoSched]$.
+MDP $\sg[\pTwoSched]$.
 
-\mypara{Algorithmic Idea}
+\begin{figure}[t]
+\centering
+\scalebox{0.8}{
+\input{sg_vis.tex}
+}
+\caption{SG to illustrate entropy matching policies.}
+\label{fig:sg:simplest}
+\end{figure}
+
+\mypara{A Sufficient Class of Policies}
 % Before we discuss the algorithm in full detail, we consider two simple
 % cases with a single $\pTwo$-state \footnote{To ensure we satisfy our
 % our assumption of games being alternating between both players, we can
@@ -51,34 +60,47 @@ Markov Decision process, call $\sg[\pTwoSched]$.
 % Later we prove this restriction is w.l.o.g. Conceptually,
 % $\rat$ then enables $\pOne$ to associate ``comparable'' points between
 % sibling Pareto fronts, and thus reason locally.
-Our algorithm operates by picking an optimization direction
-$\langle \rat, 1 \rangle$ and \emph{temporarily} assuming that $\pTwo$
-selects a deterministic policy, $\sched^\rat_\pTwo$, that
+For MDPs, we have seen that varying rationality is sufficient to explore the Pareto curve. 
+We show that we can adapt that idea to a class we call \emph{entropy matching policies}, which may be indexed by the (initial) rationality. 
+In the initial state, we start by assuming that $\pTwo$
+selects a (deterministic) policy, $\sched^\rat_\pTwo$, that
 lexicographically minimizes the guaranteed randomness, followed by
 performance. On the sub-graph, $\sg[\sched^\rat_\pTwo]$, $\pOne$
-employs the corresponding entropy maximizing policy for the MDP,
-$\sg[\sched^\rat_\pTwo]$. This partial-policy is extended to a policy
-on the rest of the $\sg$ as follows. Whenever $\pTwo$ diverges from
-the entropy minimizing policy, it must be possible for $\pOne$ to
-trade randomness for performance, i.e. increase $\rat$, while still
-ensuring the same randomness against a entropy minimizing
-adversary. Thus, a new MDP partial-policy is computed and extended
-recursively until the terminal states of the game graph.  We call the increase
-in rationality (and the associated computations) \emph{replanning} and
-the corresponding family of policies, $\{\sched^\rat_\pOne\}_\rat$,
-\emph{entropy matching}.  Finally, we propose approximating the
-relevant Pareto front using the same three staged sequence of
-rationality coefficients as the MDP case (1) endpoints, (2) doubling,
-(3) binary search.
+employs the corresponding entropy maximizing policy for the MDP $\sg[\sched^\rat_\pTwo]$. 
+Whenever $\pTwo$ diverges from the entropy minimizing policy (to decrease the induced performance), we let $\pOne$ increase its rationality such that it still induces the same guaranteed randomness.  We refer to this idea as \emph{entropy matching}. The idea is that the rationality at the initial state induces a worst-case entropy, and whatever $\pTwo$ chooses to do, throughout the SG, we ensure that we indeed obtain this entropy. 
+The policy thus tracks this entropy and if necessary adapts the rationality (which we call \emph{replanning}). 
+Replanning ensures we obtain the optimal performance from a particular point while still ensuring the required randomness.
+
+\begin{example}
+We sketch an entropy matching policy in Fig.~\ref{fig:sg:simplest}. In particular, we show part of SG. For some fixed rationality $\lambda$, we annotate in red, on the left of the SG states, the entropy obtained when assuming that $\pTwo$ plays an entropy-minimizing policy as outlined above. In particular, this means that in $s_2$, $\pTwo$ selects action $a$. Now, our entropy-matching policy (in blue, on the right) will play with entropy $\lambda$, unless state $s_4$ is reached. As this ensures a higher entropy, we may now select a higher rationality.
+\end{example}
+
+%
+%Our algorithm operates by picking an optimization direction
+%$\langle \rat, 1 \rangle$ and \emph{temporarily} assuming that $\pTwo$
+%selects a (deterministic) policy, $\sched^\rat_\pTwo$, that
+%lexicographically minimizes the guaranteed randomness, followed by
+%performance. On the sub-graph, $\sg[\sched^\rat_\pTwo]$, $\pOne$
+%employs the corresponding entropy maximizing policy for the MDP,
+%$\sg[\sched^\rat_\pTwo]$. This partial-policy is extended to a policy
+%on the rest of the $\sg$ as follows. Whenever $\pTwo$ diverges from
+%the entropy minimizing policy, it must be possible for $\pOne$ to
+%trade randomness for performance, i.e. increase $\rat$, while still
+%ensuring the same randomness against a entropy minimizing
+%adversary.\sj{This needs at least one more sentence} Thus, a new MDP partial-policy\sj{???} is computed and extended
+%recursively to all states of the SG.  We call the increase
+%in rationality (and the associated computations) \emph{replanning} and
+%the corresponding family of policies, $\{\sched^\rat_\pOne\}_\rat$,
+%\emph{entropy matching}.  Finally, 
 
 \mypara{Soundness and Completeness}
 Importantly, observe that because
-fixing a policy yields a verifiable point in $\solutions$, any witness
+fixing a policy for $\pOne$ yields a verifiable point in $\solutions$, any witness
 for realizability we find is trivially sound. For completeness, we can
 restrict ourselves to the case in which our algorithm claims the ERCI
 instance unrealizable. Surprisingly, the class of policies we consider
 suffices, and the algorithm is thus sound and (whenever halting)
-complete (proof provided in Sec~\ref{sec:proofs}). That is all
+complete (proof provided in Sec~\ref{sec:proofs}). That is, all
 guaranteed points are witnessed by an entropy matching policy!
 
 Further, observe that as a corollary of the entropy matching family
@@ -89,7 +111,13 @@ $\solutions$ are necessarily the intersection of the achievable points
 of the sub-graphs. By induction, (with the MDP base case), we obtain
 continuity and strict monotonicity.
 
-\mypara{Memoizing Pareto Fronts} To perform the above computations
+
+\mypara{Algorithm: Memoizing Pareto Fronts}
+We propose approximating the  Pareto front using the same three staged sequence of exploring 
+rationality coefficients (at the initial state) as the MDP case: (1) endpoints, (2) doubling,
+(3) binary search.
+
+ To perform the above computations
 efficiently, we adopt a geometric perspective. Namely, observe that
 each node of $\sg$ indexes a sub-graph, which has a corresponding
 Pareto front for trading performance for randomness. Further, note
@@ -100,7 +128,7 @@ direction by increasing the rationality.  \todo[inline]{Visualize this
   in terms of intersections and different directions. Attach to game
   graph and annotate up arrow for dynamic programming and down error
   for MDP subroutine} Thus, by traversing the graph from the terminal states to
-the initial state, approximating Pareto Fronts along the way, one can memoize
+the initial state, approximating Pareto fronts along the way, one can memoize
 how to trade performance for randomness at any given node. This
 preprocessing enables determining the minimum entropy response for any
 optimization direction and quickly replanning via a convex combination
@@ -120,14 +148,7 @@ of Pareto optimal policies.
 %notice that given a fixed $\pOneSched$, the worst-case $\pTwoSched$
 %response can be computed via dynamic programming in topological order
 %from the leafs to the root of $\sg$.
-\begin{figure}[h]
-\centering
-\scalebox{0.8}{
-\input{sg_vis.tex}
-}
-\caption{Simple SG to illustrate intuition}
-\label{fig:sg:simplest}
-\end{figure}
+
 
 % \mypara{Minimum Entropy Sub-graphs} Next, we formalize the
 % environment's entropy minimizing counter-policy.  First, assume $\rat$
@@ -200,7 +221,6 @@ of Pareto optimal policies.
 % Due to the monotonicity $\rat \leq \rat'$, and thus $\epsilon_\rat \leq \epsilon_{\rat'}$, 
 % Therefore, ignoring the feasibility of computing the exact Pareto
 % Front, we obtain a synthesis algorithm for SGs!
-\todo[inline]{Work out for running example?}
 \mypara{Approximate Pareto Fronts}
 Of course, by varying $\rat$, one can only construct approximate
 Pareto fronts $\hat{\pareto{}} \subseteq \pareto{\solutions}$, where we denote the downward closure of $\hat{\pareto{}}$ as $\hat{\solutions} \subseteq \solutions$.
@@ -216,7 +236,7 @@ most $\kappa$ error along the performance axis.
 \item If the any minimum entropy action cannot be determined or $\scthreshold$ is within $\kappa\cdot \tau$ distance to (but outside of) $\hat{\pareto{}}$,
   halve $\kappa$ and repeat.
 \item Otherwise, perform entropy matching algorithm (with initial
-  entropy $\randomness$) using these Pareto Fronts and return the
+  entropy $\randomness$) using these Pareto fronts and return the
   resulting policy (if on exists).
 \end{enumerate}  
 \end{mdframed}
