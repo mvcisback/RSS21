@@ -54,6 +54,8 @@ RCI can be preprocessed resulting in the following core problem.
  with sufficiently high probability. The next (pathological) example
  illustrates.
 \begin{figure}
+\centering
+\scalebox{0.8}{
 \begin{tikzpicture}
         \node[sstate, initial, initial text=] (s0) {$s_0$};
   	\node[actnode,right=of s0, xshift=-2em] (e0) {};
@@ -92,6 +94,7 @@ RCI can be preprocessed resulting in the following core problem.
 	
 	
 \end{tikzpicture}
+}
 \caption{Example Illustrating the problem with RCI in stochastic environments.\label{fig:drciOnSgs}}
 \end{figure}
 
