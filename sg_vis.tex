@@ -18,14 +18,14 @@
 		\node[below=0.1cm of a2, inner sep=0.3pt] (x3) {};
 	
 	\draw[->] (a0) -- node[actnode] (x) {}
-					  node[pos=0.4,elab,right] {$a$}  (s1);
+					  node[pos=0.4,elab,right,xshift=2mm] {$a$}  (s1);
 	\draw[->] (a0) -- node[actnode] {}
-					  node[pos=0.4,elab,left] {$b$}  (s2);
+					  node[pos=0.4,elab,left,xshift=-2mm] {$b$}  (s2);
 					  
 	\draw[->] (a1) -- node[actnode] {}
-					  node[pos=0.4,elab,right] {$a$}  (a0);
+					  node[pos=0.4,elab,right,xshift=2mm] {$a$}  (a0);
 	\draw[->] (a1) -- node[actnode] {}
-					  node[pos=0.4,elab,left] {$b$}  (a2);
+					  node[pos=0.4,elab,left,xshift=-2mm] {$b$}  (a2);
 					  
 	\draw[->, red] (a0) -- (x);
 	

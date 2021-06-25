@@ -269,14 +269,14 @@ As the corresponding bounds and convex combinations can be computed in
 constant time, this means this algorithm runs in time:
 \begin{equation}
   \label{eq:sg-runtime}
-  \mathcal{O}(\log(\nicefrac{1}{\kappa^*})\cdot N_\rat\cdot \log(N_\rat)\cdot |\sg|),
+  \mathcal{O}\Big(\log(\nicefrac{1}{\kappa^*})\cdot N_\rat\cdot \log(N_\rat)\cdot |\sg|\Big),
 \end{equation}
 where, $N_\rat$ is the number of unique rationality coefficients
 processed.  If, as in the MDP case, one assumes a maximum rationality
 coefficient $\rat^*$ and a minimum rationality resolution $\Delta$,
 one obtains:
 \begin{equation}
-  \mathcal{O}(\underbrace{\log(\nicefrac{1}{\kappa^*})}_{\kappa \text{ search}}\cdot \underbrace{\nicefrac{\rat^*}{\Delta}\cdot \overbrace{\log(\nicefrac{\rat^*}{\Delta})}^{\text{Replanning}}\cdot |\sg|}_{\text{Evaluate } \rat}).
+  \mathcal{O}\Big(\underbrace{\log(\nicefrac{1}{\kappa^*})}_{\kappa \text{ search}}\cdot \underbrace{\nicefrac{\rat^*}{\Delta}\cdot \overbrace{\log(\nicefrac{\rat^*}{\Delta})}^{\text{Replanning}}\cdot |\sg|}_{\text{Evaluate } \rat}\Big).
 \end{equation}
 The above however is very conservative and empirically we observe
 $N_\rat$ bounded far away from $\nicefrac{\rat^*}{\Delta}$.

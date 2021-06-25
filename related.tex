@@ -82,8 +82,8 @@ RCI can be preprocessed resulting in the following core problem.
 	\draw[->] (s0) -- node[elab] {} (e0);
         
 	\draw[->] (e0) -- node[elab] {$\nicefrac{1}{n}$} (s1);
-	\draw[->] (e0) -- node[elab,below] {$\nicefrac{1}{n}$} (s2);
-	\draw[->] (e0) -- node[elab,below] {$\nicefrac{1}{n}$} (sn);
+	\draw[->] (e0) -- node[elab,below,xshift=1mm] {$\nicefrac{1}{n}$} (s2);
+	\draw[->] (e0) -- node[elab,below,xshift=-1mm] {$\nicefrac{1}{n}$} (sn);
 	
 	\draw[->] (s1) -- node[elab,above] {$1$} (t1);
 	\draw[->] (s2) -- node[elab,near end,above] {$1$} (u);
