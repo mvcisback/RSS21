@@ -29,7 +29,7 @@ MDP $\sg[\pTwoSched]$.
 \scalebox{0.8}{
 \input{sg_vis.tex}
 }
-\caption{Simple SG to illustrate intuition}
+\caption{SG to illustrate entropy matching policies.}
 \label{fig:sg:simplest}
 \end{figure}
 
@@ -70,6 +70,11 @@ employs the corresponding entropy maximizing policy for the MDP $\sg[\sched^\rat
 Whenever $\pTwo$ diverges from the entropy minimizing policy (to decrease the induced performance), we let $\pOne$ increase its rationality such that it still induces the same guaranteed randomness.  We refer to this idea as \emph{entropy matching}. The idea is that the rationality at the initial state induces a worst-case entropy, and whatever $\pTwo$ chooses to do, throughout the SG, we ensure that we indeed obtain this entropy. 
 The policy thus tracks this entropy and if necessary adapts the rationality (which we call \emph{replanning}). 
 Replanning ensures we obtain the optimal performance from a particular point while still ensuring the required randomness.
+
+\begin{example}
+We sketch an entropy matching policy in Fig.~\ref{fig:sg:simplest}. In particular, we show part of SG. For some fixed rationality $\lambda$, we annotate in red, on the left of the SG states, the entropy obtained when assuming that $\pTwo$ plays an entropy-minimizing policy as outlined above. In particular, this means that in $s_2$, $\pTwo$ selects action $a$. Now, our entropy-matching policy (in blue, on the right) will play with entropy $\lambda$, unless state $s_4$ is reached. As this ensures a higher entropy, we may now select a higher rationality.
+\end{example}
+
 %
 %Our algorithm operates by picking an optimization direction
 %$\langle \rat, 1 \rangle$ and \emph{temporarily} assuming that $\pTwo$
