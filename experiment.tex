@@ -25,10 +25,9 @@
 
 \mypara{Setup} To experimentally validate the feasibility of our ERCI
 algorithm for SGs, we implemented~\cite{RSS21code} our algorithm in
-Python.  Inspired by the recent work on compressing
-game graphs for specification
-inference~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}, each SG was
-represented as a Binary Decision Diagram
+Python.  Inspired by the recent work on compressing MDPs for
+specification inference~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}, each
+SG was represented as a Binary Decision Diagram
 (BDD)~\cite{DBLP:journals/csur/Bryant92} using the \texttt{dd} and
 \texttt{py-aiger} python packages~\cite{dd, pyAiger}.
 
@@ -49,18 +48,8 @@ step, and (non-uniformly) instantiate problem instances with horizons
 ranging from $6$ to $18$, i.e., paths ranged from length $12$ to
 $36$.
 \footnotetext{Note that counter-intuitively, only using soft
-constraints generally results in harder instances as the game graphs
-are larger.}
+constraints generally results in harder instances as the compressed SGs are larger.}
 
-
-
-%Finally, we implemented a prototype ERCI synthesis algorithm in Python.
-%Inspired by the recent work on compressing game graphs for specification
-%inference~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}, each SG was represented
-%as a Binary Decision Diagram (BDD)~\cite{DBLP:journals/csur/Bryant92} using the
-%dd and py-aiger python packages~\cite{dd, pyAiger}. As demonstrated in Fig.~\ref{fig:exp_times},
-%this introduced negligible overhead, while dramatically decreasing the size
-%of the game graph.\footnotemark 
 
 \mypara{Results} First and foremost, we succeed in synthesizing
 controllers in the mentioned setup.  The controller randomizes its
@@ -69,7 +58,7 @@ the algorithm yields a correct-by-construction policy.
 
 Next, we consider the practical run time of our algorithm.  As
 Fig~\ref{fig:exp_times} demonstrates, the empirical time to estimate
-the Pareto front seemed to increase linearly with our game graph
+the Pareto front seemed to increase linearly with our SG 
 encoding -- which is consistent with our complexity analysis.
 Moreover, our encoding seems to linearly track with the horizon for
 all $k$ (Fig.~\ref{fig:bdd_sizes}), suggesting that the overall run
@@ -78,7 +67,7 @@ combined with the potential to parallelize across the rationality
 coefficients, these results suggest that practical optimizations to
 our ERCI algorithm may admit usage on other more complicated
 benchmarks. Finally, we remark that the use of a decision diagram
-encoding did indeed dramatically decrease the size of the game graph
+encoding did indeed dramatically decrease the size of the SG 
 (with negligible overhead).\footnotemark
 
 \footnotetext{For example, the $(k=8,\text{horizon}=18)$ case is
