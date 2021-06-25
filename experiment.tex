@@ -46,8 +46,8 @@ counter-wise order, where the orientation can switch with
 \nicefrac{1}{50}]$ whenever a house is visited. Next, we considered an
 alternation between $\pOne$ and $\pTwo$ to be a single logical time
 step, and (non-uniformly) instantiate problem instances with horizons
-ranging from $10$ to $35$, i.e., paths ranged from length $20$ to
-$70$.
+ranging from $6$ to $18$, i.e., paths ranged from length $12$ to
+$36$.
 \footnotetext{Note that counter-intuitively, only using soft
 constraints generally results in harder instances as the game graphs
 are larger.}
@@ -81,9 +81,9 @@ benchmarks. Finally, we remark that the use of a decision diagram
 encoding did indeed dramatically decrease the size of the game graph
 (with negligible overhead).\footnotemark
 
-\footnotetext{For example, the $(k=7,\text{horizon}=40)$ case is
-encoded using a 505,100 node BDD ($|\sg| = 243,365$ nodes). Compare with
-the direct encoding $|\sg| = |S|\cdot \tau \cdot |\text{monitor state}| = (7\times 7)^2 \cdot (2 \cdot 40) \cdot (2^4\cdot 2) \approx 6,000,000$.}
+\footnotetext{For example, the $(k=8,\text{horizon}=18)$ case is
+encoded using a 505,100 node BDD ($|\sg| = 6,861$ nodes). Compare with
+the direct encoding $|\sg| = |S|\cdot \tau \cdot |\text{monitor state}| = (8\times 8)^2 \cdot (2 \cdot 18) \cdot (2^4\cdot 2) \approx 37,000$.}
 
 
 
