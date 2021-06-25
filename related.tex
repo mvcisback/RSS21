@@ -1,0 +1,186 @@
+\section{Discussion and Related work}\label{sec:related}
+
+\subsection{Control Improvisation in the Literature}
+
+In this section, we briefly compare ERCI with other forms of control
+improvisation. Firstly, we observe that general Control Improvisation
+has been proposed in stochastic environments for lane
+changing~\cite{DBLP:conf/cdc/GeM18} and imitating power usage in
+households~\cite{DBLP:conf/iotdi/AkkayaFVDLS16}. However, in those
+both settings, the randomness constraint is phrased as an upper-bound
+on the probability of indefinitely-long paths. Consequently, those
+randomness constraints are trivially satisfied.  In comparison, we consider the synthesis
+of policies that necessarily randomize in presence of stochastic
+behavior in the environment. The closest prior work is to ours
+is Reactive Control Improvisation (RCI) for (deterministic) 2-player games~\cite{DBLP:conf/cav/FremontS18}. As in ERCI, RCI features
+ three kinds of constraints; hard, soft, and randomness. As in ERCI,
+RCI can be preprocessed resulting in the following core problem.
+\begin{mdframed}[nobreak=true]
+  \textbf{The Core RCI Problem}: Given an finite acyclic
+  (deterministic) SG $\sg$, with sink states, $\target$ and $\sink$,
+  and thresholds $\scthreshold \in (0,1)$ and
+  $\randomness \in [0,\infty)$, find a $\pOne$-policy $\pOneSched$
+  such that for every $\pTwo$-policy $\pTwoSched$
+  \begin{enumerate}
+  \item (\emph{soft constraint)}
+    $\Pr(\last{\xi} = \target \mid \sched) \geq \scthreshold$,
+  \item (\emph{randomness})
+    $\max_\xi{\Pr(\path \mid \sched)} \leq \ppthreshold$,
+   \end{enumerate}
+   where $\sched = \langle \pOneSched, \pTwoSched \rangle$.
+ \end{mdframed}
+ While RCI is only applied to deterministic SGs in
+ \cite{DBLP:conf/cav/FremontS18}, there is nothing in the definition
+ that prevents its application to the general class of
+ SGs.\footnote{However, this does not mean that the algorithm to
+   compute a solution carries over to the general case} We observe
+ that then, the only difference between ERCI and RCI is that we use
+ causal entropy rather than an upper bound on the probability of a
+ path to enforce randomness.  Below we address two problems with
+ bounding the maximum probability of a trace.
+
+ First, RCI fails to account for causality when measuring
+ randomness. In deterministic systems, for which RCI was conceived,
+ this distinction is unnecessary, but stochastic systems must deal
+ with counter-factuals. In practice, RCI encodes an agent model that
+ is systematically overly optimistic regarding the outcomes of
+ dynamics transitions~\cite{DBLP:journals/corr/abs-1805-00909}. This
+ results in policies with worse performance given a fixed randomness
+ target.  In the context of our motivating drone example, applying RCI
+ thus results in a policy that is both quantitatively and
+ qualitatively less random than the ERCI.
+
+ Second, RCI fails to enforce randomization if there exists \emph{any} path
+ with sufficiently high probability. The next (pathological) example
+ illustrates.
+\begin{figure}
+\begin{tikzpicture}
+        \node[sstate, initial, initial text=] (s0) {$s_0$};
+  	\node[actnode,right=of s0, xshift=-2em] (e0) {};
+        
+	\node[sstate,right=of s0, yshift=2.5em] (s2) {$s_2$};
+        \node[sstate,above=0.4cm of s2] (s1) {$s_1$};
+	\node[below=0.1cm of s2] (sdots) {$\vdots$};
+	\node[sstate,below=0.1cm of sdots] (sn) {$s_n$};
+        
+	\node[sstate,right=of s1] (t1) {$t_1$};
+	\node[right=of t1] (tdots) {$\hdots$};
+	\node[sstate,right=of tdots] (tn) {$t_m$};
+	\node[sstate, right=2.2cm of e0] (u) {$u$};
+	\node[sstate, right=of u, yshift=1em] (v1) {$v_1$};
+	\node[sstate, right=of u, yshift=-1em] (v2) {$v_2$};
+	\node[right=0.5cm of v1] {$\hdots$};
+	\node[right=0.5cm of v2] {$\hdots$};
+	
+	
+	
+	\draw[->] (t1) -- node[elab] {$1$} (tdots);
+	\draw[->] (tdots) -- node[elab] {$1$} (tn);
+
+	\draw[->] (s0) -- node[elab] {} (e0);
+        
+	\draw[->] (e0) -- node[elab] {$\nicefrac{1}{n}$} (s1);
+	\draw[->] (e0) -- node[elab,below] {$\nicefrac{1}{n}$} (s2);
+	\draw[->] (e0) -- node[elab,below] {$\nicefrac{1}{n}$} (sn);
+	
+	\draw[->] (s1) -- node[elab,above] {$1$} (t1);
+	\draw[->] (s2) -- node[elab,near end,above] {$1$} (u);
+	\draw[->] (sn) -- node[elab,near end,below] {$1$} (u);
+	
+	\draw[->] (u) -- node[actnode] {} node[elab,above, near start] {$a$}  node[elab,above, near end] {$1$} (v1);
+	\draw[->] (u) -- node[actnode] {} node[elab,below, near start] {$b$} node[elab,below, near end] {$1$} (v2);
+	
+	
+\end{tikzpicture}
+\caption{Example Illustrating the problem with RCI in stochastic environments.\label{fig:drciOnSgs}}
+\end{figure}
+
+\begin{example}
+  Consider the SG (actually, an MDP where we omit the $\pTwo$-states) in Fig.~\ref{fig:drciOnSgs}.
+  First consider that under each scheduler, the path from $s_0$ to
+  $t_m$ has probability $\nicefrac{1}{n}$. In particular, this means
+  that a feasible RCI instance (applied to an SG) must have
+  $\ppthreshold \geq \nicefrac{1}{n}$. At the same time, every path in
+  the SG already has probability at most $\nicefrac{1}{n}$, and thus,
+  every scheduler that satisfies the randomness constraint for
+  $\delta = 1$ satisfies it for any
+  $\ppthreshold \geq \nicefrac{1}{n}$. Thus, for this MDP, the RCI formulation fails to 
+  enforce any randomization in the $\pOne$-policy. By contrast, a
+  causal entropy constraint from ERCI will continuously trade-off randomness
+  for performance.
+\end{example}
+
+% On the other hand, for deterministic SGs, all randomization is due to
+% the random behavior of $\pOne$. 
+
+% Roughly speaking, every
+% (controllable) path is then just good (i.e., ending in a target state)
+% or bad (i.e., ending in a sink state). The randomization criterion
+% then may just ensure that we do not select the same path with too much
+% probability, which intuitively means that the $\pOne$-player must
+% ensure in every step that there are a sufficient number of paths from
+% the next state (no matter what $\pTwo$-player does).  As long as there
+% exist a sufficient number of paths, randomizing (uniformly) over those
+% paths leads to a solution.
+
+On the other hand, one can observe that in reality, proposed
+algorithms for solving RCI equally distribute probability mass across
+the maximum number of paths that $\pOne$ can
+guarantee~\cite{DBLP:conf/cav/FremontS18}. We remark that because (1)
+causal entropy reduces to non-causal entropy in deterministic dynamics
+and (2) uniform distributions maximize entropy, our proposed entropy
+matching family exactly agrees with existing RCI algorithms on
+deterministic SGs. Thus, we observe the following proposition.
+\begin{proposition}\label{prop:conservative}
+  There exists a computable function,
+  \[f : (\ppthreshold, \sg) \mapsto \randomness,\] such that, for any
+  deterministic SG, $\sg$, and performance threshold $\scthreshold$,
+  there exists an $\pOne$-policy solving the RCI problem with
+  threshold $\ppthreshold$ iff there exists a $\pOne$-policy solving
+  the ERCI problem with threshold
+  $\randomness = f(\ppthreshold, \sg)$.
+\end{proposition}
+
+\subsection{Additional Related Work}
+ 
+Synthesis in MDPs with multiple hard and soft constraints (often over indefinite horizons) is a well-studied problem~\cite{DBLP:conf/stacs/ChatterjeeMH06,DBLP:conf/tacas/EtessamiKVY07,DBLP:conf/atva/ForejtKP12,DBLP:journals/fmsd/RandourRS17}.  In this setting, one generates deterministic policies and their convex combinations. Put differently, some degree of randomization is \emph{not an objective}, but rather a consequence. Interestingly, in \cite{DBLP:conf/tacas/DelgrangeKQR20} the optimal policies in \emph{absence} of randomization are investigated. Along similar lines, \cite{DBLP:journals/jcss/BrazdilCFK17} trades average performance for less variance, thereby implicitly trading off the average and the worst-case performance.  
+The original results sparked interest in different extension to MDPs and the type of soft constraints, such as continuous MDPs \cite{DBLP:journals/csysl/HaesaertNS21} and continuous-time MDPs~\cite{DBLP:conf/cav/QuatmannJK17},  cost-bounded reachability \cite{DBLP:journals/jar/HartmannsJKQ20}, or mean-payoff properties~\cite{DBLP:journals/corr/abs-1104-3489}. 
+The algorithms have also been extended towards stochastic games~\cite{DBLP:conf/mfcs/ChenFKSW13,DBLP:journals/sttt/KwiatkowskaPW18}.
+Finally, notions of lexicographic multi-objective synthesis~\cite{DBLP:conf/cav/ChatterjeeKWW20} -- in which one optimizes a secondary criterion among all policies that are optimal with respect to a first criterion bare some resemblance with the algorithm we consider. 
+The aforementioned algorithms have been put in a robotics context in~\cite{DBLP:journals/ijrr/LacerdaFPH19}.
+Finding policies that optimize reward objectives is well-studied in the field of reinforcement learning, and has been extended to generate Pareto fronts for multiple objectives~\cite{DBLP:conf/icml/NatarajanT05,DBLP:conf/adprl/ParisiPSBR14}.
+
+Next, our core ERCI instance can be seen as a multi-objective path problem~\cite{DBLP:conf/icra/AmigoniG05,DBLP:journals/eswa/NazarahariKD19,DBLP:conf/icml/XuTMRSM20}.
+The literature on multi-object path finding differs prominently from ERCI in two aspects: they do not trade-off
+randomization and performance, and they do not trade-off declarative
+and formal constraints with the accompanying formal guarentees, but
+are more search-based.
+
+Another related domain is the problem of (randomly) patrolling a perimeters and
+points of interest~\cite{DBLP:conf/icra/AgmonKK08,DBLP:conf/icra/AmigoniBG09,DBLP:conf/iros/PortugalPRC14}.
+Closest to our work are  formalisms rooted in game-theory,  such as  \emph{Stackelberg games}~\cite{simaan1973stackelberg,DBLP:conf/atal/ParuchuriPTOK07}. Stackelberg games have been extending to Stackelberg planning~\cite{DBLP:conf/aaai/SpeicherS00K18} in which a trade-off between the cost for the defender and the attacker can be investigated.
+Most related are the zero-sum~\emph{patrolling games} introduced in~\cite{DBLP:journals/ior/AlpernMP11}, which has led to numerous practical solutions~\cite{DBLP:books/daglib/0040483}. Patrolling games are explicitly games between an intruder and a defender, and there is no stochastic environment.  Adding additional objectives makes solving these problems harder~\cite{DBLP:conf/atal/Klaska0R20} and in general, the obtained policies are no longer applicable. To overcome this, a specific set of fixed objectives has been added to these games recently~\cite{DBLP:conf/atal/Klaska0R20}. 
+ The large common aspect in all of this work is that optimal strategies do randomize. As in the synthesis work above, this is a consequence of the objectives rather than an objective in itself. 
+ In comparison, we provide a general framework and in particular support stochastic environments.
+
+Finally, entropy as an optimization objective for MDPs with fixed
+rewards has been well studied~\cite{DBLP:journals/tac/SavasOCKT20},
+particularly in the context of regularizing (robustifying) inverse and
+reinforcement learning~\cite{mceThesis, DBLP:conf/icml/GeistSP19}. The
+primary distinction from our work (in the MDP setting) is the
+unspecified (performance/entropy) trade-off. Nevertheless, as
+previously discussed, the specification varient of this literature
+served as the basis for our MDP
+subroutine~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.  Beyond Markov
+models, the (uniform) randomization over languages in finite automata
+\cite{DBLP:journals/siamcomp/HickeyC83,DBLP:conf/soda/KannanSM95} or
+over propositional formulae
+\cite{DBLP:journals/tcs/JerrumVV86,DBLP:journals/iandc/BellareGP00,DBLP:conf/dac/ChakrabortyMV14}
+has received quite some attention, however neither of those approaches
+support the notion of soft constraints or the related trade-offs.
+
+ 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
