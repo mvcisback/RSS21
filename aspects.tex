@@ -1,4 +1,6 @@
 \section{ERCI as multi-objective optimization}\label{sec:convex}
+We investigate the ERCI problem statement. Based on a sequence of observations, we reduce the ERCI problem to the Core ERCI problem which significantly eases the description (and implementation) of the algorithm afterwards.
+
 \subsection{Preprocessing}
 To ease the technical exposition, without loss of generality, we make
 the following assumptions:
@@ -6,7 +8,7 @@ We assume the graph
 structure underlying the SG is finite and acyclic -- and thus all paths
 are finite length. When considering $\tau$-bounded path properties (monitorable by finite automata),
 this assumption is naturally realized by a $\tau$-step unrolling of a
-monitor augmented SG \footnotemark, i.e., augmenting the state space with a counter from $0$ to $\tau$ and the current property monitor state.
+monitor augmented SG \footnotemark, i.e., augmenting the state space with a counter from $0$ to $\tau$ and the current property monitor state. 
 
 \footnotetext{
 One may then represent this unrolled graph as a binary
@@ -17,10 +19,10 @@ required~\cite{DBLP:conf/cav/Vazquez-Chanlatte20}.}
 Next, in order to ensure the hard constraint, $\hard$, we
 calculate all states from which the $\pTwo$-player can enforce
 violating the hard constraint. Such states are identifiable using a single
-topologically ordered pass over $\sg$ from the leaves to the root.  We remove
+topologically ordered pass over $\sg$ from the terminal states to the initial state.  We remove
 such states along with their in- and outgoing transitions. Any
 $\pOne$-policy now satisfies the hard constraint. 
-The remaining sink states are all merged into two states $\target$ and
+The remaining terminal states are all merged into two states $\target$ and
 $\sink$, based on membership in $\soft$, i.e.,
 \begin{equation}
   \begin{split}
@@ -31,7 +33,7 @@ $\sink$, based on membership in $\soft$, i.e.,
 
 \begin{example}
 	In Fig.~\ref{fig:minimal:mdp} we show a (deterministic) MDP and we plot for all schedulers the induced probability to reach $\target$ and the induced causal entropy, in Fig.~\ref{fig:minimal:soft} and \ref{fig:minimal:entropy}, respectively. 
-	We see that taking action $a$ with increasing probability yields obviously to a larger probability to reach $\target$, whereas taking action $a$ and $b$ uniformly at random is optimal for the entropy. 
+	We see that taking action $a$ with increasing probability yields a larger probability to reach $\target$, whereas taking action $a$ and~$b$ uniformly at random is optimal for the entropy. 
 \end{example}
 
 
@@ -87,7 +89,7 @@ policy (\emph{the randomization}).  In particular, with all other ingredients fi
 we are interested in understanding the combinations of $\scthreshold$
 and $\randomness$ that yield a solvable instance of the (core) ERCI problem. To this
 end, we cast ERCI as an instance of a multi-objective optimization problem, and
-study its Pareto front. Some ideas are inspired by variants of multi-objective analysis of MDPs with multiple soft constraints, e.g.~\cite{DBLP:conf/stacs/ChatterjeeMH06,DBLP:conf/tacas/EtessamiKVY07}.
+study its Pareto front. Some ideas are inspired by variants of multi-objective analysis of MDPs with multiple soft constraints, e.g.~\cite{DBLP:conf/stacs/ChatterjeeMH06,DBLP:conf/tacas/EtessamiKVY07,DBLP:conf/atva/ForejtKP12}.
 
 It is convenient to consider this front geometrically.
 To begin, given a fixed ERCI instance, a scheduler $\sched$
@@ -163,10 +165,10 @@ scheme for ERCI instances: For any subset $\pareto{} \subseteq
 \begin{enumerate}
 \item If there exists an $x \in \pareto{}$ such that
 $\langle \scthreshold, \randomness \rangle \preceq x$, then the ERCI
-Problem must be realizable, $x$ is a witness to realizability.
+problem must be realizable and $x$ is a witness to realizability.
 \item If there exists an $x \in \pareto{}$
-such that $x \prec \langle \scthreshold, \randomness \rangle$ then the
-ERCI problem is not realizable, and $x$ is a witness to unrealizability.
+such that $x \prec \langle \scthreshold, \randomness \rangle$, then the
+ERCI problem is not realizable and $x$ is a witness to unrealizability.
 \end{enumerate}
 Due to convexity, we may speed up the search for realizability: If there exist $x_1, x_2 \in \pareto{}$ such that $\langle \scthreshold, \randomness \rangle \prec \big(w \cdot x_1 + (1-w) \cdot x_2\big)$, we call $x_1,x_2$ a witness-pair.
 \begin{remark}
@@ -177,7 +179,6 @@ Given a witness(pair) to realizability, it is easy to extract the corresponding 
 is an improviser solving the ERCI problem.
 \end{remark}
 
-\todo[inline]{add a discussion about optimization direction and refuting region.}
 
 \begin{example}
 \label{ex:approximation}
@@ -185,8 +186,18 @@ is an improviser solving the ERCI problem.
 	Furthermore, the topmost point on the Pareto front was obtained by maximizing performance (and optimizing randomization only as a secondary objective). Thus, by construction, the bricked area at the top is not realizable. Analogously, the bricked area at the right reflects non-achievable randomization. 
 \end{example}
 
+\begin{remark}\label{rem:scalarwitnesses}
+We notice that the multi-objective optimization perspective allows us to extend the set of witnesses for unrealizability. In particular, every point of the Pareto-curve can be described as optimizing some scalarization of the objectives. Geometrically, it optimizes along a particular direction. Whenever we know that a Pareto-optimal point $x = \langle \scp, \rndp \rangle$ optimizes a weighted objective with weights $w = \langle w_1, w_2 \rangle$, then $x$ and $w$ \emph{together} are a witness for unrealizability for $\langle \scthreshold, \randomness \rangle$ whenever $w_1 \cdot \scp + w_2 \cdot \rndp < w_1 \cdot \scthreshold + w_2 \cdot \randomness$. 
+\todo[inline]{Do we want to visualise this? I think it is mostly just a remark...}
+\end{remark}
+
 Thus a key algorithmic question in ERCI is how to efficiently explore
-and approximate the Pareto front $\pareto{\solutions}$. As first steps, we find the two special points induced by (1) optimizing performance and only then randomization (the topmost green point in the figures) and (2) optimizing randomization and only then performance (the rightmost green point). 
+ the Pareto front $\pareto{\solutions}$. 
+ 
+ \subsection{Regret-Based ERCI}
+ To algorithmically explore the Pareto-curve, we re-parameterize the ERCI problem. 
+ 
+ First, we therefore find  the two special points induced by (1) optimizing performance and only then randomization (the topmost green point in the figures) and (2) optimizing randomization and only then performance (the rightmost green point). 
 As we have seen, these restrict the domain in which we can actually trade performance for randomness. 
 We define 
 $\rndopt \eqdef \max \{ \rndp \mid \exists \scp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $, i.e., the largest randomness that can be guaranteed by any $\pOne$-policy. 
@@ -197,25 +208,26 @@ $\scmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \
 Likewise, we define  the analogous $\rndmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$.
 We thus obtain two points on the Pareto front: $\langle \scmin, \rndopt \rangle$ and $\langle \scopt, \rndmin \rangle$, and intuitively, we can trade between these two points following the Pareto front.
 
+
 %\begin{remark}[Regret Based ERCI]
-\subsection{Regret Based ERCI}
-Often, rather that fixing $\scthreshold$ and $\randomness$ a
-  priori, one seeks to guarantee some percentage of the independently achievable soft
-  constraint and causal entropy measure.  We
+Now, rather that fixing $\scthreshold$ and $\randomness$ a
+  priori, we seek to guarantee some percentage of the independently achievable soft
+  constraint and causal entropy measure.
+ We
   re-parameterize ERCI as follows:
   \begin{equation}
     \scthreshold_\epsilon \eqdef \epsilon \cdot (\scopt - \scmin) + \scmin
     \hspace{1em}
     \randomness_\delta \eqdef  \delta \cdot (\rndopt - \rndmin) + \rndmin
   \end{equation}
-  where $\epsilon, \delta \in [0, 1]$. We call this version of ERCI \emph{regret-based}. Geometrically, after computing $\scopt$ and $\rndopt$, we know that the left triangle in Fig.~\ref{fig:geom:regret} is definitively realizable, and the regret-based ERCI asks whether the white circle is also realizable (where the point of the white point is given by $\epsilon$ and $\delta$. %As we shall later see, these maximum quantities are
+  where $\epsilon, \delta \in [0, 1]$. We call this version of ERCI \emph{regret-based}. We remark that the reparameterization is not only beneficial from a usability point-of-view, but it also eases our exposition.  Geometrically, after computing $\scopt$ and $\rndopt$, we know that the left triangle in Fig.~\ref{fig:geom:regret} is definitively realizable, and the regret-based ERCI asks whether the white circle is also realizable (where the point of the white point is given by $\epsilon$ and $\delta$. %As we shall later see, these maximum quantities are
  % directly computed in our proposed algorithm. 
 %\end{remark}
 \noindent 
 Together, we obtain the following (core) ERCI problem.
 \begin{mdframed}[backgroundcolor=blue!5,nobreak=true]
 \textbf{The Core ERCI Problem}:
-Given an finite acyclic SG $\sg$, with sink states, $\target$ and $\sink$, and thresholds $\epsilon, \delta \in [0,1]$,  find a $\pOne$-policy $\pOneSched$  such that for every $\pTwo$-policy $\pTwoSched$:
+Given an finite acyclic SG~$\sg$, with terminal states, $\target$ and $\sink$, and thresholds $\epsilon, \delta \in [0,1]$,  find a $\pOne$-policy $\pOneSched$ s.t.~for every $\pTwo$-policy~$\pTwoSched$:
 \begin{enumerate}
 \item (\emph{soft constraint)}
   $\Pr(\last{\xi} = \target \mid \sched) \geq \scthreshold_\epsilon$

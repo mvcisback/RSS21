@@ -1,10 +1,10 @@
 \subsection{Stochastic Games}
-We consider a graph-based game formalism between two players. A
-(2.5-player) \emph{stochastic game} (SG) is a tuple $\sg = \langle S,
+%We consider a graph-based game formalism between two players.
+A (2.5-player) \emph{stochastic game} (SG) is a tuple $\sg = \langle S,
 \iota, \Act, P \rangle$.  The finite set of \emph{states} $S = S_\pOne \cup
 S_\pTwo$ is partitioned into a set $S_\pOne$ of (controlled)
 $\pOne$-states and a set $S_\pTwo$ of (uncontrolled)
-$\pTwo$-states. $\iota \in S_\pOne$ is the \emph{initial state}, $\Act$ is a
+$\pTwo$-states. $\iota \in S_\pOne$ is the \emph{initial state}, $\Act$~is a
 finite set of \emph{actions}, and $P\colon S \times \Act \rightarrow
 \Distr(S)$ is the \emph{transition function}. For simplicity of
 exposition, we assume w.l.o.g. that controlled and uncontrolled
@@ -17,7 +17,7 @@ when close enough to the door.} as $\EnAct(s) \eqdef \{ \act \mid
 P(s,\act) \neq \bot \}$. States without available actions, i.e.,
 states with $\EnAct(s) = \emptyset$ are called \emph{terminal states}.
 The \emph{successor
-states} of a state $s$ and an (enabled) action $\act$ is the set of
+states} of a state~$s$ and an (enabled) action~$\act$ is the set of
 states that are reached from $s$ within one step with a positive
 transition probability, i.e., $\Succ(s,\act) \eqdef \{ s' \mid
 P(s,\act)(s')>0 \}$, and $\Succ(s) \eqdef\bigcup_{\act \in \EnAct(s)}
@@ -66,7 +66,7 @@ P(s,\act)(s')>0 \}$, and $\Succ(s) \eqdef\bigcup_{\act \in \EnAct(s)}
 \end{figure}
 \begin{example}
   We introduce a six-state toy-example~(Fig.~\ref{fig:toysg}) to
-  illustrate the formalisms. Terminal states are drawn with a rectangle,
+  illustrate the definitions. Terminal states are drawn with a rectangle,
   $\pOne$-states with a circle and $\pTwo$-states with a diamond. For
   every state $s$ and action $\act$, we draw transitions in the form
   of edges that connect all successors $s'$, and label them with the
@@ -90,11 +90,11 @@ $|\path|$, and denote $s_n$, i.e., the last element of $\path$, with
 $\last{\path}$. Further, note that $\pOne$ states are even
 indexed and $\pTwo$ states are odd indexed as we assume alternation.
 A path, $\path' = s'_0 \xrightarrow{\act'_0} \hdots$, is a
-\emph{prefix} of $\path$, if for all $i \leq |\path'|$, $s_i = s'_i$
+\emph{prefix} of~$\path$, if for all $i \leq |\path'|$, $s_i = s'_i$
 and for all $i < |\path'|$, $\act_i = \act'_i$.  The set of all finite
 paths of length $n$ is denoted $\Paths[n]{\sg}$, and $\Paths{\sg} =
 \bigcup_{n \in \NN} \Paths[n]{\sg}$. We omit $\sg$ whenever it is
-irrelevant or clear from the context.
+ clear from the context.
 It is helpful to partition paths
 based on their last state: $\POnePaths[]{} = \{ \path \in
  \Paths[]{} \mid \last{\path} \in S_\pOne \}$ and $\PTwoPaths[]{} =
@@ -109,7 +109,7 @@ based on their last state: $\POnePaths[]{} = \{ \path \in
 Whenever some state $s$ is reached, the corresponding player draws an action from $\EnAct(s)$. As standard, we capture this with the notion of a scheduler\footnote{Also known as \emph{strategy} or \emph{policy}.}.
 A \emph{scheduler} is a tuple of \emph{player policies} $\sched = \langle \sched_\pOne, \sched_\pTwo \rangle$
 with $\sched_{\player} \colon \PlayerPaths[]{} \rightarrow \Distr(\Act)$ such that $\supp(\sched_i(\path)) \subseteq \EnAct(\last{\path})$ for each $\path$, i.e., for every history, the policy sets a distribution over the enabled successor actions.
-We will denote by $\sched_{\player}(\act~|~\path)$ the distribution of actions given the path, $\path$, induced by policy $\sched_{\player}$.
+For a given path, $\path$ and a policy $\sched_{\player}$, we denote by $\sched_{\player}(\act~|~\path)$ the distribution of actions induced by $\sched_{\player}$ given the path $\path$.
 %We refer to $\sched_i$, $i \in \{ 1, 2 \}$ as a \emph{Player-i policy}. 
 %We denote the $\pOne$-policy $\pOneSched$ and the $\pTwo$-policy $\pTwoSched$ with $\sched_\pOne$ and $\sched_\pTwo$, respectively.
 To ease notation, we liberally use the notation $\sched \colon \Paths{} \rightarrow \Distr(\Act)$, this function is given dependent on which player owns the last state.
@@ -150,7 +150,7 @@ referred to as specifications or constraints, that are decidable
 within some fixed $\tau \in \Nat$ time steps, e.g., ``Recharge before
 t=20.'' Technically, we represent these path properties as prefix free
 sets of finite paths, $\soft$, reflecting some formal
-property\footnotemark. An example are all paths that end in a particular terminal state~$\target$.
+property\footnotemark. An example are all paths that end in a particular terminal state~$\target$ within $\tau$ steps.
 %In all definitions, we omit the superscript $\sg$ whenever it is clear from the context.
 
 \footnotetext{{Such paths may e.g. be defined using temporal properties such as linear temporal logic over finite traces (LTLf)~\cite{DBLP:conf/ijcai/GiacomoV13}.}}
@@ -180,7 +180,7 @@ Using the chain rule, one can relate causal entropy to (non-causal) entropy, $H(
 This relation shows that:
 (1)~Causal entropy is always lower bounded by non-causal entropy (and
 thus non-negative). 
-(2)~Causal entropy can be computed ``bottom up'', from the sinks to the root.
+(2)~Causal entropy can be computed ``backward in time''.
 (3)~Causal and non-causal conditioning can be mixed,
 
 \vspace{-1.1em}

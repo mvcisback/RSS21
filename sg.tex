@@ -63,7 +63,7 @@ the entropy minimizing policy, it must be possible for $\pOne$ to
 trade randomness for performance, i.e. increase $\rat$, while still
 ensuring the same randomness against a entropy minimizing
 adversary. Thus, a new MDP partial-policy is computed and extended
-recursively until the sinks of the game graph.  We call the increase
+recursively until the terminal states of the game graph.  We call the increase
 in rationality (and the associated computations) \emph{replanning} and
 the corresponding family of policies, $\{\sched^\rat_\pOne\}_\rat$,
 \emph{entropy matching}.  Finally, we propose approximating the
@@ -99,8 +99,8 @@ Pareto fronts of its child nodes. Entropy matching thus corresponds to
 direction by increasing the rationality.  \todo[inline]{Visualize this
   in terms of intersections and different directions. Attach to game
   graph and annotate up arrow for dynamic programming and down error
-  for MDP subroutine} Thus, by traversing the graph from the sinks to
-the root, approximating Pareto Fronts along the way, one can memoize
+  for MDP subroutine} Thus, by traversing the graph from the terminal states to
+the initial state, approximating Pareto Fronts along the way, one can memoize
 how to trade performance for randomness at any given node. This
 preprocessing enables determining the minimum entropy response for any
 optimization direction and quickly replanning via a convex combination
