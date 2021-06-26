@@ -54,10 +54,10 @@ equations yields the following proposition.
   $\scp_\rat$ is  continuously (and strictly) increasing in $\rat$ and $\rndp_\rat$
   is smoothly (and strictly) decreasing in $\rat$.
 \end{proposition}
-In terms of $\solfuncp$, we can define:
+\noindent In terms of $\solfuncp$, we can define:
 \begin{equation}
   \epsilon_\rat \eqdef \frac{\scp_\rat - \scp_0}{\scp_\infty} + \scp_0
-  \hspace{1em}
+  \hspace{1em}\text{and}\hspace{1em}
 \delta_\rat \eqdef \frac{\rndp_\rat - \rndp_\infty}{\rndp_0} +
 \rndp_{\infty}. 
 \end{equation}
@@ -126,7 +126,7 @@ points $\rat \in \{0, \infty\}$.  (ii) Double $\rat$ (starting at $\lambda=1$) u
 The algorithm terminates almost surely, that is: 
 the algorithm halts if $\langle \scthreshold, \randomness \rangle$ is
 not on $\pareto{\solutions}$ (or if we happen to exactly hit $\langle \scthreshold, \randomness\rangle$ by selecting some rationality $\rat$).
-As the Pareto Front has
+As the Pareto front has
 measure 0, we argue that not halting is thus merely a technical concern, as a
 small perturbation to the ERCI instance (i.e. a \emph{smoothed
 analysis}~\cite{SmoothedAnalysis}) on $\sg$ admits decidability. 
@@ -142,7 +142,7 @@ region is smaller than $\Delta$, this approximation scheme becomes linear in the
 and logarithmic in the final rationality, $\rat_*$, and the
 resolution, $\Delta$, i.e., the run-time is,
 \begin{equation}
-  O\bigg(\hspace{-1.4em}\underbrace{|\sg|}_{\text{Evaluate $x_\rat$}}\hspace{-1.4em}\cdot\overbrace{\log(\rat_*)}^{\text{Doubling Phase}}\cdot\underbrace{\log(\nicefrac{1}{\Delta})}_{\text{Binary Search}}\bigg)
+  \mathcal{O}\Big(~\hspace{-1.4em}\underbrace{|\sg|}_{\text{Evaluate $x_\rat$}}\hspace{-1.4em}~\cdot\overbrace{\log(\rat_*)}^{\text{Doubling Phase}}\cdot\underbrace{\log(\nicefrac{1}{\Delta})}_{\text{Binary Search}}\Big)
 \end{equation}
 Finally, before generalizing to stochastic games, we observe that in
 practice, $\rat = 100$ yields a nearly optimal policy, and thus one

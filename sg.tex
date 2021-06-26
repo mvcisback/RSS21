@@ -5,12 +5,12 @@ stochastic games.
 %planning for $\pTwo$ selecting the action that minimizes randomness
 %(with ties broken by performance). This assumption leads to a
 %reduction to the MDP-case, where the rationality indexed family,
-%$\sched_\rat$, indexes the Pareto Front.  If this assumption is ever
+%$\sched_\rat$, indexes the Pareto front.  If this assumption is ever
 %violated, the resulting state must support more randomness.  The
 %rationality, $\rat$, is thus lowered to match the worst case randomness,
 %which due to monotonicity of $\solfuncp$, can only increase
 %performance. Surprisingly, as we shall later prove, this class of
-%policies indexes the Pareto Front for SGs!
+%policies indexes the Pareto front for SGs!
 
 
 \mypara{Environment Policies} We begin with three observations about
@@ -198,7 +198,7 @@ convex combination of Pareto optimal policies.
 % \Succ(s)$ given randomness $\rndp_\rat(s)$?'' This question can be investigated on a sub-game, and eventually, must be answered on an MDP. 
 % \begin{mdframed}
 %   The key observation is that each state $s'$ is the root of a sub
-%   game, $\sg[s]$, with a corresponding Pareto Front,
+%   game, $\sg[s]$, with a corresponding Pareto front,
 %   $\pareto{\solutions}[s]$.
 % \end{mdframed}
 % In particular, given access the characteristic functions,
@@ -220,7 +220,8 @@ convex combination of Pareto optimal policies.
 % Front, we obtain a synthesis algorithm for SGs!
 \mypara{Approximate Pareto Fronts}
 Of course, by varying $\rat$, one can only construct approximate
-Pareto fronts $\hat{\pareto{}} \subseteq \pareto{\solutions}$, where we denote the downward closure of $\hat{\pareto{}}$ as $\hat{\solutions} \subseteq \solutions$.
+Pareto fronts $\hat{\pareto{}} \subseteq \pareto{\solutions}$.
+%, where we denote the downward closure of $\hat{\pareto{}}$ as $\hat{\solutions} \subseteq \solutions$.
 % let $\hat{f}_\solutions^{s'}$ denote the characterising function.
 We propose the following high-level algorithm to adapt the above
 algorithm to the case where each Pareto front approximation introduces at
@@ -257,7 +258,7 @@ case.
 
 \mypara{Termination and Run Time} First, as in the MDP case, the
 algorithm terminates almost surely, with the exception occurring only
-for a subset of the Pareto Front.  Below, we give an output-sensitive
+for a subset of the Pareto front.  Below, we give an output-sensitive
 analysis of the run time (assuming it does halt).  If $\kappa^*$
 tolerance is required to terminate, then the $\kappa$ search
 introduces $\mathcal{O}(\log(\nicefrac{1}{\kappa^*}))$
@@ -269,14 +270,14 @@ As the corresponding bounds and convex combinations can be computed in
 constant time, this means this algorithm runs in time:
 \begin{equation}
   \label{eq:sg-runtime}
-  \mathcal{O}(\log(\nicefrac{1}{\kappa^*})\cdot N_\rat\cdot \log(N_\rat)\cdot |\sg|),
+  \mathcal{O}\Big(\log(\nicefrac{1}{\kappa^*})\cdot N_\rat\cdot \log(N_\rat)\cdot |\sg|\Big),
 \end{equation}
 where, $N_\rat$ is the number of unique rationality coefficients
 processed.  If, as in the MDP case, one assumes a maximum rationality
 coefficient $\rat^*$ and a minimum rationality resolution $\Delta$,
 one obtains:
 \begin{equation}
-  \mathcal{O}(\underbrace{\log(\nicefrac{1}{\kappa^*})}_{\kappa \text{ search}}\cdot \underbrace{\nicefrac{\rat^*}{\Delta}\cdot \overbrace{\log(\nicefrac{\rat^*}{\Delta})}^{\text{Replanning}}\cdot |\sg|}_{\text{Evaluate } \rat}).
+  \mathcal{O}\Big(\underbrace{\log(\nicefrac{1}{\kappa^*})}_{\kappa \text{ search}}\cdot \underbrace{\nicefrac{\rat^*}{\Delta}\cdot \overbrace{\log(\nicefrac{\rat^*}{\Delta})}^{\text{Replanning}}\cdot |\sg|}_{\text{Evaluate } \rat}\Big).
 \end{equation}
 The above however is very conservative and empirically we observe
 $N_\rat$ bounded far away from $\nicefrac{\rat^*}{\Delta}$.
