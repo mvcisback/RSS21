@@ -14,9 +14,11 @@ stochastic games.
 
 
 \mypara{Environment Policies} We begin with three observations about
-the $\pTwo$-policies.  First, for ERCI, we can assume an adversary for $\pTwo$ 
-that aims to foil $\pOne$ achieving both the performance \emph{and}
-randomization requirement. We call such a $\pTwo$-policy \emph{violating.} For a policy to be violating,  suffices to violate, against every $\pOne$-policy independently, either
+the $\pTwo$-policies.  First, for ERCI, we can assume an adversary for
+$\pTwo$ that aims to foil $\pOne$ achieving both the performance
+\emph{and} randomization requirement. We call such a $\pTwo$-policy
+\emph{violating.} For a policy to be violating, it suffices to
+violate, against every $\pOne$-policy independently, either
 performance \emph{or} randomization.  Second, if there is a violating
 $\pTwo$-policy, there is a deterministic $\pTwo$-policy that proves
 this.  In particular, at every state, $\pTwoSched$ may choose to
@@ -72,7 +74,15 @@ The policy thus tracks this entropy and if necessary adapts the rationality (whi
 Replanning ensures we obtain the optimal performance from a particular point while still ensuring the required randomness.
 
 \begin{example}
-We sketch an entropy matching policy in Fig.~\ref{fig:sg:simplest}. In particular, we show part of SG. For some fixed rationality $\lambda$, we annotate in red, on the left of the SG states, the entropy obtained when assuming that $\pTwo$ plays an entropy-minimizing policy as outlined above. In particular, this means that in $s_2$, $\pTwo$ selects action $a$. Now, our entropy-matching policy (in blue, on the right) will play with entropy $\lambda$, unless state $s_4$ is reached. As this ensures a higher entropy, we may now select a higher rationality.
+  We sketch an entropy matching policy in
+  Fig.~\ref{fig:sg:simplest}. In particular, we show part of a SG. For
+  some fixed rationality $\rat$, we annotate in red, on the left of
+  the SG states, the entropy obtained when assuming that $\pTwo$ plays
+  an entropy-minimizing policy as outlined above. In particular, this
+  means that in $s_2$, $\pTwo$ selects action $a$. Now, our
+  entropy-matching policy (in blue, on the right) will play with
+  rationality $\rat$, unless state $s_4$ is reached. As this ensures a
+  higher entropy, we may now select a higher rationality, $\rat'$.
 \end{example}
 
 %
@@ -122,7 +132,7 @@ perspective. Namely, observe that each node of $\sg$ indexes a
 sub-graph, which has a corresponding Pareto front for trading
 performance for randomness. Further, note that the Pareto front at an
 $\pTwo$ node is the intersection of the Pareto fronts of its child
-nodes. Entropy matching thus corresponds to ``jumping'' between Pareto
+nodes. Entropy matching corresponds to ``switching'' between Pareto
 fronts and adjusting the optimization direction by increasing the
 rationality.  Thus, by traversing the graph from the terminal states
 to the initial state, approximating Pareto fronts along the way, one
@@ -233,15 +243,15 @@ most $\kappa$ error along the performance axis.
 \item Recursively compute $\kappa$-close Pareto fronts for each successor state using replanning.
 \item If the any minimum entropy action cannot be determined or $\scthreshold$ is within $\kappa\cdot \tau$ distance to (but outside of) $\hat{\pareto{}}$,
   halve $\kappa$ and repeat.
-\item Otherwise, perform entropy matching algorithm (with initial
+\item Otherwise, perform the entropy matching algorithm (with initial
   entropy $\randomness$) using these Pareto fronts and return the
   resulting policy (if on exists).
 \end{enumerate}  
 \end{mdframed}
 The soundness of this algorithm relies on the following critical
 facts: (1) Given sufficient resolution, the minimum entropy
-$\pTwo$-actions can be determined and the resulting entropy. (2) The
-resulting entropy is depends solely on
+$\pTwo$-actions can be determined. (2) The
+resulting entropy depends solely on
 the resulting sub-graph (and is independent of the current Pareto
 approximation). (3) Thus, when querying points on
 $\pareto{\solutions}$, error can only accumulate for $\scp$. (4) Next,
@@ -262,10 +272,10 @@ for a subset of the Pareto front.  Below, we give an output-sensitive
 analysis of the run time (assuming it does halt).  If $\kappa^*$
 tolerance is required to terminate, then the $\kappa$ search
 introduces $\mathcal{O}(\log(\nicefrac{1}{\kappa^*}))$
-iterations. Next, observe that each node processes a given rationality
+iterations. Next, observe that each node need process a given rationality
 coefficient at most once. Further, looking up which pair of rationalities
 are need to upper and lower bound the performance for a given randomness
-can be in logarithmic time via binary search on rationality coefficients.
+can be done in logarithmic time via binary search on rationality coefficients.
 As the corresponding bounds and convex combinations can be computed in
 constant time, this means this algorithm runs in time:
 \begin{equation}

@@ -196,7 +196,7 @@ Thus a key algorithmic question in ERCI is how to efficiently explore
  \subsection{Regret-Based ERCI}
  To algorithmically explore the Pareto-curve, we re-parameterize the ERCI problem. 
  
- First, we therefore find  the two special points induced by (1) optimizing performance and only then randomization (the topmost green point in the figures) and (2) optimizing randomization and only then performance (the rightmost green point). 
+ First, we find  the two special points induced by (1) optimizing performance and only then randomization (the topmost green point in the figures) and (2) optimizing randomization and only then performance (the rightmost green point). 
 As we have seen, these restrict the domain in which we can actually trade performance for randomness. 
 We define 
 $\rndopt \eqdef \max \{ \rndp \mid \exists \scp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $, i.e., the largest randomness that can be guaranteed by any $\pOne$-policy. 
@@ -204,7 +204,7 @@ Likewise, we define
 $\scopt \eqdef \max \{ \scp \mid \exists \rndp \text{ s.t. } \langle \scp, \rndp \rangle \in \solutions  \} $, i.e., the largest performance that can be guaranteed by any $\pOne$-policy. 
 Then, we define 
 $\scmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$, the best performance that $\pOne$ can guarantee while guaranteeing optimal randomness. 
-Likewise, we define  the analogous $\rndmin \eqdef \max \{ \scp \mid \langle \scp, \rndopt \rangle  \in \solutions \}$.
+Likewise, we define  the analogous $\rndmin \eqdef \max \{ \rndp \mid \langle \scopt, \rndp \rangle  \in \solutions \}$.
 We thus obtain two points on the Pareto front: $\langle \scmin, \rndopt \rangle$ and $\langle \scopt, \rndmin \rangle$, and intuitively, we can trade between these two points following the Pareto front.
 
 

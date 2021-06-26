@@ -112,7 +112,7 @@ with $\sched_{\player} \colon \PlayerPaths[]{} \rightarrow \Distr(\Act)$ such th
 For a given path, $\path$ and a policy $\sched_{\player}$, we denote by $\sched_{\player}(\act~|~\path)$ the distribution of actions induced by $\sched_{\player}$ given the path $\path$.
 %We refer to $\sched_i$, $i \in \{ 1, 2 \}$ as a \emph{Player-i policy}. 
 %We denote the $\pOne$-policy $\pOneSched$ and the $\pTwo$-policy $\pTwoSched$ with $\sched_\pOne$ and $\sched_\pTwo$, respectively.
-To ease notation, we liberally use the notation $\sched \colon \Paths{} \rightarrow \Distr(\Act)$, this function is given dependent on which player owns the last state.
+To ease notation, we liberally use the notation $\sched \colon \Paths{} \rightarrow \Distr(\Act)$, where this function is given dependent on which player owns the last state.
  
 %
 %Applying a policy $\sched$ to an SG $\sg$ yields an \emph{induced Markov chain} $\induced{\sg}{\sched} = \langle S', \iota', P' \rangle$ with state space $S' = \Paths{\sg}$, initial state $\iota' = \iota$, and transition function $P'(\path,\path')$ defined by $P'(\path)(\path \cdot \act s') = \sched(\path)(\act) \cdot P(\last{\path},\act)(s')$ and $P'(\path,\path') = 0$ otherwise. For any upper bound on the length of the paths, the induced MC is finite. 
@@ -156,7 +156,7 @@ property\footnotemark. An example are all paths that end in a particular termina
 \footnotetext{{Such paths may e.g. be defined using temporal properties such as linear temporal logic over finite traces (LTLf)~\cite{DBLP:conf/ijcai/GiacomoV13}.}}
 
 \subsection{Control Improvisation}
-In control improvisation, we aim to find a $\pOne$-policy,
+In control improvisation, we aim to find an $\pOne$-policy,
 $\pOneSched$, that satisfies a combination of hard- and soft
 constraints, and additionally generates surprising behavior, where we
 measure the expected surprise by the causal
@@ -195,7 +195,7 @@ predictability in \emph{sequential} decision making problems, as the
 agents cannot observe the future~\cite{mceThesis}.
 
 We now define causal entropy in stochastic games.
-To that end, recall that a path alternates states and actions.  The
+Recall that a path alternates states and actions.  The
 next state after observing a sequence of state-action pairs is a
 random variable. Formally, given $\sg$ and a scheduler 
 $\sched$, let us denote by $\rv{A}^{\pOne}_{1:i}$ and
