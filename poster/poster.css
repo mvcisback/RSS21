@@ -1,0 +1,316 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+
+:root {
+    /* Primary */
+    --berkeley-blue: #003262;
+    --founders-rock: #3B7EA1;
+    --california-gold: #FDB515;
+    --medalist: #C4820E;
+
+    /* Secondary */
+    --bay-fog: #DDD5C7;
+    --pacific: #46535E;
+    --web-grey: #888888;
+    --grey: #EEEEEE;
+    --lawrence: #00B0DA;
+    --ion: #CFDD45;
+    --sather-gate: #B9D3B6;
+    --rose-garden: #EE1F60;
+    --wellman-tile: #D9661F;
+    --golden-gate: #ED4E33;
+    --lap-lane: #00A598;
+
+    /* Semantic Colors */
+    --base-color: white;
+    --header: var(--berkeley-blue);
+    --subtitle1: var(--grey);
+    --subtitle2: var(--berkeley-blue);
+
+    --title: var(--california-gold);
+}
+
+body {
+    width: 48in;
+    height: 27in;
+    font-size: 33pt;
+    font-family: 'Open Sans', sans-serif;
+    border: 1px solid black;
+    background-color: var(--base-color);
+}
+
+header {
+    background-color: var(--header);
+    background-image: url("imgs/tessellation-bg-12.png");
+    background-size: contain;
+    margin: 0em 0.1em 0.1em 0.1em;
+    padding: 0;
+    padding-bottom: 0.2em;
+    overflow: auto;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+header > div#title {
+    width: 100%;
+    margin-left: 11em;
+}
+
+header h1 {
+    color: var(--title);
+    font-size: 2em;
+    text-align: center;
+    margin: 0.2em;
+}
+
+header ol {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header ol li {
+    display: inline list-item;
+    list-style: none;
+    margin-left: 0.2em;
+    font-size: 1.15em;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: 90%;
+}
+
+main > section {
+    margin: 0.15em;
+    padding: 0.1em;
+    box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    width: 15.7in;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+main > section ol {
+    padding: 0.5em;
+    margin: 0 2em;
+}
+
+main > section img {
+    background-color: #ffffffe6;
+    padding: 0.3em;
+    height: 4in;
+    border: 6px solid black;    
+    box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 var(--pacific);
+}
+
+main > section h1 {
+    text-align: center;
+    width: 96%;
+    margin: 0.2em 0.1em;
+    padding: 0.4em;
+    font-size: 1.1em;
+    background-color: var(--subtitle2);
+    border: 6px solid var(--california-gold);
+    color: white;
+}
+
+main {
+    font-size: 1em;
+}
+
+main p {
+    margin: 0.2em 1em;
+}
+
+#erci #constraints {
+    background: var(--grey);
+    color: black;
+    padding-right: 1em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    width: 80%;
+    border: 8px solid black;
+    margin-bottom: 0.2em;
+}
+
+
+#erci #constraints li {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#erci li p {
+    width: 78%;
+    padding: 0;
+    margin: 0;
+}
+
+#erci span.katex-display, #mdps span.katex-display {
+    margin: 0.1em;
+}
+
+#erci ol {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+
+#applications div {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    justify-content: space-around;
+}
+
+#applications figure {
+    padding: 0;
+    margin: 0.5em;
+    width: 33%;
+}
+
+#applications figcaption:nth-of-type(1) {
+    text-align: center;
+}
+
+#applications figcaption:nth-of-type(2) {
+    text-align: center;
+    font-size: 0.8em;
+}
+
+#applications p {
+    background: var(--grey);
+    border: 3px solid var(--pacific);
+    padding: 0.01em 2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+
+#applications img {
+    width: 95%;
+    padding: 0;
+}
+
+#mdps figure {
+    display: flex;
+    justify-content: space-between;
+}
+
+#mdps figure img {
+    width: 99%;
+}
+
+figure#bdds {
+    padding: 0;
+    margin: 0.6em;
+}
+
+#mdps figure#bdds img {
+    width: 46%;
+}
+
+#mdps > ul {
+    margin: 0.2in 0.7in;
+}
+
+#sg > p {
+    border: 4px solid black;
+    padding: 0.3em;
+    background: var(--grey);
+}
+
+#sg-qa li {
+    text-indent: 0.5em;
+}
+
+#sg-qa > li::marker {
+    font-weight: bold;
+    content: attr(data-marker) ": ";
+}
+
+#sg-qa {
+    width: 90%;
+    margin: 0;
+    padding: 0;
+    margin-left: 1em;
+}
+
+figure {
+    margin: 0.4em;
+}
+
+#alg-sketch {
+    padding: 0;
+    margin: 0;
+    margin-left: 5em;
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+    width: 99%;
+    column-count: 2;
+}
+
+#alg-sketch ol li {
+    margin-left: 1.4em;
+    width: 100%;
+}
+
+#sg-figs, #pareto {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+
+#sg-figs img { height: 5in; }
+
+
+#future-work ol {
+    column-count: 2;
+}
+
+#future-work li {
+    margin-left: 1em;
+}
+
+#spec-example {
+    color: black;
+    padding: 0.2em;
+    margin: 0.8em;
+    border: 3px solid var(--pacific);
+    background: var(--grey);
+}
+
+#qr-codes, #qr-codes figure {
+    margin-right: 1em;
+}
+
+
+
+#qr-codes, #qr-codes figure {
+    display: flex;
+    align-items: center;
+}
+
+#qr-codes figcaption {
+    text-align: center;
+    font-size: 0.8em;
+    width: max-content;
+    writing-mode: sideways-lr;
+}
+
+#qr-codes img {
+    height: 4em;
+}
+
+
+#seal {
+    height: 5.3em;
+}

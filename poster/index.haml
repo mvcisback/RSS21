@@ -1,0 +1,205 @@
+!!! 5
+
+%html
+  %head
+    %title RSS 21 Poster
+
+    %meta(charset="utf-8")/
+    %meta(name="description" content="BDD / BAIR Poster Spring 2021.")/
+
+    %link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css")
+    %link(rel="stylesheet" href="poster.css" type="text/css")/
+
+    %script(defer src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js")
+    %script(defer src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);")
+
+
+%body
+  %header
+    %img#seal(src="imgs/ucbseal_139_540.png")/
+
+    %div#title
+      %h1 Entropy Guided Control Improvisation 
+      %div
+        %ol
+          %li <strong>Marcell Vazquez-Chanlatte</strong> (marcell.vc@berkeley.edu)
+          %li Sebastian Junges
+          %li Daniel J. Fremont
+          %li Sanjit A. Seshia
+
+    %div#qr-codes
+      %figure
+        %img(src="imgs/cav.svg")/
+        %figcaption CAV 20'.
+      %figure
+        %img(src="imgs/arxiv.svg")/
+        %figcaption RSS 21'.
+      %figure
+        %img(src="imgs/spotlight.svg")/
+        %figcaption Spotlight.
+
+
+  %main
+    %section#erci
+      %h1 Entropic Control Improvisation
+
+      %p
+        Given a dynamics model and horizon T, find a policy that satisfies:
+
+      %ol#constraints
+        %li#hard
+          %p <strong>Hard Constraint:</strong>
+          $$\Pr(\xi \in \psi) \geq 1$$
+
+        %li#soft
+          %p
+            <strong>Soft Constraint:</strong> 
+
+          $$\Pr(\xi \in \varphi) \geq \mathbf{p}$$
+
+        %li#rand
+          %p
+            <strong>Causal Entropy Constraint:</strong>
+
+          $$H(\mathcal{A}_{1:T} \mid\mid \mathcal{S}_{1:T}) \geq \mathbf{h}$$
+
+      %ol
+        %li
+          Causal entropy (<strong>randomness</strong>) constraint ensures minimal bias.
+
+        %li
+          Natural trade off between performance <strong>p</strong> and
+          randomness <strong>h</strong>.
+
+    %section#applications
+      %h1 Dynamics Model and Applications
+
+      %div
+        %figure
+          %figcaption Stochastic Games
+          %img(src="imgs/sg.svg")/
+          %figcaption Model workspace as a finite 2.5 player game.
+
+        %figure
+          %figcaption Inference
+          %img(src="imgs/spec_inference.svg")/
+          %figcaption Given demonstrations, predict φ.
+
+        %figure
+          %figcaption Testing
+          %img(src="imgs/motivating_example.svg")/
+          %figcaption
+            Declaratively specify environment
+            for testing.
+      %p
+        In above settings, a biased policy is <strong>undesirable</strong>.
+
+    %section
+      %h1 Contributions
+      %ol
+        %li
+          Symbolic approach for representing MDPs and Stochastic Games
+          as <strong>Binary Decision Diagrams</strong>.
+
+        %li
+          Improvisation in stochastic games
+          which support arbitrary <strong>combinations</strong> of
+          probabilistic 🎲 and adversarial 👿 uncertainty.
+
+    %section#mdps
+      %h1 Improv in MDPs (CAV 20')
+
+      %p 
+        <strong>Key Observation:</strong> Can think of soft constraint
+        as binary reward.
+
+      $$r_\lambda(\xi) \triangleq \lambda \cdot 1[\xi \in \varphi]$$
+
+      %ul
+        %li
+          By adding history to state space, can reduce to
+          Maximum Causal Entropy Inverse Reinforcement Learning.
+        %li
+          <strong>Problem:</strong> Potential combinatorial explosion.
+        %li
+          <strong>Solution:</strong> Encode MDP as a Binary Decision
+          Diagram.
+
+      %ol
+        %li
+          Write the <strong>composition</strong> of the dynamics and
+          property as a circuit with access to biased
+          coins. 
+
+          %figure
+            %img(src="imgs/mdp_circ_unrolled.svg" style="height: 4.4in")/
+
+        %li
+          Can represent MDP with a Binary Decision Diagram:
+          %figure#bdds
+            %img(src="imgs/bdd.svg")/
+            %img(src="imgs/bdd_cgraph.svg")/
+
+          <strong>Conservative size bound:</strong>
+
+          $$O(|\text{horizon}|\cdot |S/\varphi|\cdot |\text{Actions}|\log(|\text{Actions}|))$$
+        %li
+          We show you can efficiently compute maximum causal entropy 
+          policy on compressed MDP.
+
+      %p
+        <strong>Application:</strong> Used to learn temporal logic constraint
+        from <strong>unlabeled</strong> demonstrations, e.g.,
+
+      %p#spec-example
+        φ = "Avoid Lava, eventually recharge, and don't recharge while wet."
+
+      
+
+    %section#sg
+      %h1 Improv in Stochastic Games 
+
+      %p
+        <strong>Motivation:</strong> Often want to handle combinations
+        of probabilistic 🎲 and adversarial 👿 uncertainty, i.e.,
+        Interval MDPs, 2 player MDPs, and model compression.
+
+      %ul#sg-qa
+        %li(data-marker="Q")
+          Is efficent improvisation synthesis possible?
+
+        %li(data-marker="A")
+          Yes! By <strong>recursive entropy matching</strong>.
+
+      %p Efficient via dynamic programming from leafs of BDD.
+
+      %ol#alg-sketch
+        %li Assume min entropy  👿.
+        %li Run MDP to find optimal <strong>h</strong>.
+        %li Plan to match <strong>h</strong>.
+        %li Approximate Pareto Front.
+
+      %figure#pareto
+        %img(src="imgs/pareto.png")/
+        %img(src="imgs/rationality.png")/
+
+      %ol
+        %li
+          Pareto Front allows for re-planning locally.
+          
+        %li
+          Resulting algorithm is efficient in practice.
+          
+      %figure#sg-figs
+        %img(src="imgs/time_vs_bddsize.svg")/
+        %img(src="imgs/bdd_size_by_horizon.svg")/
+
+    %section#future-work
+      %h1 Future Work
+      %ol
+        %li Sampling based algorithms.
+        %li POMDPs.
+        %li Subset queries.
+        %li Dynamic Scenic Constraints.
+
+  %footer
